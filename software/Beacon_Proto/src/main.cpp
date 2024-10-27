@@ -1,39 +1,42 @@
-/* GPIO Example
+#define ESP32S3_DEVKITC_1 
 
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
-
-#include "driver\gpio.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "driver/gpio.h"
 
-#include "pwm.h"
-
+#include "pin_manager.h"
+#include "digital_output_object.h"
 
 extern "C"
 {
     void app_main();
 }
 
-
 void app_main()
 {
-    PWM pwm;
-    error_t check;
-    openClose_t openClose;
-    check = pwm.setAll(200, GPIO_NUM_4, LOW);
+    PinManager *manager = manager->Instance();
 
-    openClose = pwm.open();
+    DigitalOutputObject blueLed = DigitalOutputObject();
+    DigitalOutputConfig blueLedConfig =
+        {
+            .pinBitMask = (1ULL << GPIO_NUM_4),
+            .mode = PUSH_PULL,
+            .pullState = PULL_DOWN
+        };
+    blueLed.setConfig(blueLedConfig);
 
-    pwm.writeState(RUNNING);
+    manager->enableDigitalOutputObject(&blueLed);
 
-    for (;;)
+    if (blueLed.isEnabled() == Enabled_t::ENABLED)
     {
-        printf("main\n"); 
-        vTaskDelay(2000 / portTICK_PERIOD_MS);
+        for (int i = 0; i < 10; i++)
+        {
+            blueLed.action_toggle();
+            vTaskDelay(200 / portTICK_PERIOD_MS);
+        }
+    }
+    else
+    {
+        abort();
     }
 }
