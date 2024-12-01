@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "string": "cpp",
+        "esp_psram.h": "c"
+    }
+}

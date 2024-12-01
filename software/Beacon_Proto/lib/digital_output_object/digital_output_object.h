@@ -7,6 +7,24 @@
 
 #include "shared_variables.h"
 
+
+enum class OutputMode_t: uint32_t
+{
+    PUSH_PULL,
+    OPEN_DRAIN
+};
+
+
+typedef struct
+{
+    gpio_num_t pin;
+    OutputMode_t mode;
+    PullState_t pullState;
+    //drive strength
+    //input/output
+} DigitalOutputConfig;
+
+
 /*
 For now, only supports one pin at a time.
 Only support for esp_error at this time
@@ -26,30 +44,18 @@ class DigitalOutputObject
         bool getIfIsEnabled() const;
         bool getIfIsReady() const;
 
+        friend class PinManager;
 
     private:
         DigitalOutputConfig config;
         Logic_t logic;
-
-    protected:
         bool isEnabled;
-        bool isReady;
+        bool isReady; 
 };
 
 
-typedef struct
-{
-    gpio_num_t pin;
-    OutputMode_t mode;
-    PullState_t pullState;
-    //drive strength
-    //input/output
-} DigitalOutputConfig;
 
 
-enum class OutputMode_t: uint32_t
-{
-    PUSH_PULL,
-    OPEN_DRAIN
-};
+
+
 
