@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "string": "cpp",
-        "esp_psram.h": "c"
+        "esp_psram.h": "c",
+        "random": "cpp",
+        "type_traits": "cpp"
     }
 }

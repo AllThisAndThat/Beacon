@@ -2,30 +2,39 @@
 #include "freertos/task.h"
 #include "driver/gpio.h"
 
-#include "led_driver.h"
+#include "uart_printer.h"
+
 
 extern "C" {void app_main();}
 void heartbeatSetup();
+
+char s1[] = "test\n";
+char s2[] = "\n";
+char s3[] = "";
+char s4[] = "\ra\r\r\n";
+char s5[] = "reallylongstringreallylongstringreallylongstringreallylongstringreallylongstringreallylongstringreallylongstringreallylongstringreallylongstringreallylongstringreallylongstringreallylongstring\n";
+char s6[] = "a";
+int s7 = 6;
 
 constexpr gpio_num_t GPIO_OUTPUT_IO_0  = GPIO_NUM_5;
 constexpr uint64_t GPIO_OUTPUT_PIN_SEL = (1ULL << GPIO_OUTPUT_IO_0);
 
 void app_main() {
+    UartPrinter& hPrinter = UartPrinter::getInstance();
+    hPrinter.initiate();
+
     heartbeatSetup();
 
-    LedDriver greenLed = LedDriver();
-    greenLed.initiate(GPIO_NUM_21);
-    greenLed.set_duty(0);
-    vTaskDelay(1000/portTICK_PERIOD_MS);
-    greenLed.set_duty(1);
-    vTaskDelay(1000/portTICK_PERIOD_MS);
-    greenLed.set_duty(100);
-    vTaskDelay(1000/portTICK_PERIOD_MS);
-    greenLed.set_duty(1000);
-
-
     int cnt = 0;
+
     for (;;) {
+        hPrinter.Print(s1);
+        hPrinter.Print(s2);
+        hPrinter.Print(s3);
+        hPrinter.Print(s4);
+        hPrinter.Print(s5);
+        hPrinter.Print(s6);
+        hPrinter.Print((char*)s7);
 
         // Heartbeat
         gpio_set_level(GPIO_OUTPUT_IO_0, cnt % 2);

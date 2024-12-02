@@ -60,4 +60,5 @@ int UartPrinter::Print(const char* message) {
 UartPrinter::~UartPrinter()
 {
     uart_driver_delete(kUartNum);
+    UartPrinter::isInitiated = false;
 }
