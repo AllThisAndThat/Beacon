@@ -4,36 +4,12 @@
 
 #include "led_driver.h"
 
+#include "pin_assignment.h"
+
 extern "C" {void app_main();}
-void heartbeatSetup();
 
 constexpr gpio_num_t GPIO_OUTPUT_IO_0  = GPIO_NUM_5;
 constexpr uint64_t GPIO_OUTPUT_PIN_SEL = (1ULL << GPIO_OUTPUT_IO_0);
-
-void app_main() {
-    heartbeatSetup();
-
-    LedDriver greenLed = LedDriver();
-    greenLed.initiate(GPIO_NUM_21);
-    greenLed.set_duty(0);
-    vTaskDelay(1000/portTICK_PERIOD_MS);
-    greenLed.set_duty(1);
-    vTaskDelay(1000/portTICK_PERIOD_MS);
-    greenLed.set_duty(100);
-    vTaskDelay(1000/portTICK_PERIOD_MS);
-    greenLed.set_duty(1000);
-
-
-    int cnt = 0;
-    for (;;) {
-
-        // Heartbeat
-        gpio_set_level(GPIO_OUTPUT_IO_0, cnt % 2);
-        cnt++;
-        vTaskDelay(1000/portTICK_PERIOD_MS);
-    }
-
-}
 
 
 void heartbeatSetup() {
@@ -51,3 +27,37 @@ void heartbeatSetup() {
     //configure GPIO with the given settings
     gpio_config(&io_conf);
 }
+
+void vHeartbeat(void * pvParameters) {
+
+    heartbeatSetup();
+    int cnt = 0;
+    for( ;; ) {
+        gpio_set_level(GPIO_OUTPUT_IO_0, cnt % 2);
+        cnt++;
+        vTaskDelay(1000/portTICK_PERIOD_MS);
+    }
+}
+
+void app_main() {
+    xTaskCreatePinnedToCore(vHeartbeat, "Heartbeat", 8000, NULL, 1, NULL, 0);
+
+    LedDriver greenLed = LedDriver();
+    greenLed.initiate(pin::kLedDriverTestLed, LEDC_TIMER_0, LEDC_CHANNEL_0);
+    
+    for (;;) {
+        vTaskDelay(1000/portTICK_PERIOD_MS);
+        greenLed.set_duty(1000);
+        greenLed.action_on();
+        vTaskDelay(1000/portTICK_PERIOD_MS);
+        greenLed.set_duty(1001);
+        greenLed.action_on();
+        vTaskDelay(1000/portTICK_PERIOD_MS);
+        greenLed.set_duty(10);
+        greenLed.action_on();
+        vTaskDelay(1000/portTICK_PERIOD_MS);
+
+    }
+
+}
+
