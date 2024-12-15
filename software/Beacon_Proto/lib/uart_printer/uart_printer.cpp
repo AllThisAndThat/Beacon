@@ -33,7 +33,7 @@ esp_err_t UartPrinter::initiate() {
     }
 
     constexpr int kNoPin = -1;
-    err = uart_set_pin(kUartNum, pin::kUart0Tx, pin::kUart0Rx, kNoPin, kNoPin);
+    err = uart_set_pin(kUartNum, reserved_pin::kUart0Tx, reserved_pin::kUart0Rx, kNoPin, kNoPin);
     if (err != ESP_OK) {
         return err;
     }

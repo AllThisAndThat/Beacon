@@ -2,10 +2,9 @@
 #include "freertos/task.h"
 #include "driver/gpio.h"
 
-#include "led_driver.h"
+#include "status_led.h"
 
-#include "pin_assignment.h"
-
+//vTaskDelay(1000/portTICK_PERIOD_MS);
 extern "C" {void app_main();}
 
 constexpr gpio_num_t GPIO_OUTPUT_IO_0  = GPIO_NUM_5;
@@ -40,23 +39,32 @@ void vHeartbeat(void * pvParameters) {
 }
 
 void app_main() {
-    xTaskCreatePinnedToCore(vHeartbeat, "Heartbeat", 8000, NULL, 1, NULL, 0);
+    StatusLed statusLed = StatusLed();
+    statusLed.initiate();
+    vTaskDelay(1000/portTICK_PERIOD_MS);
 
-    LedDriver greenLed = LedDriver();
-    greenLed.initiate(pin::kLedDriverTestLed, LEDC_TIMER_0, LEDC_CHANNEL_0);
-    
+    using enum Color;
+    using enum StatusLedState;
     for (;;) {
-        vTaskDelay(1000/portTICK_PERIOD_MS);
-        greenLed.set_duty(1000);
-        greenLed.action_on();
-        vTaskDelay(1000/portTICK_PERIOD_MS);
-        greenLed.set_duty(1001);
-        greenLed.action_on();
-        vTaskDelay(1000/portTICK_PERIOD_MS);
-        greenLed.set_duty(10);
-        greenLed.action_on();
+        
+        statusLed.set_color(kRed);
+        statusLed.set_state(kOff);
         vTaskDelay(1000/portTICK_PERIOD_MS);
 
+        statusLed.set_state(kSolid);
+        vTaskDelay(5000/portTICK_PERIOD_MS);
+
+        statusLed.set_color(kYellow);
+        vTaskDelay(5000/portTICK_PERIOD_MS);
+
+        statusLed.set_state(kBlink);
+        vTaskDelay(5000/portTICK_PERIOD_MS);
+
+        statusLed.set_blink_period(200);
+        vTaskDelay(5000/portTICK_PERIOD_MS);
+
+        statusLed.set_color(kGreen);
+        vTaskDelay(5000/portTICK_PERIOD_MS);
     }
 
 }

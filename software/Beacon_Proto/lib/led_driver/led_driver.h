@@ -4,15 +4,12 @@
 
 /*
 Functionality to add:
-channel find or maybe the user specifies which channel (useful for RGB where a shared timer would be nice)
 Change timer
 Change channel
-Change GPIO
-Fading
-On/Off
-Duty as (0 > 1000)
 Might keep track of which timers and channels in use
-write test file
+Could make easier to add channels to a timer under same class
+
+Uninitialize properly
 */
 
 enum class Logic : unsigned int

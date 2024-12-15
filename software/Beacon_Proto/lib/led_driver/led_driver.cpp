@@ -5,7 +5,9 @@ constexpr ledc_timer_bit_t kResolution = LEDC_TIMER_10_BIT;
 constexpr uint32_t kOff = 0;
 
 LedDriver::LedDriver() {
-
+    this->pin = GPIO_NUM_NC;
+    this->timer = LEDC_TIMER_MAX;
+    this->channel = LEDC_CHANNEL_MAX;
 }
 
 LedDriver::~LedDriver() {
@@ -13,7 +15,7 @@ LedDriver::~LedDriver() {
 }
 
 esp_err_t LedDriver::initiate(gpio_num_t gpio_num, ledc_timer_t timer,
-    ledc_channel_t channel, Logic logic) {
+                              ledc_channel_t channel, Logic logic) {
 
     esp_err_t err = this->configure_init_timer(timer);
     if (err != ESP_OK) {
@@ -25,10 +27,7 @@ esp_err_t LedDriver::initiate(gpio_num_t gpio_num, ledc_timer_t timer,
         return err;
     }
 
-    err = ledc_fade_func_install(0); // Don't understand this
-    if (err != ESP_OK) {
-        return err;
-    }
+    ledc_fade_func_install(0); // Don't understand this
 
     this->pin     = gpio_num;
     this->timer   = timer;
@@ -77,7 +76,8 @@ esp_err_t LedDriver::configure_init_timer(ledc_timer_t timer) {
 }
 
 esp_err_t LedDriver::configure_init_channel(gpio_num_t gpio_num,
-    ledc_channel_t channel, Logic logic) {
+                                            ledc_channel_t channel,
+                                            Logic logic) {
 
     constexpr uint32_t kInitialDuty = 0;
     constexpr int kInitialHPoint = 0;

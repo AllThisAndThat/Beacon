@@ -2,7 +2,7 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "pin_assignment.h"
+#include "reserved_objects.h"
 
 #include "led_driver.h"
 
@@ -14,7 +14,7 @@ LedDriver Led = LedDriver();
 void test_led_driver_initiate() {
     constexpr ledc_timer_t kTimer0 = LEDC_TIMER_0;
     constexpr ledc_channel_t kChannel0 = LEDC_CHANNEL_0;
-    esp_err_t err = Led.initiate(pin::kLedDriverTestLed, kTimer0, 
+    esp_err_t err = Led.initiate(reserved_pin::kLedDriverTestLed, kTimer0, 
         kChannel0, Logic::kLow);
     TEST_ASSERT_EQUAL(ESP_OK, err);
 }

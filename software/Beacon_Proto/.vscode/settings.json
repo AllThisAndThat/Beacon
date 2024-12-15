@@ -4,6 +4,7 @@
         "esp_psram.h": "c",
         "random": "cpp",
         "type_traits": "cpp",
-        "cstdint": "cpp"
+        "cstdint": "cpp",
+        "thread": "cpp"
     }
 }
