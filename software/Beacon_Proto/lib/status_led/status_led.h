@@ -5,9 +5,7 @@
 
 #include "led_driver.h"
 /*
-Abstract away color and blink/solid -> set mode
-Set Mode: enum -> healthy, error, fatal, debug, programming
-Set brightness
+Set Mode: enum -> healthy, error, fatal
 remove magic numbers 
 */
 
@@ -22,6 +20,17 @@ enum class StatusLedState {
     kOff,
     kSolid,
     kBlink
+};
+
+enum class Mode
+{
+    kOff, // off
+    kOkay, //green, slow blink
+    kWaiting, //blue, solid
+    kWarning, // Yellow, temporary fast blink
+    kWatchDogTimeOut, // Orange
+    kFatal, //Red, solid
+    kUnknown // purple, slow blink
 };
 
 class StatusLed {

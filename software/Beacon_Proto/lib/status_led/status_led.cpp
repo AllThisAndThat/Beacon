@@ -8,7 +8,9 @@ StatusLed::StatusLed() {
     blue_led  = LedDriver();
 
     state = StatusLedState::kOff;
-    half_period_ms = 500;
+
+    constexpr uint64_t kDefaultHalfPeriod = 500;
+    half_period_ms = kDefaultHalfPeriod;
 }
 
 StatusLed::~StatusLed() {
@@ -20,6 +22,7 @@ esp_err_t StatusLed::initiate() {
     err = red_led.initiate(reserved_pin::kRedStatusLed, 
                            reserved_ledc::kStatusLeds,
                            reserved_ledc::kRedLed);
+    
     if (err != ESP_OK) {return err;}
     err = green_led.initiate(reserved_pin::kGreenStatusLed,
                              reserved_ledc::kStatusLeds,
