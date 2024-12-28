@@ -14,11 +14,15 @@ class I2c {
 public:
     I2c(I2cPort port);
     ~I2c();
-    esp_err_t initstate();
+    esp_err_t initiate();
 
     esp_err_t action_add_device(i2c_device_config_t dev_cfg,
                                 i2c_master_dev_handle_t& dev_handle);
     esp_err_t action_probe(uint16_t addr);
+    esp_err_t action_write(i2c_master_dev_handle_t dev_handle, 
+                            uint8_t register_addr, uint8_t data);
+    esp_err_t action_read(i2c_master_dev_handle_t dev_handle, 
+                           uint8_t register_addr, uint8_t* data);
 
 private:
     I2cPort port;

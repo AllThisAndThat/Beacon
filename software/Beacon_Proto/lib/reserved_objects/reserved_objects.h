@@ -4,6 +4,9 @@
 #include "driver/ledc.h"
 #include "driver/spi_master.h"
 #include "driver/i2c_master.h"
+
+#include "i2c.h"
+#include "ltr_303als.h"
 // #include "driver/gptimer.h"
 
 
@@ -108,8 +111,10 @@ namespace reserved_i2c0 {
 // }
 
 namespace reserved_LTR_303 {
+    constexpr I2cPort kI2cPort = I2cPort::kPort0;
     constexpr bool ENABLED = true;
     constexpr uint16_t kAddr = 0x29;
+
 
     constexpr i2c_device_config_t kDeviceCfg = {
         .dev_addr_length = I2C_ADDR_BIT_LEN_7,
