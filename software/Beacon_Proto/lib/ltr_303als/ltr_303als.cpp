@@ -21,7 +21,7 @@ esp_err_t Ltr_303als::initiate() {
 
     constexpr uint8_t rGainSetting = 0x80;
     constexpr uint8_t kMaxGainSetting = 0b000'111'0'1; // 96X gain, activates sensor
-    err = i2c.action_write(hDevice, rGainSetting, kMaxGainSetting);
+    err = i2c.action_write_reg(hDevice, rGainSetting, kMaxGainSetting);
     if (err != ESP_OK) {return err;}
     uint8_t rx_buffer = 0x0;
     i2c.action_read(hDevice, rGainSetting, &rx_buffer);
@@ -31,7 +31,7 @@ esp_err_t Ltr_303als::initiate() {
     
     constexpr uint8_t rMeasIntRate = 0x85;
     constexpr uint8_t kMeasAndIntRate = 0b00'000'011; // 100 ms integration time, 500 ms measurement rate
-    err = i2c.action_write(hDevice, rMeasIntRate, kMeasAndIntRate);
+    err = i2c.action_write_reg(hDevice, rMeasIntRate, kMeasAndIntRate);
     i2c.action_read(hDevice, rMeasIntRate, &rx_buffer);
     if (rx_buffer != kMeasAndIntRate) {
         return ESP_ERR_INVALID_RESPONSE;

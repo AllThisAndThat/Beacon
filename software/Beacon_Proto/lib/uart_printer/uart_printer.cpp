@@ -4,7 +4,7 @@
 
 #include "driver/uart.h"
 
-#include "pin_assignment.h"
+#include "reserved_objects.h"
 
 constexpr uart_port_t kUartNum = UART_NUM_0;
 bool UartPrinter::isInitiated = false;

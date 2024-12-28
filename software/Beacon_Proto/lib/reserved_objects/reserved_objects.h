@@ -27,6 +27,9 @@ namespace reserved_pin {
     constexpr gpio_num_t kI2c0Sda = GPIO_NUM_39;
     constexpr gpio_num_t kI2c0Scl = GPIO_NUM_40;
 
+    constexpr gpio_num_t kI2c1Sda = GPIO_NUM_45;
+    constexpr gpio_num_t kI2c1Scl = GPIO_NUM_0;
+
 }
 
 namespace reserved_ledc {
@@ -99,26 +102,57 @@ namespace reserved_i2c0 {
         .flags = {
             .enable_internal_pullup = 1}
     };
-
-
 }
 
-// namespace reserved_LTR_303 {
-//     constexpr bool ENABLED = true;
-//     constexpr uint16_t kAddr = 0x29;
-
-//     extern i2c_device_config_t kDeviceCfg;
-// }
+namespace reserved_i2c1 {
+    constexpr uint32_t kSclSpeedHz = 100'000;
+    constexpr i2c_master_bus_config_t kBusCfg = {
+        .i2c_port = 1,
+        .sda_io_num = reserved_pin::kI2c1Sda,
+        .scl_io_num = reserved_pin::kI2c1Scl,
+        .clk_source = I2C_CLK_SRC_DEFAULT,
+        .glitch_ignore_cnt = 7,
+        .intr_priority = 0,
+        .trans_queue_depth = 0,
+        .flags = {
+            .enable_internal_pullup = 1}
+    };
+}
 
 namespace reserved_LTR_303 {
     constexpr I2cPort kI2cPort = I2cPort::kPort0;
-    constexpr bool ENABLED = true;
+    constexpr bool ENABLED = true; // Implement later - maybe have an enabled area
     constexpr uint16_t kAddr = 0x29;
-
 
     constexpr i2c_device_config_t kDeviceCfg = {
         .dev_addr_length = I2C_ADDR_BIT_LEN_7,
         .device_address  = kAddr,
+        .scl_speed_hz    = reserved_i2c0::kSclSpeedHz,
+        .scl_wait_us     = 0,
+        .flags = {
+            .disable_ack_check = 0
+        }
+    };
+}
+
+namespace reserved_KTS1622 {
+    constexpr I2cPort kI2cPort = I2cPort::kPort1;
+    constexpr bool ENABLED = true;
+    constexpr uint16_t kAddr = 0x20; // configurable with a pin polarity - 0x20 = VSS
+
+    constexpr i2c_device_config_t kDeviceCfg = {
+        .dev_addr_length = I2C_ADDR_BIT_LEN_7,
+        .device_address  = kAddr,
+        .scl_speed_hz    = reserved_i2c0::kSclSpeedHz,
+        .scl_wait_us     = 0,
+        .flags = {
+            .disable_ack_check = 0
+        }
+    };
+
+        constexpr i2c_device_config_t kDeviceRstCfg = {
+        .dev_addr_length = I2C_ADDR_BIT_LEN_7,
+        .device_address  = 0,
         .scl_speed_hz    = reserved_i2c0::kSclSpeedHz,
         .scl_wait_us     = 0,
         .flags = {

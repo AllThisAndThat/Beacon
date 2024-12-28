@@ -61,7 +61,7 @@ void app_main() {
     
     // Gain 96
     constexpr uint8_t kGainSetting = 0b000'111'0'1;
-    err = port0.action_write(hDevice1, 0x80, kGainSetting);
+    err = port0.action_write_reg(hDevice1, 0x80, kGainSetting);
     if (err != ESP_OK) {
         statusLed.set_state(StatusLedState::kSolid);
         statusLed.set_color(Color::kBlue);
@@ -78,7 +78,7 @@ void app_main() {
 
     // Measurement Rate
     constexpr uint8_t kMeasAndIntegrateRate = 0b00'111'111;
-    err = port0.action_write(hDevice1, 0x85, kMeasAndIntegrateRate);
+    err = port0.action_write_reg(hDevice1, 0x85, kMeasAndIntegrateRate);
     if (err != ESP_OK) {
         statusLed.set_state(StatusLedState::kSolid);
         statusLed.set_color(Color::kRed);

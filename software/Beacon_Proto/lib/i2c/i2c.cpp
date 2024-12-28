@@ -16,8 +16,8 @@ esp_err_t I2c::initiate() {
     if (this->port == I2cPort::kPort0) {
         return i2c_new_master_bus(&reserved_i2c0::kBusCfg, &hBus);
     }
-    else {
-        // return i2c_new_master_bus(&reserved_i2c1::kBusCfg, &hBus);)
+    else if(this->port == I2cPort::kPort1) {
+        return i2c_new_master_bus(&reserved_i2c1::kBusCfg, &hBus);
     }
     return ESP_OK;
 }
@@ -33,12 +33,19 @@ esp_err_t I2c::action_probe(uint16_t addr) {
     return i2c_master_probe(this->hBus, addr, kTimeoutMilliSeconds);
 }
 
-esp_err_t I2c::action_write(i2c_master_dev_handle_t dev_handle, 
+esp_err_t I2c::action_write_reg(i2c_master_dev_handle_t dev_handle, 
                             uint8_t register_addr, uint8_t data) {
     
     uint8_t temp[2] = {register_addr, data};
     constexpr size_t kSize = sizeof(temp);
     return i2c_master_transmit(dev_handle, temp, kSize,
+                               kTimeoutMilliSeconds);
+}
+
+esp_err_t I2c::action_write_direct(i2c_master_dev_handle_t dev_handle,
+                                   uint8_t data) {
+    constexpr size_t kSize = sizeof(data);
+    return i2c_master_transmit(dev_handle, &data, kSize,
                                kTimeoutMilliSeconds);
 }
 
