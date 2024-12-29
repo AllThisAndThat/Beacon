@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+
 #include "driver/gpio.h"
 #include "driver/ledc.h"
 #include "driver/spi_master.h"
@@ -7,7 +9,19 @@
 
 #include "i2c.h"
 #include "ltr_303als.h"
+#include "i2s.h"
 // #include "driver/gptimer.h"
+
+/*
+Pins
+
+I2C0 addresses
+I2C1 addresses
+
+Task to which core
+
+enable/disable features
+*/
 
 
 namespace reserved_pin {
@@ -29,7 +43,7 @@ namespace reserved_pin {
 
     constexpr gpio_num_t kI2c1Sda = GPIO_NUM_45;
     constexpr gpio_num_t kI2c1Scl = GPIO_NUM_0;
-
+    constexpr gpio_num_t kI2c1Int = GPIO_NUM_35;
 }
 
 namespace reserved_ledc {
@@ -105,7 +119,7 @@ namespace reserved_i2c0 {
 }
 
 namespace reserved_i2c1 {
-    constexpr uint32_t kSclSpeedHz = 100'000;
+    constexpr uint32_t kSclSpeedHz = 400'000;
     constexpr i2c_master_bus_config_t kBusCfg = {
         .i2c_port = 1,
         .sda_io_num = reserved_pin::kI2c1Sda,
@@ -116,6 +130,15 @@ namespace reserved_i2c1 {
         .trans_queue_depth = 0,
         .flags = {
             .enable_internal_pullup = 1}
+    };
+    
+    constexpr gpio_num_t kIntPin = reserved_pin::kI2c1Int;
+    constexpr gpio_config_t kIntCfg = {
+        .pin_bit_mask = (1ULL << kIntPin),
+        .mode = GPIO_MODE_INPUT,
+        .pull_up_en = GPIO_PULLUP_ENABLE,
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .intr_type = GPIO_INTR_POSEDGE,
     };
 }
 
@@ -150,7 +173,7 @@ namespace reserved_KTS1622 {
         }
     };
 
-        constexpr i2c_device_config_t kDeviceRstCfg = {
+    constexpr i2c_device_config_t kDeviceRstCfg = {
         .dev_addr_length = I2C_ADDR_BIT_LEN_7,
         .device_address  = 0,
         .scl_speed_hz    = reserved_i2c0::kSclSpeedHz,
@@ -161,6 +184,59 @@ namespace reserved_KTS1622 {
     };
 }
 
+namespace reserved_i2s0 {
+    /*
+    Add I2S0 pins to top
+    Verify
+        * sample rate
+        * MCLK multiple
+        * Data width
+        * what is slot?
+        * ws width
+        * any inverted?
+        * 
+    */
+
+    constexpr i2s_std_clk_config_t kClockCfg = {
+        .sample_rate_hz = 44'100,
+        .clk_src = I2S_CLK_SRC_DEFAULT,
+        .mclk_multiple = I2S_MCLK_MULTIPLE_256 // 256 -> 44.1kHz * 256 = 11.2896MHz
+    };
+
+    constexpr bool kLowLevelFirst = false;
+    constexpr i2s_std_slot_config_t kSlotCfg = {
+        .data_bit_width = I2S_DATA_BIT_WIDTH_16BIT,
+        .slot_bit_width = I2S_SLOT_BIT_WIDTH_AUTO,
+        .slot_mode      = I2S_SLOT_MODE_MONO,
+        .slot_mask      = I2S_STD_SLOT_LEFT,
+        .ws_width       = 16,
+        .ws_pol         = kLowLevelFirst,
+        .bit_shift      = true,
+        .left_align     = true,
+        .big_endian     = false,
+        .bit_order_lsb  = false
+    };
+
+    constexpr uint32_t kNotInverted = 0;
+    constexpr i2s_std_gpio_config_t kGpioCfg = {
+        .mclk = 0,
+        .bclk = 0,
+        .ws   = 0,
+        .dout = 0,
+        .din  = 0,
+        .invert_flags = {
+            .mclk_inv = kNotInverted,
+            .bclk_inv = kNotInverted,
+            .ws_inv = kNotInverted
+        }      
+    };
+
+    constexpr i2s_std_config_t kChannelCfg = {
+        .clk_cfg  = kClockCfg,
+        .slot_cfg = kSlotCfg,
+        .gpio_cfg = kGpioCfg,
+    };
+}
 
 
 

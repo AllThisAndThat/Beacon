@@ -6,7 +6,6 @@
 
 #include "led_driver.h"
 
-
 extern "C" {void app_main(int argc, char **argv);}
 
 LedDriver Led = LedDriver();

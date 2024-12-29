@@ -14,23 +14,23 @@ I2c::~I2c() {
 
 esp_err_t I2c::initiate() {
     if (this->port == I2cPort::kPort0) {
-        return i2c_new_master_bus(&reserved_i2c0::kBusCfg, &hBus);
+        return i2c_new_master_bus(&reserved_i2c0::kBusCfg, &hBus_);
     }
     else if(this->port == I2cPort::kPort1) {
-        return i2c_new_master_bus(&reserved_i2c1::kBusCfg, &hBus);
+        return i2c_new_master_bus(&reserved_i2c1::kBusCfg, &hBus_);
     }
     return ESP_OK;
 }
 
 esp_err_t I2c::action_add_device(i2c_device_config_t dev_cfg,
                                  i2c_master_dev_handle_t& dev_handle) {
-    return i2c_master_bus_add_device(this->hBus, &dev_cfg,
+    return i2c_master_bus_add_device(this->hBus_, &dev_cfg,
                                      &dev_handle);
 }
 
 esp_err_t I2c::action_probe(uint16_t addr) {
     
-    return i2c_master_probe(this->hBus, addr, kTimeoutMilliSeconds);
+    return i2c_master_probe(this->hBus_, addr, kTimeoutMilliSeconds);
 }
 
 esp_err_t I2c::action_write_reg(i2c_master_dev_handle_t dev_handle, 

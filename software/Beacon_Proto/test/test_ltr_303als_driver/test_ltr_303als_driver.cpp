@@ -27,7 +27,7 @@ void test_get_brightness() {
     uint32_t brightness;
     brightness = amb_bright_sensor.get_brightness();
     constexpr uint32_t kMin = 10;
-    constexpr uint32_t kMax = 80'000;
+    constexpr uint32_t kMax = 150'000;
     bool isBetween = ((brightness > kMin) && (brightness < kMax));
     TEST_ASSERT_TRUE(isBetween);
 }

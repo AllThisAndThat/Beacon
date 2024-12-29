@@ -28,8 +28,7 @@ public:
 
 private:
     I2cPort port;
-    i2c_master_bus_handle_t hBus;
+    i2c_master_bus_handle_t hBus_;
 
-    i2c_master_dev_handle_t hDevice_LTR_303;
 
 };

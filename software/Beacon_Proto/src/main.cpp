@@ -3,89 +3,53 @@
 
 #include "reserved_objects.h"
 #include "status_led.h"
-#include "kts1622.h"
+#include "ltr_303als.h"
 
 //vTaskDelay(1000/portTICK_PERIOD_MS);
 extern "C" {void app_main();}
-void failure();
-void warning();
-void check();
 
 /*
 */
-StatusLed statusLed = StatusLed();
-Kts1622 kts1622 = Kts1622(Kts1622Addr::kDefault);
+
 
 void app_main() {
-    esp_err_t err = ESP_OK;
+    esp_err_t err;
 
+    StatusLed statusLed = StatusLed();
     statusLed.initiate();
-    statusLed.set_color(Color::kGreen);
+    statusLed.set_color(Color::kYellow);
     statusLed.set_state(StatusLedState::kBlink);
 
-    err = kts1622.initialize();
-    if (err != ESP_OK) {failure();}
+    Ltr_303als amb_bright_sensor = Ltr_303als();
+    err = amb_bright_sensor.initiate();
+    if (err != ESP_OK) {
+        statusLed.set_state(StatusLedState::kSolid);
+        statusLed.set_color(Color::kRed);
+        vTaskDelay(3000/portTICK_PERIOD_MS);
+        abort();
+    }
 
-    err = kts1622.action_verify();
-    if (err != ESP_OK) {failure();}
+    err = amb_bright_sensor.action_verify();
+    if (err != ESP_OK) {
+        statusLed.set_state(StatusLedState::kSolid);
+        statusLed.set_color(Color::kRed);
+        vTaskDelay(3000/portTICK_PERIOD_MS);
+        abort();
+    }
 
-    // start test here
-
-    uint8_t port0_pu_mask = 0b00000001;
-    uint8_t port1_pu_mask = 0b00000010;
-    err = kts1622.set_pullup_state(port0_pu_mask, port1_pu_mask);
-    if (err != ESP_OK) {failure();}
-    check();
-
-    uint8_t port0_pd_mask = 0b00000101;
-    uint8_t port1_pd_mask = 0b00001010;
-    err = kts1622.set_pulldown_state(port0_pd_mask, port1_pd_mask);
-    if (err != ESP_OK) {failure();}
-    check();
-
-    port0_pu_mask = 0b00000001;
-    port1_pu_mask = 0b00000010;
-    err = kts1622.set_pullup_state(port0_pu_mask, port1_pu_mask);
-    if (err != ESP_OK) {failure();}
-    check();
-
-    port0_pu_mask = 0b11111111;
-    port1_pu_mask = 0b11111111;
-    err = kts1622.set_pullup_state(port0_pu_mask, port1_pu_mask);
-    if (err != ESP_OK) {failure();}
-    check();
-
+    statusLed.set_state(StatusLedState::kBlink);
+    uint32_t brightness;
     for (;;) {
-
+        brightness = amb_bright_sensor.get_brightness();
+        printf("Brightness: %ld\n", brightness);
+        if (brightness > 2000) {
+            statusLed.set_color(Color::kYellow);
+        }
+        else {
+            statusLed.set_color(Color::kGreen);
+        }
 
         vTaskDelay(50/portTICK_PERIOD_MS);
     }
 
-}
-
-
-void failure() {
-    statusLed.set_state(StatusLedState::kSolid);
-    statusLed.set_color(Color::kRed);
-    printf("Failure\n");
-    vTaskDelay(2000/portTICK_PERIOD_MS);
-}
-
-void warning() {
-    statusLed.set_state(StatusLedState::kSolid);
-    statusLed.set_color(Color::kYellow);
-    vTaskDelay(2000/portTICK_PERIOD_MS);
-}
-
-void check() {
-    esp_err_t err = ESP_OK;
-    uint8_t rx_buffer = 0;
-
-    err = kts1622.get_input_port0(rx_buffer);
-    if (err != ESP_OK) {failure();}
-    printf("Port 0: %d\n", rx_buffer);
-    err = kts1622.get_input_port1(rx_buffer);
-    if (err != ESP_OK) {failure();}
-    printf("Port 1: %d\n", rx_buffer);
-    vTaskDelay(100/portTICK_PERIOD_MS);
 }

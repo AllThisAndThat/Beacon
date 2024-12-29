@@ -41,6 +41,7 @@ void app_main() {
     uint32_t brightness;
     for (;;) {
         brightness = amb_bright_sensor.get_brightness();
+        printf("Brightness: %d\n", brightness);
         if (brightness > 2000) {
             statusLed.set_color(Color::kYellow);
         }
