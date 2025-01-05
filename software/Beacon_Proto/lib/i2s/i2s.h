@@ -20,4 +20,6 @@ public:
 
 private:
     i2s_chan_handle_t hChannel_;
+    i2s_chan_handle_t hTxChannel_;
+    i2s_chan_handle_t hRxChannel_;
 };

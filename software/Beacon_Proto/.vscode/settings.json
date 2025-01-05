@@ -17,6 +17,7 @@
         "initializer_list": "cpp",
         "system_error": "cpp",
         "compare": "cpp",
-        "numbers": "cpp"
+        "numbers": "cpp",
+        "limits": "cpp"
     }
 }

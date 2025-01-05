@@ -3,53 +3,65 @@
 
 #include "reserved_objects.h"
 #include "status_led.h"
-#include "ltr_303als.h"
+
+// Custom includes
+#include "max9867.h"
 
 //vTaskDelay(1000/portTICK_PERIOD_MS);
 extern "C" {void app_main();}
+void failure();
+void warning();
+void pass();
 
-/*
-*/
+StatusLed statusLed = StatusLed();
 
+// Custom instances
+Max9867 max9867 = Max9867();
 
 void app_main() {
     esp_err_t err;
 
-    StatusLed statusLed = StatusLed();
     statusLed.initiate();
-    statusLed.set_color(Color::kYellow);
+    statusLed.set_color(Color::kGreen);
     statusLed.set_state(StatusLedState::kBlink);
 
-    Ltr_303als amb_bright_sensor = Ltr_303als();
-    err = amb_bright_sensor.initiate();
+// Custom initiates
+    err = max9867.initiate();
     if (err != ESP_OK) {
-        statusLed.set_state(StatusLedState::kSolid);
-        statusLed.set_color(Color::kRed);
-        vTaskDelay(3000/portTICK_PERIOD_MS);
-        abort();
+        failure();
     }
 
-    err = amb_bright_sensor.action_verify();
+    err = max9867.action_verify();
     if (err != ESP_OK) {
-        statusLed.set_state(StatusLedState::kSolid);
-        statusLed.set_color(Color::kRed);
-        vTaskDelay(3000/portTICK_PERIOD_MS);
-        abort();
+        failure();
     }
-
-    statusLed.set_state(StatusLedState::kBlink);
-    uint32_t brightness;
+    JackState state;
     for (;;) {
-        brightness = amb_bright_sensor.get_brightness();
-        printf("Brightness: %ld\n", brightness);
-        if (brightness > 2000) {
-            statusLed.set_color(Color::kYellow);
+        err = max9867.get_hp_jack_state(state);
+        if (err == ESP_OK) {
+            printf("Jack State: %d\n", static_cast<uint8_t>(state));
         }
         else {
-            statusLed.set_color(Color::kGreen);
+            warning();
         }
-
-        vTaskDelay(50/portTICK_PERIOD_MS);
+        vTaskDelay(50 / portTICK_PERIOD_MS);
     }
 
+}
+
+void failure() {
+    statusLed.set_state(StatusLedState::kSolid);
+    statusLed.set_color(Color::kRed);
+    printf("Failure\n");
+    vTaskDelay(2000/portTICK_PERIOD_MS);
+}
+
+void warning() {
+    statusLed.set_state(StatusLedState::kBlink);
+    statusLed.set_color(Color::kYellow);
+}
+
+void pass() {
+    statusLed.set_state(StatusLedState::kSolid);
+    statusLed.set_color(Color::kGreen);
 }

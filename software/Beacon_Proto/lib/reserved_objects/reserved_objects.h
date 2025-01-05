@@ -6,10 +6,9 @@
 #include "driver/ledc.h"
 #include "driver/spi_master.h"
 #include "driver/i2c_master.h"
+#include "driver/i2s_std.h"
 
 #include "i2c.h"
-#include "ltr_303als.h"
-#include "i2s.h"
 // #include "driver/gptimer.h"
 
 /*
@@ -38,12 +37,18 @@ namespace reserved_pin {
     constexpr int kSpi2Miso = 13;
     constexpr int kSpi2Sclk = 12;
 
-    constexpr gpio_num_t kI2c0Sda = GPIO_NUM_39;
+    constexpr gpio_num_t kI2c0Sda = GPIO_NUM_39;                            
     constexpr gpio_num_t kI2c0Scl = GPIO_NUM_40;
 
     constexpr gpio_num_t kI2c1Sda = GPIO_NUM_45;
     constexpr gpio_num_t kI2c1Scl = GPIO_NUM_0;
     constexpr gpio_num_t kI2c1Int = GPIO_NUM_35;
+
+    constexpr gpio_num_t kI2s0Mclk = GPIO_NUM_7;
+    constexpr gpio_num_t kI2s0Bclk = GPIO_NUM_15;
+    constexpr gpio_num_t kI2s0Ws   = GPIO_NUM_16;
+    constexpr gpio_num_t kI2s0Dout = GPIO_NUM_17;
+    constexpr gpio_num_t kI2s0Din  = GPIO_NUM_18;
 }
 
 namespace reserved_ledc {
@@ -107,7 +112,7 @@ namespace reserved_i2c0 {
     constexpr uint32_t kSclSpeedHz = 400'000;
     constexpr i2c_master_bus_config_t kBusCfg = {
         .i2c_port = 0,
-        .sda_io_num = reserved_pin::kI2c0Sda,
+        .sda_io_num = reserved_pin::kI2c0Sda, 
         .scl_io_num = reserved_pin::kI2c0Scl,
         .clk_source = I2C_CLK_SRC_DEFAULT,
         .glitch_ignore_cnt = 7,
@@ -185,56 +190,80 @@ namespace reserved_KTS1622 {
 }
 
 namespace reserved_i2s0 {
-    /*
-    Add I2S0 pins to top
-    Verify
-        * sample rate
-        * MCLK multiple
-        * Data width
-        * what is slot?
-        * ws width
-        * any inverted?
-        * 
-    */
+    constexpr i2s_chan_config_t kChanCfg = I2S_CHANNEL_DEFAULT_CONFIG(I2S_NUM_0, I2S_ROLE_MASTER);
+    // constexpr i2s_std_clk_config_t kClockCfg = {
+    //     .sample_rate_hz = 48'000, // For Max9867 -> 8 to 48 kHz
+    //     .clk_src = I2S_CLK_SRC_DEFAULT,
+    //     .mclk_multiple = I2S_MCLK_MULTIPLE_256 // 256 -> 48kHz * 256 = 12.288MHz
+    // };
 
-    constexpr i2s_std_clk_config_t kClockCfg = {
-        .sample_rate_hz = 44'100,
-        .clk_src = I2S_CLK_SRC_DEFAULT,
-        .mclk_multiple = I2S_MCLK_MULTIPLE_256 // 256 -> 44.1kHz * 256 = 11.2896MHz
-    };
+    // // 16 bits, mono, left slot only, philips mode, left shift, MSB first, LSB last
+    // constexpr bool kLowLevelFirst = false;
+    // constexpr i2s_std_slot_config_t kSlotCfg = {
+    //     .data_bit_width = I2S_DATA_BIT_WIDTH_16BIT,
+    //     .slot_bit_width = I2S_SLOT_BIT_WIDTH_AUTO, // slot = bits/channel + overhead
+    //     .slot_mode      = I2S_SLOT_MODE_MONO,
+    //     .slot_mask      = I2S_STD_SLOT_LEFT, // Left slot only
+    //     .ws_width       = 16,
+    //     .ws_pol         = kLowLevelFirst,
+    //     .bit_shift      = true,
+    //     .left_align     = true,
+    //     .big_endian     = false,
+    //     .bit_order_lsb  = false
+    // };
 
-    constexpr bool kLowLevelFirst = false;
-    constexpr i2s_std_slot_config_t kSlotCfg = {
-        .data_bit_width = I2S_DATA_BIT_WIDTH_16BIT,
-        .slot_bit_width = I2S_SLOT_BIT_WIDTH_AUTO,
-        .slot_mode      = I2S_SLOT_MODE_MONO,
-        .slot_mask      = I2S_STD_SLOT_LEFT,
-        .ws_width       = 16,
-        .ws_pol         = kLowLevelFirst,
-        .bit_shift      = true,
-        .left_align     = true,
-        .big_endian     = false,
-        .bit_order_lsb  = false
-    };
+    // constexpr uint32_t kNotInverted = 0;
+    // constexpr i2s_std_gpio_config_t kGpioCfg = {
+    //     .mclk = reserved_pin::kI2s0Mclk,
+    //     .bclk = reserved_pin::kI2s0Bclk,
+    //     .ws   = reserved_pin::kI2s0Ws,
+    //     .dout = reserved_pin::kI2s0Dout,
+    //     .din  = reserved_pin::kI2s0Din,
+    //     .invert_flags = {
+    //         .mclk_inv = kNotInverted,
+    //         .bclk_inv = kNotInverted,
+    //         .ws_inv   = kNotInverted
+    //     }      
+    // };
 
-    constexpr uint32_t kNotInverted = 0;
-    constexpr i2s_std_gpio_config_t kGpioCfg = {
-        .mclk = 0,
-        .bclk = 0,
-        .ws   = 0,
-        .dout = 0,
-        .din  = 0,
-        .invert_flags = {
-            .mclk_inv = kNotInverted,
-            .bclk_inv = kNotInverted,
-            .ws_inv = kNotInverted
-        }      
-    };
+    // constexpr i2s_std_config_t kChannelCfg = {
+    //     .clk_cfg  = kClockCfg,
+    //     .slot_cfg = kSlotCfg,
+    //     .gpio_cfg = kGpioCfg,
+    // };
 
-    constexpr i2s_std_config_t kChannelCfg = {
-        .clk_cfg  = kClockCfg,
-        .slot_cfg = kSlotCfg,
-        .gpio_cfg = kGpioCfg,
+    constexpr i2s_std_config_t kStdCfg = {
+        .clk_cfg = I2S_STD_CLK_DEFAULT_CONFIG(48'000),
+        .slot_cfg = I2S_STD_PHILIPS_SLOT_DEFAULT_CONFIG(
+                    I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_STEREO),
+        .gpio_cfg = {
+            .mclk = reserved_pin::kI2s0Mclk,
+            .bclk = reserved_pin::kI2s0Bclk,
+            .ws   = reserved_pin::kI2s0Ws,
+            .dout = reserved_pin::kI2s0Dout,
+            .din  = reserved_pin::kI2s0Din,
+            .invert_flags = {
+                .mclk_inv = false,
+                .bclk_inv = false,
+                .ws_inv = false,
+            },
+        },
+    };    
+}
+
+namespace reserved_max9867 {
+    constexpr I2cPort kI2cPort = I2cPort::kPort0;
+    constexpr bool kIsEnabled = true;
+    constexpr uint16_t kAddr = 0x18;
+
+    constexpr i2c_device_config_t kDeviceCfg = {
+        .dev_addr_length = I2C_ADDR_BIT_LEN_7,
+        .device_address  = kAddr,
+        .scl_speed_hz    = reserved_i2c0::kSclSpeedHz,
+        .scl_wait_us     = 0,
+        .flags = {
+            .disable_ack_check = 0
+        }
     };
 }
 

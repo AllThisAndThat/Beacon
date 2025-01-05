@@ -1,5 +1,4 @@
 #include "ltr_303als.h"
-
 #include "reserved_objects.h"
 
 Ltr_303als::Ltr_303als() 
