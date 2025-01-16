@@ -99,6 +99,8 @@ Setup Steps:
 2. Disable JACKSNS
 3. Enable Left and right ADC.
 4. Remove reset hold
+
+* set system shutdown to enable ic
 */
 
 enum class JackState : uint8_t {
@@ -117,6 +119,10 @@ public:
     esp_err_t action_probe();
     esp_err_t action_verify();
 
+    esp_err_t test_read_audio();
+    esp_err_t test_echo_audio();
+    esp_err_t test_write_audio();
+
     i2s_chan_handle_t hI2sTx_; // TODO: move this to private
     i2s_chan_handle_t hI2sRx_; 
 
@@ -129,6 +135,8 @@ private:
     esp_err_t setup_system_clock();
     esp_err_t setup_interface_mode();
     esp_err_t setup_master_i2s();
+
+    esp_err_t test_etc_setup();
     
     // esp_err_t setup_codec_filters();
     // esp_err_t setup_dac_gain();
@@ -139,3 +147,17 @@ private:
     // esp_err_t action_shutdown();
 
 };
+
+/* Multimeter can only measure to 50 kHz
+Pin  7 -> MCLK ->  12.288 MHz
+Pin 15 -> BCLK ->  769 kHz
+Pin 16 -> LRCLK -> 48 kHz
+
+MCLK = 1.528V
+BCLK = 1.65V
+LRCLK = 1.65V
+DOUT = 
+
+
+
+*/

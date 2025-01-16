@@ -31,21 +31,20 @@ void app_main() {
         failure();
     }
 
-    // err = max9867.action_verify();
-    // if (err != ESP_OK) {
-    //     failure();
-    // }
-
+    err = max9867.action_verify();
+    if (err != ESP_OK) {
+        failure();
+    }
+    JackState state;
     for (;;) {
-        err = max9867.test_echo_audio();
-        if (err != ESP_OK) {
-            warning();
+        err = max9867.get_hp_jack_state(state);
+        if (err == ESP_OK) {
+            printf("Jack State: %d\n", static_cast<uint8_t>(state));
         }
         else {
-            pass();
+            warning();
         }
-
-        // vTaskDelay(1 / portTICK_PERIOD_MS);
+        vTaskDelay(50 / portTICK_PERIOD_MS);
     }
 
 }

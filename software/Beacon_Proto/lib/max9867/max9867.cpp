@@ -12,17 +12,21 @@ Max9867::~Max9867() {
 }
 
 esp_err_t Max9867::initiate() {
-    esp_err_t err = setup_i2c();
-    if (err != ESP_OK) {return err;}
+    esp_err_t err;
+    // esp_err_t err = setup_i2c();
+    // if (err != ESP_OK) {return err;}
 
-    err = setup_mode();
-    if (err != ESP_OK) {return err;}
+    // err = setup_mode();
+    // if (err != ESP_OK) {return err;}
 
-    err = setup_system_clock();
-    if (err != ESP_OK) {return err;}
+    // err = setup_system_clock();
+    // if (err != ESP_OK) {return err;}
 
-    err = setup_interface_mode();
-    if (err != ESP_OK) {return err;}
+    // err = setup_interface_mode();
+    // if (err != ESP_OK) {return err;}
+
+    // err = test_etc_setup();
+    // if (err != ESP_OK) {return err;}
 
     err = setup_master_i2s();
     if (err != ESP_OK) {return err;}
@@ -58,6 +62,35 @@ esp_err_t Max9867::action_verify() {
     }
 
     return ESP_OK;
+}
+
+esp_err_t Max9867::test_read_audio() {
+    constexpr uint32_t kMaxBlockTime = 100;
+    size_t bytes_read;
+    constexpr int kBufferSize = 512;
+    int16_t buffer[kBufferSize]; // Buffer to store the data
+    esp_err_t err = i2s_channel_read(hI2sRx_, buffer, kBufferSize, &bytes_read, kMaxBlockTime);
+    if (err != ESP_OK) {return err;}
+
+    printf("Read %d bytes from I2S\n", bytes_read);
+
+    for (int i = 0; i < (bytes_read / 2); i++) {
+        printf(">ADC: %d\n", buffer[i]);
+    }
+
+    return err;
+}
+
+esp_err_t Max9867::test_echo_audio() {
+constexpr uint32_t kMaxBlockTime = 100;
+    size_t bytes_read;
+    constexpr int kBufferSize = 512;
+    int16_t buffer[kBufferSize]; // Buffer to store the data
+    esp_err_t err = i2s_channel_read(hI2sRx_, buffer, kBufferSize, &bytes_read, kMaxBlockTime);
+    if (err != ESP_OK) {return err;}
+
+    err = i2s_channel_write(hI2sTx_, buffer, kBufferSize, &bytes_read, kMaxBlockTime);
+    return err;
 }
 
 esp_err_t Max9867::setup_i2c() {
@@ -155,6 +188,44 @@ esp_err_t Max9867::setup_master_i2s() {
     err = i2s_channel_enable(hI2sTx_);
     if (err != ESP_OK) {return err;}
     err = i2s_channel_enable(hI2sRx_);
+    if (err != ESP_OK) {return err;}
+
+
+    return err;
+}
+
+esp_err_t Max9867::test_etc_setup() {
+    esp_err_t err;
+
+    constexpr uint8_t rAdcGain = 0x0D;
+    constexpr uint8_t kAvl_3db = 0x0;
+    constexpr uint8_t kAvr_3db = 0x0;
+    constexpr uint8_t kAdcGain = (kAvl_3db << 4) | kAvr_3db;
+    err = i2c_.action_write_reg(hDevice_, rAdcGain, kAdcGain);
+    if (err != ESP_OK) {return err;}
+
+    constexpr uint8_t rAdcInput = 0x14;
+    constexpr uint8_t kMxinl_lineIn   = 0b10;
+    constexpr uint8_t kMxinr_lineIn   = 0b10;
+    constexpr uint8_t kAuxCap_noHold  = 0;
+    constexpr uint8_t kAuxGain_normal = 0;
+    constexpr uint8_t kAuxCal_normal  = 0;
+    constexpr uint8_t kAuxEn_jackDet  = 0;
+    constexpr uint8_t kAdcInput = (kMxinl_lineIn   << 6) |
+                                  (kMxinr_lineIn   << 4) |
+                                  (kAuxCap_noHold  << 3) |
+                                  (kAuxGain_normal << 2) |
+                                  (kAuxCal_normal  << 1) |
+                                  (kAuxEn_jackDet  << 0);
+    err = i2c_.action_write_reg(hDevice_, rAdcInput, kAdcInput);
+    if (err != ESP_OK) {return err;}                            
+
+    constexpr uint8_t rSidetone = 0x0B;
+    constexpr uint8_t kDsts_lr = 0b11;
+    constexpr uint8_t kDvst_off = 0b00;
+    constexpr uint8_t kSidetone = (kDsts_lr  << 6) |
+                                  (kDvst_off << 0);
+    err = i2c_.action_write_reg(hDevice_, rSidetone, kSidetone);
     if (err != ESP_OK) {return err;}
 
     return err;

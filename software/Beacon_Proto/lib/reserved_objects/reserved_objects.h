@@ -190,65 +190,56 @@ namespace reserved_KTS1622 {
 }
 
 namespace reserved_i2s0 {
-    constexpr i2s_chan_config_t kChanCfg = I2S_CHANNEL_DEFAULT_CONFIG(I2S_NUM_0, I2S_ROLE_MASTER);
-    // constexpr i2s_std_clk_config_t kClockCfg = {
-    //     .sample_rate_hz = 48'000, // For Max9867 -> 8 to 48 kHz
-    //     .clk_src = I2S_CLK_SRC_DEFAULT,
-    //     .mclk_multiple = I2S_MCLK_MULTIPLE_256 // 256 -> 48kHz * 256 = 12.288MHz
-    // };
+    constexpr i2s_chan_config_t kChanCfg = {
+        .id = I2S_NUM_0,
+        .role = I2S_ROLE_MASTER,
+        .dma_desc_num = 6,
+        .dma_frame_num = 240,
+        .auto_clear = true,
+        .auto_clear_before_cb = false,
+        .intr_priority = 0,
+    };
 
-    // // 16 bits, mono, left slot only, philips mode, left shift, MSB first, LSB last
-    // constexpr bool kLowLevelFirst = false;
-    // constexpr i2s_std_slot_config_t kSlotCfg = {
-    //     .data_bit_width = I2S_DATA_BIT_WIDTH_16BIT,
-    //     .slot_bit_width = I2S_SLOT_BIT_WIDTH_AUTO, // slot = bits/channel + overhead
-    //     .slot_mode      = I2S_SLOT_MODE_MONO,
-    //     .slot_mask      = I2S_STD_SLOT_LEFT, // Left slot only
-    //     .ws_width       = 16,
-    //     .ws_pol         = kLowLevelFirst,
-    //     .bit_shift      = true,
-    //     .left_align     = true,
-    //     .big_endian     = false,
-    //     .bit_order_lsb  = false
-    // };
+    // i2s_chan_config_t kChanCfg = I2S_CHANNEL_DEFAULT_CONFIG(I2S_NUM_0, I2S_ROLE_MASTER);
+    constexpr i2s_std_clk_config_t kClockCfg = {
+        .sample_rate_hz = 48'000, // For Max9867 -> 8 to 48 kHz
+        .clk_src = I2S_CLK_SRC_DEFAULT, //I2S_CLK_SRC_DEFAULT
+        .mclk_multiple = I2S_MCLK_MULTIPLE_256 // 256 -> 48kHz * 256 = 12.288MHz
+    }; //I2S_MCLK_MULTIPLE_256
 
-    // constexpr uint32_t kNotInverted = 0;
-    // constexpr i2s_std_gpio_config_t kGpioCfg = {
-    //     .mclk = reserved_pin::kI2s0Mclk,
-    //     .bclk = reserved_pin::kI2s0Bclk,
-    //     .ws   = reserved_pin::kI2s0Ws,
-    //     .dout = reserved_pin::kI2s0Dout,
-    //     .din  = reserved_pin::kI2s0Din,
-    //     .invert_flags = {
-    //         .mclk_inv = kNotInverted,
-    //         .bclk_inv = kNotInverted,
-    //         .ws_inv   = kNotInverted
-    //     }      
-    // };
+    // 16 bits, mono, left slot only, left-align, non-philips mode, MSB first
+    constexpr i2s_std_slot_config_t kSlotCfg = {
+        .data_bit_width = I2S_DATA_BIT_WIDTH_16BIT,
+        .slot_bit_width = I2S_SLOT_BIT_WIDTH_AUTO,
+        .slot_mode = I2S_SLOT_MODE_MONO,
+        .slot_mask = I2S_STD_SLOT_LEFT,
+        .ws_width = I2S_DATA_BIT_WIDTH_16BIT,
+        .ws_pol = false,
+        .bit_shift = false,
+        .left_align = true,
+        .big_endian = false,
+        .bit_order_lsb = false
+    };
 
-    // constexpr i2s_std_config_t kChannelCfg = {
-    //     .clk_cfg  = kClockCfg,
-    //     .slot_cfg = kSlotCfg,
-    //     .gpio_cfg = kGpioCfg,
-    // };
+    constexpr uint32_t kNotInverted = 0;
+    constexpr i2s_std_gpio_config_t kGpioCfg = {
+        .mclk = reserved_pin::kI2s0Mclk,
+        .bclk = reserved_pin::kI2s0Bclk,
+        .ws   = reserved_pin::kI2s0Ws,
+        .dout = reserved_pin::kI2s0Dout,
+        .din  = reserved_pin::kI2s0Din,
+        .invert_flags = {
+            .mclk_inv = kNotInverted,
+            .bclk_inv = kNotInverted,
+            .ws_inv   = kNotInverted
+        }      
+    };
 
     constexpr i2s_std_config_t kStdCfg = {
-        .clk_cfg = I2S_STD_CLK_DEFAULT_CONFIG(48'000),
-        .slot_cfg = I2S_STD_PHILIPS_SLOT_DEFAULT_CONFIG(
-                    I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_STEREO),
-        .gpio_cfg = {
-            .mclk = reserved_pin::kI2s0Mclk,
-            .bclk = reserved_pin::kI2s0Bclk,
-            .ws   = reserved_pin::kI2s0Ws,
-            .dout = reserved_pin::kI2s0Dout,
-            .din  = reserved_pin::kI2s0Din,
-            .invert_flags = {
-                .mclk_inv = false,
-                .bclk_inv = false,
-                .ws_inv = false,
-            },
-        },
-    };    
+        .clk_cfg  = kClockCfg,
+        .slot_cfg = kSlotCfg,
+        .gpio_cfg = kGpioCfg,
+    };  
 }
 
 namespace reserved_max9867 {
