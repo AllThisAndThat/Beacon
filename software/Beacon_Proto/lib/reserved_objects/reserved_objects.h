@@ -193,19 +193,18 @@ namespace reserved_i2s0 {
     constexpr i2s_chan_config_t kChanCfg = {
         .id = I2S_NUM_0,
         .role = I2S_ROLE_MASTER,
-        .dma_desc_num = 6,
-        .dma_frame_num = 240,
+        .dma_desc_num = 3,
+        .dma_frame_num = 384,
         .auto_clear = true,
         .auto_clear_before_cb = false,
         .intr_priority = 0,
     };
 
-    // i2s_chan_config_t kChanCfg = I2S_CHANNEL_DEFAULT_CONFIG(I2S_NUM_0, I2S_ROLE_MASTER);
     constexpr i2s_std_clk_config_t kClockCfg = {
         .sample_rate_hz = 48'000, // For Max9867 -> 8 to 48 kHz
         .clk_src = I2S_CLK_SRC_DEFAULT, //I2S_CLK_SRC_DEFAULT
         .mclk_multiple = I2S_MCLK_MULTIPLE_256 // 256 -> 48kHz * 256 = 12.288MHz
-    }; //I2S_MCLK_MULTIPLE_256
+    };
 
     // 16 bits, mono, left slot only, left-align, non-philips mode, MSB first
     constexpr i2s_std_slot_config_t kSlotCfg = {

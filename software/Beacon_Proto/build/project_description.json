@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "Beacon_Proto",
-    "project_version":    "13567b7-dirty",
+    "project_version":    "2b139ca-dirty",
     "project_path":       "C:/Users/lucas/github/Beacon/software/Beacon_Proto",
     "idf_path":           "C:/Espressif/frameworks/esp-idf-v5.3.1",
     "build_dir":          "C:/Users/lucas/github/Beacon/software/Beacon_Proto/build",

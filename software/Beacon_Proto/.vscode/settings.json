@@ -18,6 +18,7 @@
         "system_error": "cpp",
         "compare": "cpp",
         "numbers": "cpp",
-        "limits": "cpp"
+        "limits": "cpp",
+        "ratio": "cpp"
     }
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "freertos/FreeRTOS.h"
 #include "esp_err.h"
 #include "driver/i2s_std.h"
 
@@ -116,48 +117,38 @@ public:
 
     esp_err_t get_hp_jack_state(JackState& state);
 
+    esp_err_t set_left_adc_gain(int gain);
+    esp_err_t set_left_linein_gain(int gain);
+    esp_err_t set_dac_gain(int gain);
+    esp_err_t set_headphone_level(int gain);
+
     esp_err_t action_probe();
     esp_err_t action_verify();
+    esp_err_t action_on();
+    esp_err_t action_off();
+    esp_err_t action_mute();
+    esp_err_t action_unmute();
 
     esp_err_t test_read_audio();
     esp_err_t test_echo_audio();
-    esp_err_t test_write_audio();
-
-    i2s_chan_handle_t hI2sTx_; // TODO: move this to private
-    i2s_chan_handle_t hI2sRx_; 
 
 private:
     I2c i2c_;
     i2c_master_dev_handle_t hDevice_;
+    i2s_chan_handle_t hI2sRx_;
+    i2s_chan_handle_t hI2sTx_;
+
+    TaskHandle_t hTask_;
+
+    uint8_t dacGain_;
 
     esp_err_t setup_i2c();
     esp_err_t setup_mode();
     esp_err_t setup_system_clock();
     esp_err_t setup_interface_mode();
     esp_err_t setup_master_i2s();
+    esp_err_t setup_adc_input();
+    esp_err_t setup_audio_filter();
 
-    esp_err_t test_etc_setup();
-    
-    // esp_err_t setup_codec_filters();
-    // esp_err_t setup_dac_gain();
-    // esp_err_t setup_adc_gain();
-    // esp_err_t setup_input_signals();
-    // esp_err_t setup_output_signals();
-
-    // esp_err_t action_shutdown();
-
+    static void vTask(void *pvParameters);
 };
-
-/* Multimeter can only measure to 50 kHz
-Pin  7 -> MCLK ->  12.288 MHz
-Pin 15 -> BCLK ->  769 kHz
-Pin 16 -> LRCLK -> 48 kHz
-
-MCLK = 1.528V
-BCLK = 1.65V
-LRCLK = 1.65V
-DOUT = 
-
-
-
-*/

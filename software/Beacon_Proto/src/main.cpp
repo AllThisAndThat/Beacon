@@ -18,6 +18,9 @@ StatusLed statusLed = StatusLed();
 // Custom instances
 Max9867 max9867 = Max9867();
 
+
+char task_list[1024];
+
 void app_main() {
     esp_err_t err;
 
@@ -31,23 +34,25 @@ void app_main() {
         failure();
     }
 
-    // err = max9867.action_verify();
-    // if (err != ESP_OK) {
-    //     failure();
-    // }
-
-    for (;;) {
-        err = max9867.test_echo_audio();
-        if (err != ESP_OK) {
-            warning();
-        }
-        else {
-            pass();
-        }
-
-        // vTaskDelay(1 / portTICK_PERIOD_MS);
+    err = max9867.action_verify();
+    if (err != ESP_OK) {
+        failure();
     }
 
+    err = max9867.action_on();
+    if (err != ESP_OK) {
+        failure();
+    }
+
+    max9867.set_left_adc_gain(3);
+    max9867.set_dac_gain(17);
+    max9867.action_on();
+    max9867.action_unmute();
+    max9867.set_headphone_level(0);
+
+    for (;;) {
+        vTaskDelay(1000/portTICK_PERIOD_MS);  
+    }
 }
 
 void failure() {
