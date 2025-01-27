@@ -1,17 +1,13 @@
 #include "max9867.h"
 
-#include <unordered_map>
-
 #include "reserved_objects.h"
 
-
 // #include "esp_timer.h"
-
 
 constexpr uint8_t rDacGain = 0x0C;
 
 Max9867::Max9867() 
-    : i2c_(I2c(reserved_max9867::kI2cPort)) {
+    : i2c_(I2c(reserved::max9867::kI2cPort)) {
     // default muted
     dacGain_ =  0b0100'0000; 
 }
@@ -44,10 +40,11 @@ esp_err_t Max9867::initiate() {
     if (err != ESP_OK) {return err;}
 
     constexpr configSTACK_DEPTH_TYPE kStackSize = 20'000;
-    constexpr UBaseType_t kTaskPriority = configMAX_PRIORITIES - 1; // Might want to set priority in reservered_objects
+
+    using namespace reserved;
     xTaskCreatePinnedToCore(static_cast<TaskFunction_t>(this->vTask), 
-                "audio", kStackSize, this, kTaskPriority,
-                &hTask_, 1);
+                "audio", kStackSize, this, priority::kMax9867,
+                &hTask_, core::kMax9867);
     return err;
 }
 
@@ -63,14 +60,15 @@ esp_err_t Max9867::get_hp_jack_state(JackState& state) {
 }
 
 esp_err_t Max9867::set_left_adc_gain(int gain) {
-    constexpr int kMaxGain = 3;
-    constexpr int kMinGain = -12;
+    constexpr int kMaxGain = 15;
+    constexpr int kMinGain = 0;
     if (gain > kMaxGain || gain < kMinGain) {
         return ESP_ERR_INVALID_ARG;
     }
 
     // Matches gain to respective register value, page 36
-    uint8_t kAdcGain = ((static_cast<uint8_t>((-gain) + 3)) << 4);
+    uint8_t kAdcGain = static_cast<uint8_t>(15 - gain);
+    kAdcGain = (kAdcGain << 4);
     constexpr uint8_t rAdcGain = 0x0D;
     return i2c_.action_write_reg(hDevice_, rAdcGain, kAdcGain);
 }
@@ -89,20 +87,16 @@ esp_err_t Max9867::set_left_linein_gain(int gain) {
 }
 
 esp_err_t Max9867::set_dac_gain(int gain) {
-    constexpr int kMaxGain = 17;
-    constexpr int kMinGain = -15;
+    constexpr int kMaxGain = 15;
+    constexpr int kMinGain = 0;
     if (gain > kMaxGain || gain < kMinGain) {
         return ESP_ERR_INVALID_ARG;
     }
 
-    // Matches gain to respective register value, page 36
+    // Page 36
+    // MODE = 1 so DACG has no effect
     uint8_t DACG = 0;
-    if (gain > 0) {
-        DACG = (static_cast<uint8_t>((gain / 6) + 1));
-        gain = gain - (DACG * 6);
-    }
-    DACG = DACG << 4;
-    uint8_t DACA = static_cast<uint8_t>(-(gain));
+    uint8_t DACA = static_cast<uint8_t>(15 - gain);
 
     uint8_t previous_mute_setting = (dacGain_ & (1 << 6));
     dacGain_ = previous_mute_setting | DACG | DACA;
@@ -110,13 +104,13 @@ esp_err_t Max9867::set_dac_gain(int gain) {
 }
 
 esp_err_t Max9867::set_headphone_level(int gain) {
-    constexpr int kMaxGain = 0;
-    constexpr int kMinGain = -39;
+    constexpr int kMaxGain = 39;
+    constexpr int kMinGain = 0;
     if (gain > kMaxGain || gain < kMinGain) {
         return ESP_ERR_INVALID_ARG;
     }
 
-    uint8_t VOLLR = static_cast<uint8_t>(-gain);
+    uint8_t VOLLR = static_cast<uint8_t>(39 - gain);
 
     constexpr uint8_t rLeftVolume = 0x10;
     esp_err_t err = i2c_.action_write_reg(hDevice_, rLeftVolume, VOLLR);
@@ -130,7 +124,7 @@ esp_err_t Max9867::set_headphone_level(int gain) {
 }
 
 esp_err_t Max9867::action_probe() {
-    return i2c_.action_probe(reserved_max9867::kAddr);
+    return i2c_.action_probe(reserved::i2c0::kAddr_Max9867);
 }
 
 esp_err_t Max9867::action_verify() {
@@ -238,7 +232,7 @@ esp_err_t Max9867::setup_i2c() {
     esp_err_t err = i2c_.initiate();
     if (err != ESP_OK) {return err;}
 
-    err = i2c_.action_add_device(reserved_max9867::kDeviceCfg,
+    err = i2c_.action_add_device(reserved::max9867::kDeviceCfg,
                                  hDevice_);
     if (err != ESP_OK) {return err;}
 
@@ -315,20 +309,20 @@ esp_err_t Max9867::setup_interface_mode() {
 }
 
 esp_err_t Max9867::setup_master_i2s() {
-    esp_err_t err = i2s_new_channel(&reserved_i2s0::kChanCfg,
+    using namespace reserved::i2s0;
+    esp_err_t err = i2s_new_channel(&kChanCfg,
                                     &hI2sTx_, &hI2sRx_);
     if (err != ESP_OK) {return err;}
 
-    err = i2s_channel_init_std_mode(hI2sTx_, &reserved_i2s0::kStdCfg);
+    err = i2s_channel_init_std_mode(hI2sTx_, &kStdCfg);
     if (err != ESP_OK) {return err;}
-    err = i2s_channel_init_std_mode(hI2sRx_, &reserved_i2s0::kStdCfg);
+    err = i2s_channel_init_std_mode(hI2sRx_, &kStdCfg);
     if (err != ESP_OK) {return err;}
 
     err = i2s_channel_enable(hI2sTx_);
     if (err != ESP_OK) {return err;}
     err = i2s_channel_enable(hI2sRx_);
     if (err != ESP_OK) {return err;}
-
 
     return err;
 }
@@ -361,60 +355,34 @@ void IRAM_ATTR Max9867::vTask(void *pvParameters) {
     static int16_t buffer[kBufferSize]; // Pin buffer to RAM
     constexpr uint32_t kMaxBlockTime = 100;
 
-    // int cycles = 50;
-    // int gain = -39;
+    int cycles = 300;
+    // int gain = 0;
+    // int max_gain = 39;
+
+    int16_t threshold = 200;
+    int16_t gain = 1;
+
     for (;;) {
-        // for (int i = 0; i < cycles; i++) {
-            i2s_channel_read(instance->hI2sRx_, buffer, kBufferSize, &bytes_read, kMaxBlockTime);
-            i2s_channel_write(instance->hI2sTx_, buffer, bytes_read, &bytes_written, kMaxBlockTime);
-        // }
-        // if (gain >= 0) {
-        //     gain = -39;
+        i2s_channel_read(instance->hI2sRx_, buffer, kBufferSize, &bytes_read, kMaxBlockTime);
+        for (int i = 0; i < kBufferSize; i++) {
+            // Apply gain
+            buffer[i] *= gain;
+
+            // Apply soft clipping for distortion
+            if (buffer[i] > threshold) {
+                buffer[i] = threshold + (buffer[i] - threshold) / 2;
+            } else if (buffer[i] < -threshold) {
+                buffer[i] = -threshold + (buffer[i] + threshold) / 2;
+            }
+        }
+        i2s_channel_write(instance->hI2sTx_, buffer, bytes_read, &bytes_written, kMaxBlockTime);
+
+        // if (threshold == 100) {
+        //     threshold = 1000;
         // }
         // else {
-        //     gain++;
+        //     threshold -= 100;
         // }
-        // printf("Gain: %d\n", gain);
+        // printf("Threshold: %d\n", threshold);
     }
 }
-
-
-    // uint8_t VOLLR;
-    // switch (gain) {
-    //     case -82: VOLLR = 0x26;
-    //     case -78: VOLLR = 0x25;
-    //     case -74: VOLLR = 0x24;
-    //     case -70: VOLLR = 0x23;
-    //     case -66: VOLLR = 0x22;
-    //     case -62: VOLLR = 0x21;
-    //     case -58: VOLLR = 0x20;
-    //     case -54: VOLLR = 0x1F;
-    //     case -50: VOLLR = 0x1E;
-    //     case -46: VOLLR = 0x1D;
-    //     case -42: VOLLR = 0x1C;
-    //     case -38: VOLLR = 0x1B;
-    //     case -34: VOLLR = 0x1A;
-    //     case -30: VOLLR = 0x19;
-    //     case -26: VOLLR = 0x18;
-    //     case -22: VOLLR = 0x17;
-    //     case -20: VOLLR = 0x16;
-    //     case -18: VOLLR = 0x15;
-    //     case -16: VOLLR = 0x14;
-    //     case -14: VOLLR = 0x13;
-    //     case -12: VOLLR = 0x12;
-    //     case -10: VOLLR = 0x11;
-    //     case  -8: VOLLR = 0x10;
-    //     case  -6: VOLLR = 0x0F;
-    //     case  -5: VOLLR = 0x0E;
-    //     case  -4: VOLLR = 0x0D;
-    //     case  -3: VOLLR = 0x0C;
-    //     case  -2: VOLLR = 0x0B;
-    //     case  -1: VOLLR = 0x0A;
-    //     case   0: VOLLR = 0x09;
-    //     case   1: VOLLR = 0x08;
-    //     case   2: VOLLR = 0x07;
-    //     case   3: VOLLR = 0x06;
-    //     case   4: VOLLR = 0x04;
-    //     case   5: VOLLR = 0x02;
-    //     case   6: VOLLR = 0x00;
-    // }

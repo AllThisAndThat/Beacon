@@ -18,26 +18,26 @@ StatusLed::~StatusLed() {
 }
 
 esp_err_t StatusLed::initiate() {
+    using namespace reserved;
     esp_err_t err;
-    err = red_led.initiate(reserved_pin::kRedStatusLed, 
-                           reserved_ledc::kStatusLeds,
-                           reserved_ledc::kRedLed);
+    err = red_led.initiate(pin::kRedStatusLed, 
+                           ledc::kStatusLeds,
+                           ledc::kRedLed);
     
     if (err != ESP_OK) {return err;}
-    err = green_led.initiate(reserved_pin::kGreenStatusLed,
-                             reserved_ledc::kStatusLeds,
-                             reserved_ledc::kGreenLed);
+    err = green_led.initiate(pin::kGreenStatusLed,
+                             ledc::kStatusLeds,
+                             ledc::kGreenLed);
     if (err != ESP_OK) {return err;}
-    err = blue_led.initiate(reserved_pin::kBlueStatusLed,
-                            reserved_ledc::kStatusLeds,
-                            reserved_ledc::kBlueLed);
+    err = blue_led.initiate(pin::kBlueStatusLed,
+                            ledc::kStatusLeds,
+                            ledc::kBlueLed);
     if (err != ESP_OK) {return err;}
 
     constexpr configSTACK_DEPTH_TYPE kStackSize = 20'000;
-    constexpr UBaseType_t kTaskPriority = 10; // Might want to set priority in reservered_objects
-    xTaskCreate(static_cast<TaskFunction_t>(this->vTask), 
-                "status_led", kStackSize, this, kTaskPriority,
-                &hTask);
+    xTaskCreatePinnedToCore(static_cast<TaskFunction_t>(this->vTask), 
+                "status_led", kStackSize, this, priority::kStatusLed,
+                &hTask, core::kStatusLed);
     return err;
 }
 

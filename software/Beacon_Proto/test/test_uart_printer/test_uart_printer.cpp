@@ -7,47 +7,57 @@
 
 extern "C" {void app_main(int argc, char **argv);}
 
-/* List of things to test
-* Copies are not allowed
-* Destructor works
-* Printing strings in all cases works
-* 
-* Never call destructor, once initialized, always initialized
-*/
-
+UartPrinter printer = UartPrinter();
 
 void test_uart_printer_initiate() {
-    UartPrinter& hPrinter = UartPrinter::getInstance();
-    TEST_ASSERT_EQUAL(ESP_OK, hPrinter.initiate());
+    esp_err_t err = printer.initiate();
+    TEST_ASSERT_EQUAL(ESP_OK, err);
 }
 
 void test_empty_string_print() {
     char s[] = "";
-    UartPrinter& hPrinter = UartPrinter::getInstance();
-    TEST_ASSERT_EQUAL(0, hPrinter.Print(s));
-    vTaskDelay(10/portTICK_PERIOD_MS);
+    esp_err_t err = printer.action_print(s);
+    TEST_ASSERT_EQUAL(ESP_OK, err);
 }
 
 void test_empty_line_print() {
     char s[] = "/n";
-    UartPrinter& hPrinter = UartPrinter::getInstance();
-    TEST_ASSERT_EQUAL(2, hPrinter.Print(s));
-    vTaskDelay(10/portTICK_PERIOD_MS);
+    esp_err_t err = printer.action_print(s);
+    TEST_ASSERT_EQUAL(ESP_OK, err);
 }
 
 void test_long_string_print() {
     char s[] = "extremelylonglineextremelylonglineextremely"
     "longlineextremelylonglineextremelylonglineextremelylong"
-    "lineextremelylonglinelineextremelylonglinelineextremely/n";
-    UartPrinter& hPrinter = UartPrinter::getInstance();
-    TEST_ASSERT_EQUAL(155, hPrinter.Print(s));
-    vTaskDelay(10/portTICK_PERIOD_MS);
+    "lineextremelylonglinelineextremelylonglinelineextremely\n";
+    esp_err_t err = printer.action_print(s);
+    TEST_ASSERT_EQUAL(ESP_OK, err);
 }
 
-// void test_unintialized_print() {
-//     char s[] = "test/n";
+void test_large_pos_num_print() {
+    int n = 2'147'483'647;
+    esp_err_t err = printer.action_print(n);
+    TEST_ASSERT_EQUAL(ESP_OK, err);
+}
 
-// }
+void test_large_neg_num_print() {
+    int n = -2'147'483'646;
+    esp_err_t err = printer.action_print(n);
+    TEST_ASSERT_EQUAL(ESP_OK, err);
+}
+
+void test_zero_print() {
+    int n = 0;
+    esp_err_t err = printer.action_print(n);
+    TEST_ASSERT_EQUAL(ESP_OK, err);
+}
+
+void test_pair_print() {
+    int n = 712;
+    char s[] = "Variable";
+    esp_err_t err = printer.action_print_pair(s, n);
+    TEST_ASSERT_EQUAL(ESP_OK, err);
+}
 
 
 void app_main(int argc, char **argv)
@@ -58,5 +68,10 @@ void app_main(int argc, char **argv)
     RUN_TEST(test_empty_string_print);
     RUN_TEST(test_empty_line_print);
     RUN_TEST(test_long_string_print);
+    RUN_TEST(test_large_pos_num_print);
+    RUN_TEST(test_large_neg_num_print);
+    RUN_TEST(test_zero_print);
+    RUN_TEST(test_pair_print);
+
     UNITY_END();
 }

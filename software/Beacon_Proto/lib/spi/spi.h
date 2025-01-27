@@ -2,6 +2,7 @@
 
 #include "driver/spi_master.h"
 
+#include "reserved_objects.h"
 
 /*
 Support:
@@ -14,18 +15,16 @@ Support:
 * only supports single device
 */
 
-
 class Spi {
 public:
-    Spi();
+    Spi(SpiPort port);
     ~Spi();
     esp_err_t initiate();
-    
-    spi_transaction_t action_create_transaction(uint64_t address,
-                                                uint8_t tx_data[4],
-                                                uint8_t rx_data[4]);
-    esp_err_t action_transmit(spi_transaction_t *transaction) const;
+
+    esp_err_t action_polling_tx(spi_transaction_t &t) const;
 
 private:
+    spi_device_handle_t hSpi_;
+    SpiPort port_;
     spi_device_handle_t hDevice;
 };

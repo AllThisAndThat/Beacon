@@ -19,6 +19,13 @@
         "compare": "cpp",
         "numbers": "cpp",
         "limits": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "algorithm": "cpp",
+        "sstream": "cpp",
+        "regex": "cpp",
+        "bitset": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "coroutine": "cpp"
     }
 }

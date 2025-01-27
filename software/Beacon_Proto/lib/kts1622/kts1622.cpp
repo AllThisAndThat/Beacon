@@ -4,7 +4,7 @@
 
 
 Kts1622::Kts1622(Kts1622Addr addr) 
-  : i2c_(reserved_KTS1622::kI2cPort) {
+  : i2c_(reserved::KTS1622::kI2cPort) {
     addr_ = static_cast<uint8_t>(addr);
     
     last_pullup_mask_port0_   = 0;
@@ -18,16 +18,16 @@ Kts1622::~Kts1622() {
 }
 
 esp_err_t Kts1622::initialize() {
+    using namespace reserved::KTS1622;
+    
     esp_err_t err = i2c_.initiate();
     if (err != ESP_OK) {return err;}
 
-    err = i2c_.action_add_device(reserved_KTS1622::kDeviceCfg,
-                                 hDevice_);
+    err = i2c_.action_add_device(kDeviceCfg, hDevice_);
     if (err != ESP_OK) {return err;}
 
     // SW reset requires its own device
-    err = i2c_.action_add_device(reserved_KTS1622::kDeviceRstCfg,
-                                 hReset_);
+    err = i2c_.action_add_device(kDeviceCfg, hReset_);
     if (err != ESP_OK) {return err;}
 
     err = action_sw_reset();

@@ -1,14 +1,12 @@
 #pragma once
 
 #include "driver/i2c_master.h"
+
+#include "reserved_objects.h"
 /*
 Doesn't support faster than 400kHz
 
 */
-enum class I2cPort {
-    kPort0,
-    kPort1
-};
 
 class I2c {
 public:

@@ -2,7 +2,7 @@
 #include "reserved_objects.h"
 
 Ltr_303als::Ltr_303als() 
-    : i2c(reserved_LTR_303::kI2cPort)
+    : i2c(reserved::LTR_303::kI2cPort)
 {
 
 }
@@ -15,7 +15,7 @@ esp_err_t Ltr_303als::initiate() {
     esp_err_t err = i2c.initiate();
     if (err != ESP_OK) {return err;}
 
-    err = i2c.action_add_device(reserved_LTR_303::kDeviceCfg, hDevice);
+    err = i2c.action_add_device(reserved::LTR_303::kDeviceCfg, hDevice);
     if (err != ESP_OK) {return err;}
 
     constexpr uint8_t rGainSetting = 0x80;

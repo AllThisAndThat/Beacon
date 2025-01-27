@@ -5,7 +5,7 @@
 #include "status_led.h"
 
 // Custom includes
-#include "bmi323.h"
+#include "uart_printer.h"
 
 //vTaskDelay(1000/portTICK_PERIOD_MS);
 extern "C" {void app_main();}
@@ -16,8 +16,9 @@ void pass();
 StatusLed statusLed = StatusLed();
 
 // Custom instances
-BMI323 bmi323 = BMI323();
+UartPrinter printer = UartPrinter();
 
+char task_list[1024];
 
 void app_main() {
     esp_err_t err;
@@ -27,11 +28,14 @@ void app_main() {
     statusLed.set_state(StatusLedState::kBlink);
 
 // Custom initiates
-    err = bmi323.initiate();
+    err = printer.initiate();
     if (err != ESP_OK) { failure();}
 
-    err = bmi323.action_verify();
-    if (err != ESP_OK) { failure();}
+    int x = -421;
+    err = printer.action_print_pair("Variable X", x);
+
+    int y = 68;
+    err = printer.action_print_pair("Variable y", y);
 
     pass();
 

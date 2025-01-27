@@ -14,10 +14,10 @@ I2c::~I2c() {
 
 esp_err_t I2c::initiate() {
     if (this->port == I2cPort::kPort0) {
-        return i2c_new_master_bus(&reserved_i2c0::kBusCfg, &hBus_);
+        return i2c_new_master_bus(&reserved::i2c0::kBusCfg, &hBus_);
     }
     else if(this->port == I2cPort::kPort1) {
-        return i2c_new_master_bus(&reserved_i2c1::kBusCfg, &hBus_);
+        return i2c_new_master_bus(&reserved::i2c1::kBusCfg, &hBus_);
     }
     return ESP_OK;
 }

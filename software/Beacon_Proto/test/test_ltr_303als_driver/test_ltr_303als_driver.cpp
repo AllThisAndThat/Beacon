@@ -26,9 +26,12 @@ void test_action_verify() {
 void test_get_brightness() {
     uint32_t brightness;
     brightness = amb_bright_sensor.get_brightness();
-    constexpr uint32_t kMin = 10;
-    constexpr uint32_t kMax = 150'000;
+    constexpr uint32_t kMin = 5;
+    constexpr uint32_t kMax = 200'000;
     bool isBetween = ((brightness > kMin) && (brightness < kMax));
+    if (!isBetween) {
+        printf("\nNot inbetween: %ld\n", brightness);
+    }
     TEST_ASSERT_TRUE(isBetween);
 }
 

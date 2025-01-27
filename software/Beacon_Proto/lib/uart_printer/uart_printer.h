@@ -6,18 +6,14 @@
 class UartPrinter
 {
     public:
-        static UartPrinter& getInstance();
-        int Print(const char* message);
-        esp_err_t initiate();
-
-        // Disable copying
-        UartPrinter(UartPrinter const &)    = delete;
-        void operator=(UartPrinter const &) = delete;
-    private:
-        UartPrinter() {};
+        UartPrinter();
         ~UartPrinter();
+        esp_err_t initiate() const;
 
-        static bool isInitiated;
+        esp_err_t action_print(const char* message) const;
+        esp_err_t action_print(int message) const;
+        esp_err_t action_print_pair(const char* message, const int num) const;
+        
+    private:
 
-        QueueHandle_t *hUartQueue;
 };

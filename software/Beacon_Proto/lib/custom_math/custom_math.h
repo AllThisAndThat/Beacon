@@ -1,0 +1,1 @@
+int DigitsNumChars(const int x);

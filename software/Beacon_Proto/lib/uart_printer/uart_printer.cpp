@@ -5,60 +5,73 @@
 #include "driver/uart.h"
 
 #include "reserved_objects.h"
+#include "custom_math.h"
 
-constexpr uart_port_t kUartNum = UART_NUM_0;
-bool UartPrinter::isInitiated = false;
+int DigitsNumChars(int x);
 
-UartPrinter& UartPrinter::getInstance() {
-    static UartPrinter instance;
-    return instance;
+UartPrinter::UartPrinter() {
+
 }
 
-esp_err_t UartPrinter::initiate() {
-    esp_err_t err = ESP_OK;
+UartPrinter::~UartPrinter() {
 
-    constexpr uart_config_t kConfig = {
-        .baud_rate = 115200,
-        .data_bits = UART_DATA_8_BITS,
-        .parity = UART_PARITY_DISABLE,
-        .stop_bits = UART_STOP_BITS_1,
-        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
-        .rx_flow_ctrl_thresh = 122,
-        .source_clk = UART_SCLK_DEFAULT,
-        .flags = {.backup_before_sleep = 0}
-    };
-    err = uart_param_config(kUartNum, &kConfig);
-    if (err != ESP_OK) {
-        return err;
-    }
+}
 
-    constexpr int kNoPin = -1;
-    err = uart_set_pin(kUartNum, reserved_pin::kUart0Tx, reserved_pin::kUart0Rx, kNoPin, kNoPin);
-    if (err != ESP_OK) {
-        return err;
-    }
+esp_err_t UartPrinter::initiate() const {
+    using namespace reserved::uart0;
+    esp_err_t err = uart_param_config(kUartNum, &kConfig);
+    if (err != ESP_OK) { return err;}
+
+    err = uart_set_pin(kUartNum, kTxPin, kRxPin, kRtsPin, kCtsPin);
+    if (err != ESP_OK) { return err;}
 
     constexpr int kTxBufferSize = (1024 * 2);
     constexpr int kRxBufferSize = (1024 * 2);
     constexpr int kQueueSize = 10;
     constexpr int kNoInterrupt = 0;
     err = uart_driver_install(kUartNum, kTxBufferSize, kRxBufferSize, 
-        kQueueSize, this->hUartQueue, kNoInterrupt);
-    if (err == ESP_OK) {
-        UartPrinter::isInitiated = true;
-    }
+        kQueueSize, NULL, kNoInterrupt);
     return err;
 }
 
-int UartPrinter::Print(const char* message) {
-    if (!UartPrinter::isInitiated) {
-        return -2;
+esp_err_t UartPrinter::action_print(const char* message) const {
+    using namespace reserved::uart0;
+    size_t message_len = strlen(message);
+    int num_written = uart_write_bytes(kUartNum, message,
+                                       message_len);
+    if (message_len != num_written) {
+        return ESP_FAIL;
     }
-    return uart_write_bytes(kUartNum, message, strlen(message));
+    else {
+        return ESP_OK;
+    }
 }
 
-UartPrinter::~UartPrinter()
-{
-    uart_driver_delete(kUartNum);
-    UartPrinter::isInitiated = false;
+esp_err_t UartPrinter::action_print(const int num) const {
+    using namespace reserved::uart0;
+    int length = DigitsNumChars(num);
+
+    char str_msg[length];
+    sprintf(str_msg, "%d", num);
+    int num_written = uart_write_bytes(kUartNum, str_msg, length);
+    uart_write_bytes(kUartNum, "\n", 1);
+    if (length != num_written) {
+        return ESP_FAIL;
+    }
+    else {
+        return ESP_OK;
+    }
+}
+
+esp_err_t UartPrinter::action_print_pair(const char* message, const int num) const {
+    using namespace reserved::uart0;
+
+    esp_err_t err = action_print(message);
+    if (err != ESP_OK) {return err;}
+
+    uart_write_bytes(kUartNum, ": ", 2);
+
+    err = action_print(num);
+
+    return err;
 }
