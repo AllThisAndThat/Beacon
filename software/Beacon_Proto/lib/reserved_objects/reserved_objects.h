@@ -20,10 +20,6 @@ enum class I2cPort {
     kPort1
 };
 
-enum class SpiPort : uint32_t {
-    kPort2
-};
-
 namespace reserved {
 
     namespace pin {
@@ -36,10 +32,11 @@ namespace reserved {
         constexpr gpio_num_t kRedStatusLed   = GPIO_NUM_4;
         constexpr gpio_num_t kBlueStatusLed  = GPIO_NUM_6;
 
-        constexpr int kSpi2Cs   = 10;
-        constexpr int kSpi2Mosi = 11;
-        constexpr int kSpi2Miso = 13;
-        constexpr int kSpi2Sclk = 12;
+        constexpr int kSpi2Cs   = GPIO_NUM_10;
+        constexpr int kSpi2Sclk = GPIO_NUM_12;
+        constexpr int kSpi2Mosi = GPIO_NUM_13;
+        constexpr int kSpi2Miso = GPIO_NUM_11;
+
 
         constexpr gpio_num_t kI2c0Sda = GPIO_NUM_39;                            
         constexpr gpio_num_t kI2c0Scl = GPIO_NUM_40;
@@ -118,41 +115,34 @@ namespace reserved {
         constexpr spi_host_device_t kSpiNum = SPI2_HOST;
 
         // Bus Config
-        constexpr int kNotUsed = -1;
         constexpr spi_bus_config_t kBusCfg = {
-                .mosi_io_num     = pin::kSpi2Mosi,
-                .miso_io_num     = pin::kSpi2Miso,
-                .sclk_io_num     = pin::kSpi2Sclk,
-                .data2_io_num    = kNotUsed,
-                .data3_io_num    = kNotUsed,
-                .data4_io_num    = kNotUsed,
-                .data5_io_num    = kNotUsed,
-                .data6_io_num    = kNotUsed,
-                .data7_io_num    = kNotUsed,
-                // .max_transfer_sz = 0,
-                // .flags           = 0,
-                .isr_cpu_id      = ESP_INTR_CPU_AFFINITY_AUTO,
-                // .intr_flags      = 0
-            };
+            .mosi_io_num     = pin::kSpi2Mosi,
+            .miso_io_num     = pin::kSpi2Miso,
+            .sclk_io_num     = pin::kSpi2Sclk,
+            .data2_io_num    = GPIO_NUM_NC,
+            .data3_io_num    = GPIO_NUM_NC,
+            .data4_io_num    = GPIO_NUM_NC,
+            .data5_io_num    = GPIO_NUM_NC,
+            .data6_io_num    = GPIO_NUM_NC,
+            .data7_io_num    = GPIO_NUM_NC,
+            .max_transfer_sz = SOC_SPI_MAXIMUM_BUFFER_SIZE,
+            .flags           = SPICOMMON_BUSFLAG_MASTER,
+        };
         
+
         // Device Config
         constexpr uint8_t kPolarity0Phase0 = 0;
         constexpr uint16_t k50PercentDuty = 128;
         constexpr spi_device_interface_config_t kDeviceCfg = {
-            .command_bits     = 0,
-            .address_bits     = 8,
-            .dummy_bits       = (8 * 1), // 8 = spi mode
             .mode             = kPolarity0Phase0,
             .clock_source     = SPI_CLK_SRC_APB,
             .duty_cycle_pos   = k50PercentDuty,
-            .clock_speed_hz   = 10'000'000,
+            .clock_speed_hz   = SPI_MASTER_FREQ_10M,
             .spics_io_num     = pin::kSpi2Cs,
+            // .flags = SPI_DEVICE_HALFDUPLEX,
             .queue_size       = 7,
-        };
 
-        // Transaction Config
-        constexpr size_t tx_length = 16;
-        constexpr size_t rx_length = 16;
+        };
     }
 
     namespace i2s0 {
@@ -293,6 +283,6 @@ namespace reserved {
     }
 
     namespace BMI323 {
-        constexpr SpiPort port = SpiPort::kPort2;
+        constexpr spi_host_device_t port = SPI2_HOST;
     }
 }

@@ -17,7 +17,7 @@ Support:
 
 class Spi {
 public:
-    Spi(SpiPort port);
+    Spi(spi_host_device_t port);
     ~Spi();
     esp_err_t initiate();
 
@@ -25,6 +25,6 @@ public:
 
 private:
     spi_device_handle_t hSpi_;
-    SpiPort port_;
+    spi_host_device_t port_;
     spi_device_handle_t hDevice;
 };

@@ -30,13 +30,12 @@ void app_main() {
     err = bmi323.initiate();
     if (err != ESP_OK) { failure();}
 
-    err = bmi323.action_verify();
-    if (err != ESP_OK) { failure();}
-
     pass();
-
+    int16_t acc_data[3];
     for (;;) {
-        vTaskDelay(1000/portTICK_PERIOD_MS);
+        bmi323.get_accelerometer_data(acc_data);
+        bmi323.get_gyro_data(acc_data);
+        vTaskDelay(10/portTICK_PERIOD_MS);
     }
 }
 
@@ -50,6 +49,7 @@ void failure() {
 void warning() {
     statusLed.set_state(StatusLedState::kBlink);
     statusLed.set_color(Color::kYellow);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
 }
 
 void pass() {
