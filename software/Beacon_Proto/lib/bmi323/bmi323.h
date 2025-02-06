@@ -21,6 +21,7 @@ public:
     esp_err_t action_verify();
 private:
     Spi spi_;
+    TaskHandle_t hTask_;
 
     esp_err_t setup_accelerometer() const;
     esp_err_t setup_gyro() const;
@@ -31,4 +32,6 @@ private:
                                  uint8_t data[2]) const;
     esp_err_t action_read_multi(const uint8_t start_addr,
                                 uint8_t* data, size_t length) const;
+
+    static void vTask(void *pvParameters);
 };

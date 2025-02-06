@@ -34,6 +34,11 @@ esp_err_t BMI323::initiate() {
     err = setup_gyro();
     if (err != ESP_OK) {printf("Gyro Setup Failed\n"); return err;}
 
+    constexpr configSTACK_DEPTH_TYPE kStackSize = 10'000;
+    using namespace reserved;
+    xTaskCreatePinnedToCore(static_cast<TaskFunction_t>(this->vTask), 
+                "IMU", kStackSize, this, priority::kBMI323,
+                &hTask_, core::kBMI323);
     return err;
 }
 
@@ -116,13 +121,13 @@ esp_err_t BMI323::get_gyro_data(int16_t gyr_data[3]) const {
 esp_err_t BMI323::setup_accelerometer() const {
     // Page 89
     constexpr uint8_t kAccBw_div2   = (0b0    << 7);
-    constexpr uint8_t kAccRange_2g  = (0b000  << 4);
-    constexpr uint8_t kAccOdr_100Hz = (0b1000 << 0);
-    constexpr uint8_t kAccConf0 = kAccBw_div2 | kAccRange_2g | kAccOdr_100Hz;
+    constexpr uint8_t kAccRange_4g  = (0b001  << 4);
+    constexpr uint8_t kAccOdr_50Hz  = (0b0111 << 0);
+    constexpr uint8_t kAccConf0 = kAccBw_div2 | kAccRange_4g | kAccOdr_50Hz;
 
-    constexpr uint8_t kAccMode_highPerf = (0b111 << 4);
-    constexpr uint8_t kAccAvgNum_noAvg  = (0b000 << 0);
-    constexpr uint8_t kAccConf1 = kAccMode_highPerf | kAccAvgNum_noAvg;
+    constexpr uint8_t kAccMode_norm   = (0b100 << 4);
+    constexpr uint8_t kAccAvgNum_4Avg = (0b010 << 0);
+    constexpr uint8_t kAccConf1 = kAccMode_norm | kAccAvgNum_4Avg;
 
     constexpr uint64_t rAccConf = 0x20;
     uint8_t data[2] = {kAccConf0, kAccConf1};
@@ -132,14 +137,14 @@ esp_err_t BMI323::setup_accelerometer() const {
 esp_err_t BMI323::setup_gyro() const {
     // Page 91
     constexpr uint8_t kGyrBw_div2       = (0b0    << 7);
-    constexpr uint8_t kGyrRange_125dps  = (0b000  << 4);
-    constexpr uint8_t kGyrOdr_100Hz     = (0b1000 << 0);
-    constexpr uint8_t kGyrConf0 = kGyrBw_div2 | kGyrRange_125dps |
-                                  kGyrOdr_100Hz;
+    constexpr uint8_t kGyrRange_500dps  = (0b010  << 4);
+    constexpr uint8_t kGyrOdr_50Hz      = (0b0111 << 0);
+    constexpr uint8_t kGyrConf0 = kGyrBw_div2 | kGyrRange_500dps |
+                                  kGyrOdr_50Hz;
 
-    constexpr uint8_t kGyrMode_highPerf = (0b111 << 4);
-    constexpr uint8_t kGyrAvgNum_noAvg  = (0b000 << 0);
-    constexpr uint8_t kGyrConf1 = kGyrMode_highPerf | kGyrAvgNum_noAvg;
+    constexpr uint8_t kGyrMode_norm   = (0b100 << 4);
+    constexpr uint8_t kGyrAvgNum_4Avg = (0b010 << 0);
+    constexpr uint8_t kGyrConf1 = kGyrMode_norm | kGyrAvgNum_4Avg;
 
     constexpr uint64_t rGyrConf = 0x21;
     uint8_t data[2] = {kGyrConf0, kGyrConf1};
@@ -190,4 +195,16 @@ esp_err_t BMI323::action_read_multi(const uint8_t start_addr, uint8_t* data,
         data[i] = temp[2 + i];
     }
     return err;
+}
+
+void IRAM_ATTR BMI323::vTask(void *pvParameters) {
+    BMI323* instance = static_cast<BMI323*>(pvParameters);
+
+    int16_t acc_data[3];
+    int16_t gyr_data[3];
+    for (;;) {
+        instance->get_accelerometer_data(acc_data);
+        instance->get_gyro_data(gyr_data);
+        vTaskDelay(10/portTICK_PERIOD_MS);
+    }
 }

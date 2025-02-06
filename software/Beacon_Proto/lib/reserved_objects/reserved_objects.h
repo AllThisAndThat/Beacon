@@ -54,11 +54,14 @@ namespace reserved {
 
     namespace core {
         constexpr int kStatusLed = 0;
+        constexpr int kBMI323 = 0;
+
         constexpr int kMax9867 = 1;
     }
 
     namespace priority {
         constexpr UBaseType_t kStatusLed = 1;
+        constexpr UBaseType_t kBMI323 = 10;
         constexpr UBaseType_t kMax9867 = configMAX_PRIORITIES - 1;
     }
 
@@ -85,6 +88,7 @@ namespace reserved {
     namespace i2c1 {
         constexpr uint8_t kAddr_KTS1622_rst = 0x00;
         constexpr uint8_t kAddr_KTS1622     = 0x20;
+        constexpr uint8_t kAddr_IS31FL3741  = 0x30; // ADDR = GND
         
         constexpr uint32_t kSclSpeedHz = 400'000;
         constexpr i2c_master_bus_config_t kBusCfg = {
@@ -260,6 +264,21 @@ namespace reserved {
             .dev_addr_length = I2C_ADDR_BIT_LEN_7,
             .device_address  = i2c1::kAddr_KTS1622_rst,
             .scl_speed_hz    = i2c0::kSclSpeedHz,
+            .scl_wait_us     = 0,
+            .flags = {
+                .disable_ack_check = 0
+            }
+        };
+    }
+
+    namespace IS31FL3741 {
+        constexpr I2cPort kI2cPort = I2cPort::kPort1;
+        constexpr bool kIsEnabled = true;
+
+        constexpr i2c_device_config_t kDeviceCfg = {
+            .dev_addr_length = I2C_ADDR_BIT_LEN_7,
+            .device_address  = i2c1::kAddr_IS31FL3741,
+            .scl_speed_hz    = i2c1::kSclSpeedHz,
             .scl_wait_us     = 0,
             .flags = {
                 .disable_ack_check = 0

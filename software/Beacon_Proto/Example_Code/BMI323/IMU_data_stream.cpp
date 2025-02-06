@@ -5,7 +5,7 @@
 #include "status_led.h"
 
 // Custom includes
-#include "is31fl3741.h"
+#include "bmi323.h"
 
 //vTaskDelay(1000/portTICK_PERIOD_MS);
 extern "C" {void app_main();}
@@ -16,7 +16,7 @@ void pass();
 StatusLed statusLed = StatusLed();
 
 // Custom instances
-IS31FL3741 is31fl3741 = IS31FL3741();
+BMI323 bmi323 = BMI323();
 
 
 void app_main() {
@@ -27,18 +27,12 @@ void app_main() {
     statusLed.set_state(StatusLedState::kBlink);
 
 // Custom initiates
-    err = is31fl3741.initiate();
+    err = bmi323.initiate();
     if (err != ESP_OK) { failure();}
 
+    pass();
     for (;;) {
-        err = is31fl3741.action_verify();
-        if (err != ESP_OK) {
-            failure();
-        } 
-        else {
-            pass();
-        }
-        vTaskDelay(100/portTICK_PERIOD_MS);
+        vTaskDelay(1000/portTICK_PERIOD_MS);
     }
 }
 
