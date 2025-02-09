@@ -26,6 +26,10 @@
         "bitset": "cpp",
         "ranges": "cpp",
         "span": "cpp",
-        "coroutine": "cpp"
+        "coroutine": "cpp",
+        "optional": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp",
+        "utility": "cpp"
     }
 }

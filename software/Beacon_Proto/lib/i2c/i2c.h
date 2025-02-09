@@ -21,6 +21,9 @@ public:
                             uint8_t register_addr, uint8_t data);
     esp_err_t action_write_direct(i2c_master_dev_handle_t dev_handle,
                                   uint8_t data);
+    esp_err_t action_write_multi(i2c_master_dev_handle_t dev_handle, 
+                                 uint8_t register_addr, uint8_t* data, 
+                                 size_t data_len);
     esp_err_t action_read(i2c_master_dev_handle_t dev_handle, 
                            uint8_t register_addr, uint8_t* data);
 

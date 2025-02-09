@@ -1,5 +1,7 @@
 #include "i2c.h"
 
+#include "driver/i2c.h"
+
 #include "reserved_objects.h"
 
 constexpr int kTimeoutMilliSeconds = 1000;
@@ -47,6 +49,18 @@ esp_err_t I2c::action_write_direct(i2c_master_dev_handle_t dev_handle,
     constexpr size_t kSize = sizeof(data);
     return i2c_master_transmit(dev_handle, &data, kSize,
                                kTimeoutMilliSeconds);
+}
+
+esp_err_t I2c::action_write_multi(i2c_master_dev_handle_t dev_handle, 
+                                  uint8_t register_addr, uint8_t* data, 
+                                  size_t data_len) {
+    uint8_t temp[data_len + 1];
+    temp[0] = ((register_addr << 1) & (0b1111'1110)); // To write, last bit = 0
+    for (size_t i = 0; i < data_len; i++) {
+        temp[i + 1] = data[i];
+    }
+    return i2c_master_transmit(dev_handle, temp, data_len + 1,
+                              kTimeoutMilliSeconds);
 }
 
 esp_err_t I2c::action_read(i2c_master_dev_handle_t dev_handle, 

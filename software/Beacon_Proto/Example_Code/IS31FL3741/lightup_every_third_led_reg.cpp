@@ -42,33 +42,16 @@ void app_main() {
 
     is31fl3741.action_reset_all_leds();
 
-    uint8_t brightness = 0xAA;
-    uint8_t period = 200;
+    uint16_t led_num = 0;
     for (;;) {
-        
-        for (uint8_t c = 0; c < 3; c++) {
-            for (uint8_t x = 0; x < 13; x++)
-            {
-                for (uint8_t y = 0; y < 9; y++)
-                {
-                    err = is31fl3741.set_specific_led(x, y, c, brightness);
-                    if (err != ESP_OK)
-                    {
-                        failure();
-                    }
-                    vTaskDelay(period / portTICK_PERIOD_MS);
-                }
-                if (period > 120) {
-                    period = 120;
-                }
-                else {
-                    period -= 10;
-                }
-            }
-            is31fl3741.action_reset_all_leds();
-            
+        for (led_num = 0; led_num < 351; led_num = led_num + 3) {
+            err = is31fl3741.set_specific_led(led_num, 0x20, 0x20);
+            if (err != ESP_OK) { failure();}
+            printf("LED: %d\n", led_num);
+            vTaskDelay(20/portTICK_PERIOD_MS);
         }
-        
+        vTaskDelay(1000/portTICK_PERIOD_MS);
+        is31fl3741.action_reset_all_leds();
     }
 }
 
