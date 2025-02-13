@@ -14,7 +14,7 @@ namespace IS31FL3741_Config {
 
 IS31FL3741::IS31FL3741()
   : i2c_(reserved::IS31FL3741::kI2cPort) {
-    page_ = Page::k4;
+    page_ = Page::k0;
     state_ = IS31FL3741_State::kOff;
     global_current_ = 0x00;
 }
@@ -31,6 +31,9 @@ esp_err_t IS31FL3741::initiate() {
 
     err = i2c_.action_add_device(reserved::IS31FL3741::kDeviceCfg,
                                  hDevice_);
+    if (err != ESP_OK) {return err;}
+
+    err = action_reset_all_leds();
     if (err != ESP_OK) {return err;}
 
     err = setup_config_register();
@@ -84,47 +87,38 @@ esp_err_t IS31FL3741::set_specific_led(uint32_t led_num,
     return err;
 }
 
-esp_err_t IS31FL3741::set_specific_led(uint8_t x, uint8_t y,
-                                       uint8_t color, uint8_t brightness) {
+esp_err_t IS31FL3741::set_rgb_led(LedConfig config) {
     constexpr uint8_t kMaxX = 12;
     constexpr uint8_t kMaxY = 8;
-    if ((x > kMaxX) || (y > kMaxY)) {
+    if ((config.x > kMaxX) || (config.y > kMaxY)) {
         return ESP_ERR_INVALID_ARG;
     }
 
+    // Maps {0, 1, 2, 3, 4, 5, 6, 7, 8} to {8, 5, 4, 3, 2, 1, 0, 7, 6}
     constexpr uint8_t rowmap[] = {8, 5, 4, 3, 2, 1, 0, 7, 6};
-    y = rowmap[y];
+    config.y = rowmap[config.y];
 
-    uint16_t offset = (x + ((x < 10) ? (y * 10) : (80 + y * 3))) * 3;
+    uint16_t offset;
+    if (config.x < 10) {
+        offset = ((config.y * 10) + config.x) * 3;
+    }
+    else {
+        offset = (((config.y * 3) + 80) + config.x) * 3;
+    }
+
     constexpr uint16_t rOffset = 2;
     constexpr uint16_t gOffset = 1;
     constexpr uint16_t bOffset = 0;
-    if ((x & 1) || (x == 12)) {
+    if ((config.x & 1) || (config.x == 12)) {
         constexpr uint8_t remap[] = {2, 0, 1};
-        switch (color) {
-            case 0:
-                set_specific_led((offset + remap[rOffset]), brightness, brightness);
-                break;
-            case 1:
-                set_specific_led((offset + remap[gOffset]), brightness, brightness);
-                break;
-            case 2:
-                set_specific_led((offset + remap[bOffset]), brightness, brightness);
-                break;
-        }
+        set_specific_led((offset + remap[rOffset]), config.r, config.r);
+        set_specific_led((offset + remap[gOffset]), config.g, config.g);
+        set_specific_led((offset + remap[bOffset]), config.b, config.b);
     }
     else {
-        switch (color) {
-        case 0:
-            set_specific_led((offset + rOffset), brightness, brightness);
-            break;
-        case 1:
-            set_specific_led((offset + gOffset), brightness, brightness);
-            break;
-        case 2:
-            set_specific_led((offset + bOffset), brightness, brightness);
-            break;
-        }
+        set_specific_led((offset + rOffset), config.r, config.r);
+        set_specific_led((offset + gOffset), config.g, config.g);
+        set_specific_led((offset + bOffset), config.b, config.b);
     }
 
     return ESP_OK;
@@ -178,11 +172,11 @@ esp_err_t IS31FL3741::action_reset_all_leds() {
     esp_err_t err = set_page(Page::k4);
     if (err != ESP_OK) {return err;}
 
-    // Reset all registers
     constexpr uint8_t rReset = 0x3F;
     constexpr uint8_t kReset = 0xAE;
     err = i2c_.action_write_reg(hDevice_, rReset, kReset);
     if (err != ESP_OK) {return err;}
+    page_ = Page::k0; // Default value after reset
 
     // Restore non-led registers
     err = setup_config_register();
@@ -193,7 +187,7 @@ esp_err_t IS31FL3741::action_reset_all_leds() {
     if (err != ESP_OK) {return err;}
 
     if (state_ == IS31FL3741_State::kOn) {
-        return action_on();
+        err = action_on();
     }
 
     return err;
@@ -211,11 +205,14 @@ esp_err_t IS31FL3741::setup_pull_resistor() {
     esp_err_t err = set_page(Page::k4);
     if (err != ESP_OK) {return err;}
 
-    constexpr uint8_t kPDR_32k = (0b111 << 4);
-    constexpr uint8_t kPUR_32k = (0b111 << 0);
-    constexpr uint8_t kPullResistor = kPDR_32k | kPUR_32k;
+    //Page 15
+    // Saw ghosting with 16k
+    constexpr uint8_t kPDR_8k = (0b101 << 4); 
+    constexpr uint8_t kPUR_8k = (0b101 << 0);
+    constexpr uint8_t kPullResistor = kPDR_8k | kPUR_8k;
     constexpr uint8_t rPullResistor = 0x02;
-    return i2c_.action_write_reg(hDevice_, rPullResistor, kPullResistor);
+    return i2c_.action_write_reg(hDevice_, rPullResistor,
+                                 kPullResistor);
 }
 
 esp_err_t IS31FL3741::set_page(const Page page) {

@@ -27,48 +27,47 @@ void app_main() {
     statusLed.set_color(Color::kGreen);
     statusLed.set_state(StatusLedState::kBlink);
 
-// Custom initiates
+    // Custom initiates
     err = is31fl3741.initiate();
-    if (err != ESP_OK) { failure();}
+    if (err != ESP_OK) { failure(); }
 
     err = is31fl3741.action_verify();
-    if (err != ESP_OK) { failure();}
+    if (err != ESP_OK) { failure(); }
 
-    err = is31fl3741.set_global_current(0x0A);
-    if (err != ESP_OK) { failure();}
+    err = is31fl3741.set_global_current(0x01);
+    if (err != ESP_OK) { failure(); }
 
     err = is31fl3741.action_on();
-    if (err != ESP_OK) { failure();}
+    if (err != ESP_OK) { failure(); }
 
-    is31fl3741.action_reset_all_leds();
-
-    uint8_t brightness = 0xAA;
-    uint8_t period = 200;
+    LedConfig config = {0, 0, 0, 0, 0};
+    uint8_t period = 1;
+    uint8_t increment = 10;
     for (;;) {
-        
-        for (uint8_t c = 0; c < 3; c++) {
-            for (uint8_t x = 0; x < 13; x++)
-            {
-                for (uint8_t y = 0; y < 9; y++)
-                {
-                    err = is31fl3741.set_specific_led(x, y, c, brightness);
-                    if (err != ESP_OK)
-                    {
+        increment += 5;
+        for (int color = 0; color < 3; color++) {
+            for (uint8_t x = 0; x < 13; x++) {
+                if (color == 0) {
+                    config.r += increment;
+                }
+                else if (color == 1) {
+                    config.b += increment;
+                }
+                else {
+                    config.g += increment;
+                }
+                config.x = x;
+                for (uint8_t y = 0; y < 9; y++) {
+                    config.y = y;
+                    err = is31fl3741.set_rgb_led(config);
+                    if (err != ESP_OK) {
                         failure();
                     }
                     vTaskDelay(period / portTICK_PERIOD_MS);
-                }
-                if (period > 120) {
-                    period = 120;
-                }
-                else {
-                    period -= 10;
+
                 }
             }
-            is31fl3741.action_reset_all_leds();
-            
         }
-        
     }
 }
 
