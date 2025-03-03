@@ -26,8 +26,8 @@ enum class IS31FL3741_State : int {
 
 
 struct LedConfig {
-    uint8_t x;
-    uint8_t y;
+    uint32_t x;
+    uint32_t y;
     uint8_t r;
     uint8_t g;
     uint8_t b;

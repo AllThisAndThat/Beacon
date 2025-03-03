@@ -88,17 +88,17 @@ esp_err_t IS31FL3741::set_specific_led(uint32_t led_num,
 }
 
 esp_err_t IS31FL3741::set_rgb_led(LedConfig config) {
-    constexpr uint8_t kMaxX = 12;
-    constexpr uint8_t kMaxY = 8;
+    constexpr uint32_t kMaxX = 12;
+    constexpr uint32_t kMaxY = 8;
     if ((config.x > kMaxX) || (config.y > kMaxY)) {
         return ESP_ERR_INVALID_ARG;
     }
 
     // Maps {0, 1, 2, 3, 4, 5, 6, 7, 8} to {8, 5, 4, 3, 2, 1, 0, 7, 6}
-    constexpr uint8_t rowmap[] = {8, 5, 4, 3, 2, 1, 0, 7, 6};
+    constexpr uint32_t rowmap[] = {8, 5, 4, 3, 2, 1, 0, 7, 6};
     config.y = rowmap[config.y];
 
-    uint16_t offset;
+    uint32_t offset;
     if (config.x < 10) {
         offset = ((config.y * 10) + config.x) * 3;
     }
@@ -106,19 +106,24 @@ esp_err_t IS31FL3741::set_rgb_led(LedConfig config) {
         offset = (((config.y * 3) + 80) + config.x) * 3;
     }
 
-    constexpr uint16_t rOffset = 2;
-    constexpr uint16_t gOffset = 1;
-    constexpr uint16_t bOffset = 0;
+    constexpr uint32_t rOffset = 2;
+    constexpr uint32_t gOffset = 1;
+    constexpr uint32_t bOffset = 0;
+
+    // Color correction. Specific to setup. 3.3V in with Adafruit led board
+    constexpr uint8_t kRedFactor = 20; 
+    constexpr uint8_t kGreenFactor = 100; 
+    constexpr uint8_t kBlueFactor = 255;
     if ((config.x & 1) || (config.x == 12)) {
-        constexpr uint8_t remap[] = {2, 0, 1};
-        set_specific_led((offset + remap[rOffset]), config.r, config.r);
-        set_specific_led((offset + remap[gOffset]), config.g, config.g);
-        set_specific_led((offset + remap[bOffset]), config.b, config.b);
+        constexpr uint32_t remap[] = {2, 0, 1};
+        set_specific_led((offset + remap[rOffset]), config.r, kRedFactor);
+        set_specific_led((offset + remap[gOffset]), config.g, kGreenFactor);
+        set_specific_led((offset + remap[bOffset]), config.b, kBlueFactor);
     }
     else {
-        set_specific_led((offset + rOffset), config.r, config.r);
-        set_specific_led((offset + gOffset), config.g, config.g);
-        set_specific_led((offset + bOffset), config.b, config.b);
+        set_specific_led((offset + rOffset), config.r, kRedFactor);
+        set_specific_led((offset + gOffset), config.g, kGreenFactor);
+        set_specific_led((offset + bOffset), config.b, kBlueFactor);
     }
 
     return ESP_OK;

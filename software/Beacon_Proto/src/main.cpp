@@ -5,8 +5,7 @@
 #include "status_led.h"
 
 // Custom includes
-#include "is31fl3741.h"
-#include "cstring"
+#include "cap1188.h"
 
 //vTaskDelay(1000/portTICK_PERIOD_MS);
 extern "C" {void app_main();}
@@ -17,7 +16,7 @@ void pass();
 StatusLed statusLed = StatusLed();
 
 // Custom instances
-IS31FL3741 is31fl3741 = IS31FL3741();
+CAP1188 cap1188 = CAP1188();
 
 
 void app_main() {
@@ -27,47 +26,18 @@ void app_main() {
     statusLed.set_color(Color::kGreen);
     statusLed.set_state(StatusLedState::kBlink);
 
-    // Custom initiates
-    err = is31fl3741.initiate();
-    if (err != ESP_OK) { failure(); }
+// Custom initiates
+    err = cap1188.initiate();
+    if (err != ESP_OK) { failure();}
+    pass();
 
-    err = is31fl3741.action_verify();
-    if (err != ESP_OK) { failure(); }
+    err = cap1188.action_verify();
+    if (err != ESP_OK) { failure();}
+    pass();
 
-    err = is31fl3741.set_global_current(0x01);
-    if (err != ESP_OK) { failure(); }
-
-    err = is31fl3741.action_on();
-    if (err != ESP_OK) { failure(); }
-
-    LedConfig config = {0, 0, 0, 0, 0};
-    uint8_t period = 1;
-    uint8_t increment = 10;
     for (;;) {
-        increment += 5;
-        for (int color = 0; color < 3; color++) {
-            for (uint8_t x = 0; x < 13; x++) {
-                if (color == 0) {
-                    config.r += increment;
-                }
-                else if (color == 1) {
-                    config.b += increment;
-                }
-                else {
-                    config.g += increment;
-                }
-                config.x = x;
-                for (uint8_t y = 0; y < 9; y++) {
-                    config.y = y;
-                    err = is31fl3741.set_rgb_led(config);
-                    if (err != ESP_OK) {
-                        failure();
-                    }
-                    vTaskDelay(period / portTICK_PERIOD_MS);
-
-                }
-            }
-        }
+        cap1188.get_input();
+        vTaskDelay(10/portTICK_PERIOD_MS);
     }
 }
 
@@ -75,7 +45,7 @@ void failure() {
     statusLed.set_state(StatusLedState::kSolid);
     statusLed.set_color(Color::kRed);
     printf("Failure\n");
-    vTaskDelay(2000/portTICK_PERIOD_MS);
+    vTaskDelay(3000/portTICK_PERIOD_MS);
 }
 
 void warning() {
