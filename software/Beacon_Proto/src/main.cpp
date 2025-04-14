@@ -31,13 +31,8 @@ void app_main() {
     if (err != ESP_OK) { failure();}
     pass();
 
-    err = cap1188.action_verify();
-    if (err != ESP_OK) { failure();}
-    pass();
-
     for (;;) {
-        cap1188.get_input();
-        vTaskDelay(10/portTICK_PERIOD_MS);
+        vTaskDelay(1000/portTICK_PERIOD_MS);
     }
 }
 

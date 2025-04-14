@@ -17,5 +17,15 @@ public:
 private:
     I2c i2c_;
     i2c_master_dev_handle_t hDevice_;
+    TaskHandle_t hTask_;
+
+    esp_err_t setup_main_control();
+    esp_err_t setup_sensitivity_control();
+    esp_err_t setup_sensor_input_enable();
+    esp_err_t setup_sensor_input_config();
+    esp_err_t setup_avg_sample_config();
+    esp_err_t setup_recal_config();
+
+    static void vTask(void *pvParameters);
 };
 

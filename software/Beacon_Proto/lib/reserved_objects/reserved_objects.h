@@ -55,12 +55,13 @@ namespace reserved {
     namespace core {
         constexpr int kStatusLed = 0;
         constexpr int kBMI323 = 0;
-
+        constexpr int kCAP1188 = 0;
         constexpr int kMax9867 = 1;
     }
 
     namespace priority {
         constexpr UBaseType_t kStatusLed = 1;
+        constexpr UBaseType_t kCAP1188 = configMAX_PRIORITIES - 1;
         constexpr UBaseType_t kBMI323 = 10;
         constexpr UBaseType_t kMax9867 = configMAX_PRIORITIES - 1;
     }
@@ -69,7 +70,8 @@ namespace reserved {
 
     namespace i2c0 {
         constexpr uint8_t kAddr_Max9867 = 0x18;
-        constexpr uint8_t kAddr_LTR_303 = 0x29;        
+        constexpr uint8_t kAddr_LTR_303 = 0x29; 
+        constexpr uint8_t kAddr_CAP1188 = 0x28; // ADDR = VCC       
 
         constexpr uint32_t kSclSpeedHz = 400'000;
         constexpr i2c_master_bus_config_t kBusCfg = {
@@ -89,7 +91,7 @@ namespace reserved {
         constexpr uint8_t kAddr_KTS1622_rst = 0x00;
         constexpr uint8_t kAddr_KTS1622     = 0x20;
         constexpr uint8_t kAddr_IS31FL3741  = 0x30; // ADDR = GND
-        constexpr uint8_t kAddr_CAP1188     = 0x28; // ADDR = VCC
+
         
         constexpr uint32_t kSclSpeedHz = 400'000;
         constexpr i2c_master_bus_config_t kBusCfg = {
@@ -307,13 +309,13 @@ namespace reserved {
     }
 
     namespace CAP1188 {
-        constexpr I2cPort kI2cPort = I2cPort::kPort1;
+        constexpr I2cPort kI2cPort = I2cPort::kPort0;
         constexpr bool kIsEnabled = true;
 
         constexpr i2c_device_config_t kDeviceCfg = {
             .dev_addr_length = I2C_ADDR_BIT_LEN_7,
-            .device_address  = i2c1::kAddr_CAP1188,
-            .scl_speed_hz    = i2c1::kSclSpeedHz,
+            .device_address  = i2c0::kAddr_CAP1188,
+            .scl_speed_hz    = i2c0::kSclSpeedHz,
             .scl_wait_us     = 0,
             .flags = {
                 .disable_ack_check = 0

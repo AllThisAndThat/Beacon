@@ -1,0 +1,17 @@
+(kicad_sch (version 20230121) (generator eeschema)
+
+  (uuid 64f0d7c6-3acb-40d3-82ae-ac2d287d7e6f)
+
+  (paper "A4")
+
+  (title_block
+    (title "Beacon Lite")
+    (date "2025-04-13")
+    (rev "1")
+    (company "Beep Boop")
+  )
+
+  (lib_symbols
+  )
+
+)
