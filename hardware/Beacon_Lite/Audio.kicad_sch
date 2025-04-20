@@ -1,17 +1,3386 @@
-(kicad_sch (version 20230121) (generator eeschema)
-
-  (uuid 18269e03-a0d8-4a6b-a4e9-d55c0f2a6e39)
-
-  (paper "A4")
-
-  (title_block
-    (title "Beacon Lite")
-    (date "2025-04-13")
-    (rev "1")
-    (company "Beep Boop")
-  )
-
-  (lib_symbols
-  )
-
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "18269e03-a0d8-4a6b-a4e9-d55c0f2a6e39")
+	(paper "A4")
+	(title_block
+		(title "Beacon Lite")
+		(date "2025-04-13")
+		(rev "1")
+		(company "Beep Boop")
+	)
+	(lib_symbols
+		(symbol "Beacon_Lite_Library:OPA1678ID"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at 4.826 2.794 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "OPA1678ID"
+				(at 9.398 1.016 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.mouser.com/ProductDetail/Texas-Instruments/OPA1678IDRGR?qs=wUXugUrL1qy%2FintaESJmeA%3D%3D"
+				(at -0.762 16.002 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Dual Opamp, 4.5 nv/rHz, 3 fA/rHz,  -80dB distortion"
+				(at -0.508 13.208 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "OPA1678ID_1_1"
+				(rectangle
+					(start 0 0)
+					(end 5.08 -10.16)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin power_in line
+					(at 2.54 2.54 270)
+					(length 2.54)
+					(name "V+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 2.54 -12.7 90)
+					(length 2.54)
+					(name "V-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "OPA1678ID_2_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -15.24) (xy 12.7 -7.62) (xy 0 0)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -2.54 -5.08 0)
+					(length 2.54)
+					(name "+INA"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -10.16 0)
+					(length 2.54)
+					(name "-INA"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 15.24 -7.62 180)
+					(length 2.54)
+					(name "OUTA"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "OPA1678ID_3_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -15.24) (xy 12.7 -7.62) (xy 0 0)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -2.54 -5.08 0)
+					(length 2.54)
+					(name "+INB"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -10.16 0)
+					(length 2.54)
+					(name "-INB"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 15.24 -7.62 180)
+					(length 2.54)
+					(name "OUTB"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Beacon_Lite_Library:TLV320AIC3104"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -6.604 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TLV320AIC3104"
+				(at 0 1.524 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.mouser.com/ProductDetail/Texas-Instruments/TLV320AIC3104IRHBR?qs=t6sYTo5dwUzbYVbTYmm%2FAg%3D%3D"
+				(at 1.27 20.828 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Audio Codec, 32-bit, 96 ksps, 6 channel, audio effects"
+				(at 1.778 16.002 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "TLV320AIC3104_1_1"
+				(rectangle
+					(start 0 0)
+					(end 20.32 -45.72)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -5.08 0)
+					(length 2.54)
+					(name "SDA"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -10.16 0)
+					(length 2.54)
+					(name "SCL"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -15.24 0)
+					(length 2.54)
+					(name "NRST"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "31"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -20.32 0)
+					(length 2.54)
+					(name "MCLK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -25.4 0)
+					(length 2.54)
+					(name "WCLK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -30.48 0)
+					(length 2.54)
+					(name "BCLK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -2.54 -35.56 0)
+					(length 2.54)
+					(name "DOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -40.64 0)
+					(length 2.54)
+					(name "DIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 10.16 2.54 270)
+					(length 2.54)
+					(name "IOVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 10.16 -48.26 90)
+					(length 2.54)
+					(name "DVSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 15.24 2.54 270)
+					(length 2.54)
+					(name "DVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "32"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "TLV320AIC3104_2_1"
+				(rectangle
+					(start 0 0)
+					(end 40.64 -48.26)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -30.48) (xy 10.16 -30.48) (xy 10.16 -10.16) (xy 0 -10.16)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 15.24 -20.32) (xy 15.24 -24.13) (xy 16.51 -24.13) (xy 20.32 -26.67) (xy 20.32 -17.78) (xy 16.51 -20.32)
+						(xy 15.24 -20.32)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(arc
+					(start 21.5901 -20.955)
+					(mid 22.1161 -22.225)
+					(end 21.5901 -23.495)
+					(stroke
+						(width 0.3556)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 22.3619 -19.685)
+					(mid 23.8586 -22.225)
+					(end 22.3619 -24.765)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 23.0733 -18.415)
+					(mid 25.3143 -22.225)
+					(end 23.0733 -26.035)
+					(stroke
+						(width 0.2032)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 27.94 -22.86) (xy 27.94 -2.54) (xy 40.64 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 40.64 -43.18) (xy 27.94 -43.18) (xy 27.94 -22.86) (xy 40.64 -22.86)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin output line
+					(at -2.54 -5.08 0)
+					(length 2.54)
+					(name "MICBIAS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -12.7 0)
+					(length 2.54)
+					(name "LINE1LP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -17.78 0)
+					(length 2.54)
+					(name "LINE1LM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -22.86 0)
+					(length 2.54)
+					(name "LINE1RP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -27.94 0)
+					(length 2.54)
+					(name "LINE1RM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -33.02 0)
+					(length 2.54)
+					(name "LINE2L/MICDET"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -38.1 0)
+					(length 2.54)
+					(name "LINE2R"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 15.24 2.54 270)
+					(length 2.54)
+					(name "AVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "25"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 15.24 -50.8 90)
+					(length 2.54)
+					(name "AVSS1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 20.32 2.54 270)
+					(length 2.54)
+					(name "DRVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 20.32 -50.8 90)
+					(length 2.54)
+					(name "AVSS2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "26"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 25.4 2.54 270)
+					(length 2.54)
+					(name "DRVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "24"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 25.4 -50.8 90)
+					(length 2.54)
+					(name "DRVSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "21"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -5.08 180)
+					(length 2.54)
+					(name "HPLOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -10.16 180)
+					(length 2.54)
+					(name "HPLCOM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "20"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -15.24 180)
+					(length 2.54)
+					(name "HPROUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "23"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -20.32 180)
+					(length 2.54)
+					(name "HPRCOM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "22"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -25.4 180)
+					(length 2.54)
+					(name "LEFT_LOP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "27"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -30.48 180)
+					(length 2.54)
+					(name "LEFT_LOM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "28"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -35.56 180)
+					(length 2.54)
+					(name "RIGHT_LOP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "29"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -40.64 180)
+					(length 2.54)
+					(name "RIGHT_LOM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "30"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Beacon_Lite_Library:XS3A4051"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -6.858 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "XS3A4051"
+				(at -2.54 1.27 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.mouser.com/ProductDetail/Nexperia/XS3A4051PWJ?qs=MyNHzdoqoQIIiOxKjGbFvQ%3D%3D"
+				(at 1.27 20.828 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Analog SW, 1 X SP8T, Low Ron, Low Voltage"
+				(at 2.286 15.748 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "XS3A4051_1_1"
+				(rectangle
+					(start 0 0)
+					(end 10.16 -35.56)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -2.54 -7.62 0)
+					(length 2.54)
+					(name "E_N"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -12.7 0)
+					(length 2.54)
+					(name "S1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -17.78 0)
+					(length 2.54)
+					(name "S2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -22.86 0)
+					(length 2.54)
+					(name "S3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -27.94 0)
+					(length 2.54)
+					(name "S3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 5.08 2.54 270)
+					(length 2.54)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 -38.1 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 15.24 -24.13 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "XS3A4051_2_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -45.72) (xy 10.16 -38.1) (xy 10.16 -7.62) (xy 0 0)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -5.08 0)
+					(length 2.54)
+					(name "Y0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -10.16 0)
+					(length 2.54)
+					(name "Y1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -15.24 0)
+					(length 2.54)
+					(name "Y2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -20.32 0)
+					(length 2.54)
+					(name "Y3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -25.4 0)
+					(length 2.54)
+					(name "Y4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -30.48 0)
+					(length 2.54)
+					(name "Y5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -35.56 0)
+					(length 2.54)
+					(name "Y6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -40.64 0)
+					(length 2.54)
+					(name "Y7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 12.7 -22.86 180)
+					(length 2.54)
+					(name "Z"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "TLV320AIC3104_1"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -6.604 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TLV320AIC3104"
+				(at 0 1.524 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.mouser.com/ProductDetail/Texas-Instruments/TLV320AIC3104IRHBR?qs=t6sYTo5dwUzbYVbTYmm%2FAg%3D%3D"
+				(at 1.27 20.828 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Audio Codec, 32-bit, 96 ksps, 6 channel, audio effects"
+				(at 1.778 16.002 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "TLV320AIC3104_1_1_1"
+				(rectangle
+					(start 0 0)
+					(end 20.32 -45.72)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -20.32) (xy 7.62 -24.13) (xy 8.89 -24.13) (xy 12.7 -26.67) (xy 12.7 -17.78) (xy 8.89 -20.32)
+						(xy 7.62 -20.32)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(arc
+					(start 13.9701 -20.955)
+					(mid 14.4961 -22.225)
+					(end 13.9701 -23.495)
+					(stroke
+						(width 0.3556)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 14.7419 -19.685)
+					(mid 16.2386 -22.225)
+					(end 14.7419 -24.765)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 15.4533 -18.415)
+					(mid 17.6943 -22.225)
+					(end 15.4533 -26.035)
+					(stroke
+						(width 0.2032)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -5.08 0)
+					(length 2.54)
+					(name "SDA"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -10.16 0)
+					(length 2.54)
+					(name "SCL"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -15.24 0)
+					(length 2.54)
+					(name "NRST"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "31"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -20.32 0)
+					(length 2.54)
+					(name "MCLK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -25.4 0)
+					(length 2.54)
+					(name "WCLK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -30.48 0)
+					(length 2.54)
+					(name "BCLK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -2.54 -35.56 0)
+					(length 2.54)
+					(name "DOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -40.64 0)
+					(length 2.54)
+					(name "DIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 10.16 2.54 270)
+					(length 2.54)
+					(name "IOVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 10.16 -48.26 90)
+					(length 2.54)
+					(name "DVSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 15.24 2.54 270)
+					(length 2.54)
+					(name "DVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "32"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "TLV320AIC3104_1_2_1"
+				(rectangle
+					(start 0 0)
+					(end 40.64 -48.26)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -30.48) (xy 10.16 -30.48) (xy 10.16 -10.16) (xy 0 -10.16)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 15.24 -20.32) (xy 15.24 -24.13) (xy 16.51 -24.13) (xy 20.32 -26.67) (xy 20.32 -17.78) (xy 16.51 -20.32)
+						(xy 15.24 -20.32)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(arc
+					(start 21.5901 -20.955)
+					(mid 22.1161 -22.225)
+					(end 21.5901 -23.495)
+					(stroke
+						(width 0.3556)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 22.3619 -19.685)
+					(mid 23.8586 -22.225)
+					(end 22.3619 -24.765)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 23.0733 -18.415)
+					(mid 25.3143 -22.225)
+					(end 23.0733 -26.035)
+					(stroke
+						(width 0.2032)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 27.94 -22.86) (xy 27.94 -2.54) (xy 40.64 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 40.64 -43.18) (xy 27.94 -43.18) (xy 27.94 -22.86) (xy 40.64 -22.86)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin output line
+					(at -2.54 -5.08 0)
+					(length 2.54)
+					(name "MICBIAS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -12.7 0)
+					(length 2.54)
+					(name "LINE1LP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -17.78 0)
+					(length 2.54)
+					(name "LINE1LM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -22.86 0)
+					(length 2.54)
+					(name "LINE1RP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -27.94 0)
+					(length 2.54)
+					(name "LINE1RM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -33.02 0)
+					(length 2.54)
+					(name "LINE2L/MICDET"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -38.1 0)
+					(length 2.54)
+					(name "LINE2R"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 15.24 2.54 270)
+					(length 2.54)
+					(name "AVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "25"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 15.24 -50.8 90)
+					(length 2.54)
+					(name "AVSS1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 20.32 2.54 270)
+					(length 2.54)
+					(name "DRVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 20.32 -50.8 90)
+					(length 2.54)
+					(name "AVSS2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "26"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 25.4 2.54 270)
+					(length 2.54)
+					(name "DRVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "24"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 25.4 -50.8 90)
+					(length 2.54)
+					(name "DRVSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "21"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -5.08 180)
+					(length 2.54)
+					(name "HPLOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -10.16 180)
+					(length 2.54)
+					(name "HPLCOM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "20"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -15.24 180)
+					(length 2.54)
+					(name "HPROUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "23"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -20.32 180)
+					(length 2.54)
+					(name "HPRCOM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "22"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -25.4 180)
+					(length 2.54)
+					(name "LEFT_LOP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "27"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -30.48 180)
+					(length 2.54)
+					(name "LEFT_LOM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "28"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -35.56 180)
+					(length 2.54)
+					(name "RIGHT_LOP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "29"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 43.18 -40.64 180)
+					(length 2.54)
+					(name "RIGHT_LOM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "30"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "XS3A4051_1"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -6.858 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "XS3A4051"
+				(at -2.54 1.27 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.mouser.com/ProductDetail/Nexperia/XS3A4051PWJ?qs=MyNHzdoqoQIIiOxKjGbFvQ%3D%3D"
+				(at 1.27 20.828 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Analog SW, 1 X SP8T, Low Ron, Low Voltage"
+				(at 2.286 15.748 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "XS3A4051_1_1_1"
+				(rectangle
+					(start 0 0)
+					(end 10.16 -35.56)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -2.54 -7.62 0)
+					(length 2.54)
+					(name "NE"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -12.7 0)
+					(length 2.54)
+					(name "S1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -17.78 0)
+					(length 2.54)
+					(name "S2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -22.86 0)
+					(length 2.54)
+					(name "S3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -27.94 0)
+					(length 2.54)
+					(name "S3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 5.08 2.54 270)
+					(length 2.54)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 -38.1 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 15.24 -24.13 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "XS3A4051_1_2_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -45.72) (xy 10.16 -38.1) (xy 10.16 -7.62) (xy 0 0)
+					)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -5.08 0)
+					(length 2.54)
+					(name "Y0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -10.16 0)
+					(length 2.54)
+					(name "Y1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -15.24 0)
+					(length 2.54)
+					(name "Y2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -20.32 0)
+					(length 2.54)
+					(name "Y3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -25.4 0)
+					(length 2.54)
+					(name "Y4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -30.48 0)
+					(length 2.54)
+					(name "Y5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -35.56 0)
+					(length 2.54)
+					(name "Y6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 -40.64 0)
+					(length 2.54)
+					(name "Y7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 12.7 -22.86 180)
+					(length 2.54)
+					(name "Z"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(symbol
+		(lib_id "Beacon_Lite_Library:XS3A4051")
+		(at 158.75 64.77 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "035584f5-00ed-4600-81c7-8729554f36c7")
+		(property "Reference" "U7"
+			(at 163.83 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "XS3A4051"
+			(at 163.83 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 158.75 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/ProductDetail/Nexperia/XS3A4051PWJ?qs=MyNHzdoqoQIIiOxKjGbFvQ%3D%3D"
+			(at 160.02 43.942 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Analog SW, 1 X SP8T, Low Ron, Low Voltage"
+			(at 161.036 49.022 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "90572dd1-0ab9-4d5f-8890-0f7304411be6")
+		)
+		(pin "5"
+			(uuid "76c15460-ecec-4e12-bb6a-572012187245")
+		)
+		(pin "7"
+			(uuid "f330efe4-39dd-4ae1-94f0-71be83ed6160")
+		)
+		(pin "8"
+			(uuid "40ee4fc4-3dd9-469c-b827-51ed18409e21")
+		)
+		(pin "16"
+			(uuid "725ce0bc-cfa1-4a2a-8643-471065a1c40b")
+		)
+		(pin "6"
+			(uuid "c0507d5a-051c-4002-954a-b08081836930")
+		)
+		(pin "11"
+			(uuid "277608b7-b351-49d3-ab43-22a1e770607c")
+		)
+		(pin "13"
+			(uuid "b35f115b-9bc1-4c01-ae5a-aaad505591dc")
+		)
+		(pin "9"
+			(uuid "17968f53-975e-4d1a-92f4-9c39315417b7")
+		)
+		(pin "14"
+			(uuid "6fcb2039-f168-4daa-bf9f-45dcb5f7f000")
+		)
+		(pin "15"
+			(uuid "b2175dc8-6081-4519-ac3a-d30fedc0c261")
+		)
+		(pin "12"
+			(uuid "c85c2cc1-e4c5-46ba-b685-0215aeb4ffb3")
+		)
+		(pin "10"
+			(uuid "06d20780-527e-47ae-ba8f-14b3f37951a2")
+		)
+		(pin "9"
+			(uuid "4011c9cd-17bd-440c-a0bd-c8e9304015a5")
+		)
+		(pin "3"
+			(uuid "f5143256-53ae-40b5-8e32-66f0fbf1d1c6")
+		)
+		(pin "4"
+			(uuid "6c7f6e8e-5787-4400-87ef-9ca565e26ab3")
+		)
+		(pin "2"
+			(uuid "5e669ca8-610b-4771-b1b4-ea4261f18f96")
+		)
+		(instances
+			(project ""
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6/ee5f5eaf-a583-4b33-9b7f-39b8833a19f3"
+					(reference "U7")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "TLV320AIC3104_1")
+		(lib_id "Beacon_Lite_Library:TLV320AIC3104")
+		(at 217.17 100.33 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "48eea6ea-272a-42e5-95e8-c1805526cf81")
+		(property "Reference" "U8"
+			(at 238.76 121.9199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TLV320AIC3104"
+			(at 238.76 124.4599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 217.17 100.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/ProductDetail/Texas-Instruments/TLV320AIC3104IRHBR?qs=t6sYTo5dwUzbYVbTYmm%2FAg%3D%3D"
+			(at 218.44 79.502 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Audio Codec, 32-bit, 96 ksps, 6 channel, audio effects"
+			(at 218.948 84.328 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "9"
+			(uuid "2f26e617-44f0-4e73-b085-d88548068fca")
+		)
+		(pin "5"
+			(uuid "428f4eb0-518b-45b4-8ce0-5545d2383afa")
+		)
+		(pin "17"
+			(uuid "23dbcd40-dace-4c42-bc63-135fdd1ddf92")
+		)
+		(pin "16"
+			(uuid "1954e05f-352b-4632-b8f4-bd898acbb2fe")
+		)
+		(pin "2"
+			(uuid "bc4b9658-ca02-47ca-a112-eb7f388d0409")
+		)
+		(pin "4"
+			(uuid "5661bbbd-4ddf-4e50-9567-fa4ccc029da2")
+		)
+		(pin "14"
+			(uuid "b77908ca-ab7c-4316-84ea-79efa22feee4")
+		)
+		(pin "24"
+			(uuid "041a123b-6953-4a96-8aee-85d6c5b69f25")
+		)
+		(pin "31"
+			(uuid "d9ce1cd1-d1bf-4ff6-9d1e-ea47f8f05a83")
+		)
+		(pin "1"
+			(uuid "93018f7c-eea2-45a4-aac1-10049e3056a1")
+		)
+		(pin "7"
+			(uuid "cde0457e-e443-42e0-8e6b-a036f6940207")
+		)
+		(pin "3"
+			(uuid "9bfed175-6b9b-4bb8-9fc8-89ab32ce8b1f")
+		)
+		(pin "15"
+			(uuid "d3c3cd2c-9ff5-4d35-a03c-7ec699126ef1")
+		)
+		(pin "10"
+			(uuid "ecd20555-49e6-4e7c-875e-399cb693b22c")
+		)
+		(pin "12"
+			(uuid "5e6c40e9-b2b2-4945-8d3d-0c6180076bee")
+		)
+		(pin "13"
+			(uuid "b77cb17a-7e04-4190-ade6-54ee3786ed61")
+		)
+		(pin "25"
+			(uuid "635d7ca1-a23e-459c-a402-e9c120d5f940")
+		)
+		(pin "8"
+			(uuid "ff33e667-3c7a-405a-abfa-1af05f9691c7")
+		)
+		(pin "6"
+			(uuid "42676df6-2c4c-44da-ac67-b8bb2874000c")
+		)
+		(pin "11"
+			(uuid "8672633e-64bc-462d-8950-99551afd7800")
+		)
+		(pin "32"
+			(uuid "ef0df8f0-8066-4c47-836c-ceda1b694ceb")
+		)
+		(pin "18"
+			(uuid "e0304f8f-07c7-4797-a679-cd92e249b64f")
+		)
+		(pin "26"
+			(uuid "ffbf34e7-8909-40d1-a2f3-e4e804d530b9")
+		)
+		(pin "27"
+			(uuid "b89befe4-6bfd-45c9-a9e7-edf7b57ea596")
+		)
+		(pin "22"
+			(uuid "ea31272c-b35e-40cb-8014-abfd8e77d2e4")
+		)
+		(pin "20"
+			(uuid "ccc8489e-7388-4cf5-ae3d-e5f0a0baadf2")
+		)
+		(pin "29"
+			(uuid "f701be59-36e0-4ce2-aadf-292be7a6909c")
+		)
+		(pin "30"
+			(uuid "4569bcb5-4fee-48f6-856b-4601254feb28")
+		)
+		(pin "21"
+			(uuid "e4e1112e-5830-4e62-aef9-32acf3a1a87b")
+		)
+		(pin "23"
+			(uuid "d1cfb13f-95bb-4dd0-8d51-0734c704e7e8")
+		)
+		(pin "28"
+			(uuid "6e32ee1c-2fe2-4b3b-a938-5e4802d27bbe")
+		)
+		(pin "19"
+			(uuid "bd9213bf-a637-43d6-9ba8-4018fbc90f76")
+		)
+		(instances
+			(project ""
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6/ee5f5eaf-a583-4b33-9b7f-39b8833a19f3"
+					(reference "U8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Beacon_Lite_Library:OPA1678ID")
+		(at 143.51 177.8 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "866e40d7-f557-4c51-b66b-b69b66391856")
+		(property "Reference" "U1"
+			(at 149.86 180.9749 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "OPA1678ID"
+			(at 149.86 183.5149 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 143.51 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/ProductDetail/Texas-Instruments/OPA1678IDRGR?qs=wUXugUrL1qy%2FintaESJmeA%3D%3D"
+			(at 143.002 164.592 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Dual Opamp, 4.5 nv/rHz, 3 fA/rHz,  -80dB distortion"
+			(at 143.002 169.164 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "8"
+			(uuid "1c52a471-231e-4510-ab35-f8b189ea4fc0")
+		)
+		(pin "6"
+			(uuid "48809209-56f0-477e-8d8e-2498fcf6a94d")
+		)
+		(pin "1"
+			(uuid "887a9537-2923-4672-95d4-2e202fd2c5ae")
+		)
+		(pin "3"
+			(uuid "5126491d-a3cb-4477-a899-b3f9eba09f0f")
+		)
+		(pin "4"
+			(uuid "e72c4242-a063-43cf-89e8-a403a5bfd1dd")
+		)
+		(pin "7"
+			(uuid "3a4a0742-eca9-4133-ad9f-e9ed5b08bb63")
+		)
+		(pin "5"
+			(uuid "0c2cf339-1901-4fad-92db-2a239af620df")
+		)
+		(pin "2"
+			(uuid "3fb6e75b-af93-4a2c-9fc7-b1b633d2da7f")
+		)
+		(instances
+			(project ""
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6/ee5f5eaf-a583-4b33-9b7f-39b8833a19f3"
+					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Beacon_Lite_Library:OPA1678ID")
+		(at 85.09 44.45 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9f382174-a70b-41e3-9888-5f978725b762")
+		(property "Reference" "U1"
+			(at 90.805 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "OPA1678ID"
+			(at 90.805 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 85.09 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/ProductDetail/Texas-Instruments/OPA1678IDRGR?qs=wUXugUrL1qy%2FintaESJmeA%3D%3D"
+			(at 84.582 31.242 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Dual Opamp, 4.5 nv/rHz, 3 fA/rHz,  -80dB distortion"
+			(at 84.582 35.814 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "8"
+			(uuid "1c52a471-231e-4510-ab35-f8b189ea4fc0")
+		)
+		(pin "6"
+			(uuid "48809209-56f0-477e-8d8e-2498fcf6a94d")
+		)
+		(pin "1"
+			(uuid "887a9537-2923-4672-95d4-2e202fd2c5ae")
+		)
+		(pin "3"
+			(uuid "5126491d-a3cb-4477-a899-b3f9eba09f0f")
+		)
+		(pin "4"
+			(uuid "e72c4242-a063-43cf-89e8-a403a5bfd1dd")
+		)
+		(pin "7"
+			(uuid "3a4a0742-eca9-4133-ad9f-e9ed5b08bb63")
+		)
+		(pin "5"
+			(uuid "0c2cf339-1901-4fad-92db-2a239af620df")
+		)
+		(pin "2"
+			(uuid "3fb6e75b-af93-4a2c-9fc7-b1b633d2da7f")
+		)
+		(instances
+			(project ""
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6/ee5f5eaf-a583-4b33-9b7f-39b8833a19f3"
+					(reference "U1")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Beacon_Lite_Library:TLV320AIC3104")
+		(at 209.55 31.75 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ac8cecbe-95aa-48f6-b8a9-d0b602496f34")
+		(property "Reference" "U8"
+			(at 237.0933 26.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TLV320AIC3104"
+			(at 237.0933 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 209.55 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/ProductDetail/Texas-Instruments/TLV320AIC3104IRHBR?qs=t6sYTo5dwUzbYVbTYmm%2FAg%3D%3D"
+			(at 210.82 10.922 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Audio Codec, 32-bit, 96 ksps, 6 channel, audio effects"
+			(at 211.328 15.748 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "6"
+			(uuid "8016342d-e956-497a-a637-5c9373d62c9d")
+		)
+		(pin "2"
+			(uuid "0ce30217-6fbe-45de-83c6-768041016627")
+		)
+		(pin "25"
+			(uuid "649e2b27-6ba4-44b7-8397-22de46c59017")
+		)
+		(pin "17"
+			(uuid "9afa5f2e-ee0a-42ff-b06d-86369f0300aa")
+		)
+		(pin "18"
+			(uuid "1370d3bd-e7cf-43b2-9f1c-feb7cac00d6a")
+		)
+		(pin "21"
+			(uuid "69a2277b-bfd9-44b5-bf31-a59341aba57c")
+		)
+		(pin "8"
+			(uuid "40a806c8-131b-498d-8e58-1b564cb4d346")
+		)
+		(pin "3"
+			(uuid "7f22be99-b212-4d96-88b9-f2eaea5fcabc")
+		)
+		(pin "31"
+			(uuid "1eda04c4-7a01-4e30-b3f6-fc98ba6848ed")
+		)
+		(pin "5"
+			(uuid "2331b753-04c1-43eb-87ce-f8a3639c847e")
+		)
+		(pin "11"
+			(uuid "71c8b10e-13b4-413f-bec2-7cdd21615266")
+		)
+		(pin "1"
+			(uuid "a65a029e-1670-46ef-8c2e-ecebcfa62e03")
+		)
+		(pin "13"
+			(uuid "026c2b8a-0692-403e-bc60-2d7e3c958680")
+		)
+		(pin "10"
+			(uuid "608626db-205a-482b-8667-79473a207321")
+		)
+		(pin "32"
+			(uuid "d03fe63b-0753-475d-94f5-b153f842882f")
+		)
+		(pin "15"
+			(uuid "15c5e733-5221-4a49-8605-58d488ec911f")
+		)
+		(pin "4"
+			(uuid "6abb7494-5acc-4414-a79f-ec5b3541c723")
+		)
+		(pin "9"
+			(uuid "fd1e2c6e-d385-4505-b1c4-35d3e04a36ff")
+		)
+		(pin "7"
+			(uuid "180f1d38-ca5f-4607-a411-68dfc80ac316")
+		)
+		(pin "12"
+			(uuid "bb9cefaf-d0ad-4e9b-97ac-50cd2eb6e16c")
+		)
+		(pin "14"
+			(uuid "4f76fc53-0589-4444-9e0d-a80ad0ec15de")
+		)
+		(pin "16"
+			(uuid "07bbc81b-fa15-46d6-a8ba-8b6bbd354ac2")
+		)
+		(pin "26"
+			(uuid "2d419707-5513-4172-b193-4d782227c4f0")
+		)
+		(pin "24"
+			(uuid "7d2c2e87-0955-4dd5-b2ab-ce9c175db620")
+		)
+		(pin "23"
+			(uuid "6fb9cabf-e74a-42e2-8681-6c5d8bbc0df3")
+		)
+		(pin "20"
+			(uuid "7462c517-e410-4402-9037-99cc1fbd7e9b")
+		)
+		(pin "19"
+			(uuid "56780cb3-66d3-433a-8e73-6c0f085a001d")
+		)
+		(pin "27"
+			(uuid "80dbe7a4-5d96-4231-a549-c51e1442dc2d")
+		)
+		(pin "22"
+			(uuid "fde069dd-f323-4fbb-9770-4390eee7d922")
+		)
+		(pin "28"
+			(uuid "61e803ba-4ab5-4baa-812a-c0bb54ae9f9b")
+		)
+		(pin "29"
+			(uuid "b6025828-8981-412b-88dd-8d5df3e765e1")
+		)
+		(pin "30"
+			(uuid "9e743aa2-ada5-40e6-b33e-618c1976bca8")
+		)
+		(instances
+			(project "Beacon_Lite"
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6/ee5f5eaf-a583-4b33-9b7f-39b8833a19f3"
+					(reference "U8")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Beacon_Lite_Library:OPA1678ID")
+		(at 85.09 106.68 0)
+		(unit 3)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b99f8aa5-ec9f-452e-a83c-2e0a9cb6065d")
+		(property "Reference" "U1"
+			(at 90.805 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "OPA1678ID"
+			(at 90.805 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 85.09 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/ProductDetail/Texas-Instruments/OPA1678IDRGR?qs=wUXugUrL1qy%2FintaESJmeA%3D%3D"
+			(at 84.582 93.472 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Dual Opamp, 4.5 nv/rHz, 3 fA/rHz,  -80dB distortion"
+			(at 84.582 98.044 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "4"
+			(uuid "1c52a471-231e-4510-ab35-f8b189ea4fc0")
+		)
+		(pin "6"
+			(uuid "48809209-56f0-477e-8d8e-2498fcf6a94d")
+		)
+		(pin "1"
+			(uuid "887a9537-2923-4672-95d4-2e202fd2c5ae")
+		)
+		(pin "3"
+			(uuid "5126491d-a3cb-4477-a899-b3f9eba09f0f")
+		)
+		(pin "8"
+			(uuid "e72c4242-a063-43cf-89e8-a403a5bfd1dd")
+		)
+		(pin "7"
+			(uuid "3a4a0742-eca9-4133-ad9f-e9ed5b08bb63")
+		)
+		(pin "5"
+			(uuid "0c2cf339-1901-4fad-92db-2a239af620df")
+		)
+		(pin "2"
+			(uuid "3fb6e75b-af93-4a2c-9fc7-b1b633d2da7f")
+		)
+		(instances
+			(project ""
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6/ee5f5eaf-a583-4b33-9b7f-39b8833a19f3"
+					(reference "U1")
+					(unit 3)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "XS3A4051_1")
+		(lib_id "Beacon_Lite_Library:XS3A4051")
+		(at 92.71 152.4 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "bf469ef9-68de-49e9-bd77-20d8385955bb")
+		(property "Reference" "U7"
+			(at 104.14 168.9099 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "XS3A4051"
+			(at 104.14 171.4499 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 92.71 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/ProductDetail/Nexperia/XS3A4051PWJ?qs=MyNHzdoqoQIIiOxKjGbFvQ%3D%3D"
+			(at 93.98 131.572 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Analog SW, 1 X SP8T, Low Ron, Low Voltage"
+			(at 94.996 136.652 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "12"
+			(uuid "952be526-64c8-4cd7-8e70-df1fd1bdcc25")
+		)
+		(pin "8"
+			(uuid "a206e3ea-60b1-4423-96d4-3b71744de47a")
+		)
+		(pin "7"
+			(uuid "8cbca058-6546-4049-bf13-a8c84b99d6b1")
+		)
+		(pin "4"
+			(uuid "08a38d7d-adf3-4f94-9fca-1e847b4da42b")
+		)
+		(pin "11"
+			(uuid "57d062bd-47bf-46ea-b983-1ebd357f05c7")
+		)
+		(pin "16"
+			(uuid "aa6c6272-4629-489c-8bbb-df9ba6664921")
+		)
+		(pin "1"
+			(uuid "a9e53517-dd64-43a2-b3f3-25fe1f8d2954")
+		)
+		(pin "3"
+			(uuid "b72ce4f3-0186-44b0-9f19-a0c47367eccd")
+		)
+		(pin "9"
+			(uuid "902e846f-2738-46af-a2b8-ce9e20ed5cb9")
+		)
+		(pin "6"
+			(uuid "eea9328e-696f-4eca-be54-52f3f16330b8")
+		)
+		(pin "10"
+			(uuid "b5b7ffbc-cccb-4d42-b37f-98784cdf5629")
+		)
+		(pin "9"
+			(uuid "d1b481b6-bfe7-4b06-b9c4-ee5399a93524")
+		)
+		(pin "14"
+			(uuid "306cca07-c265-4b5c-9014-54b471f10d8a")
+		)
+		(pin "13"
+			(uuid "b2f55c2e-c347-4e85-8aaa-67327333dc8d")
+		)
+		(pin "15"
+			(uuid "9a190967-ca36-4017-962d-fd980ef9673b")
+		)
+		(pin "5"
+			(uuid "b7b2ec1c-d2db-4c75-bcbb-ea4ef01d7ab4")
+		)
+		(pin "2"
+			(uuid "0882f2a5-44f3-4996-8a74-1b42d953b433")
+		)
+		(instances
+			(project ""
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6/ee5f5eaf-a583-4b33-9b7f-39b8833a19f3"
+					(reference "U7")
+					(unit 1)
+				)
+			)
+		)
+	)
 )

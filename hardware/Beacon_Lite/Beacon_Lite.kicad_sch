@@ -1,158 +1,368 @@
-(kicad_sch (version 20230121) (generator eeschema)
-
-  (uuid 33ebacd6-2d94-4d95-bf8a-b8a1895869c6)
-
-  (paper "A4")
-
-  (title_block
-    (title "Beacon Lite")
-    (date "2025-04-13")
-    (rev "1")
-    (company "Beep Boop")
-  )
-
-  (lib_symbols
-  )
-
-
-  (sheet (at 64.135 45.085) (size 15.875 14.605) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 1a2fb2be-23b5-42ec-af0b-9de6fb82573b)
-    (property "Sheetname" "MCU" (at 64.135 44.3734 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "MCU.kicad_sch" (at 64.135 60.2746 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (property "Field2" "" (at 64.135 45.085 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "Beacon_Lite"
-        (path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6" (page "2"))
-      )
-    )
-  )
-
-  (sheet (at 65.405 17.78) (size 14.605 15.24) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 2056b7c0-0a0d-4ddd-9425-ea6d3145e596)
-    (property "Sheetname" "FLED" (at 65.405 17.0684 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "FLED.kicad_sch" (at 65.405 33.6046 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (instances
-      (project "Beacon_Lite"
-        (path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6" (page "5"))
-      )
-    )
-  )
-
-  (sheet (at 26.67 45.72) (size 15.875 14.605) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 34c101fd-1de4-4f82-a7f7-9e3fea8a7b94)
-    (property "Sheetname" "Ambient_Light" (at 26.67 45.0084 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "Ambient_Light.kicad_sch" (at 26.67 60.9096 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (property "Field2" "" (at 26.67 45.72 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "Beacon_Lite"
-        (path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6" (page "3"))
-      )
-    )
-  )
-
-  (sheet (at 26.67 78.105) (size 15.875 16.51) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 77a79242-4d11-452e-8307-dc9047acdfa0)
-    (property "Sheetname" "Power Supplies" (at 26.67 77.3934 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "Power_Supplies.kicad_sch" (at 26.67 95.1996 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (property "Field2" "" (at 26.67 78.105 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "Beacon_Lite"
-        (path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6" (page "9"))
-      )
-    )
-  )
-
-  (sheet (at 100.965 45.72) (size 14.605 13.97) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 7b6909ac-321e-415f-96bf-575349b8cc37)
-    (property "Sheetname" "IO Expander" (at 100.965 45.0084 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "IO_Expander.kicad_sch" (at 100.965 60.2746 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (property "Field2" "" (at 100.965 45.72 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "Beacon_Lite"
-        (path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6" (page "7"))
-      )
-    )
-  )
-
-  (sheet (at 27.94 19.685) (size 15.24 14.605) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 961e3fea-21d0-4d6b-b514-e7b612491dfd)
-    (property "Sheetname" "Motion_Sensor" (at 27.94 18.9734 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "Motion_Sensor.kicad_sch" (at 27.94 34.8746 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (property "Field2" "" (at 27.94 19.685 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "Beacon_Lite"
-        (path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6" (page "4"))
-      )
-    )
-  )
-
-  (sheet (at 100.965 17.145) (size 14.605 15.24) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid ee5f5eaf-a583-4b33-9b7f-39b8833a19f3)
-    (property "Sheetname" "Audio" (at 100.965 16.4334 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "Audio.kicad_sch" (at 100.965 32.9696 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (property "Field2" "" (at 100.965 17.145 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "Beacon_Lite"
-        (path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6" (page "6"))
-      )
-    )
-  )
-
-  (sheet_instances
-    (path "/" (page "1"))
-  )
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "33ebacd6-2d94-4d95-bf8a-b8a1895869c6")
+	(paper "A4")
+	(title_block
+		(title "Beacon Lite")
+		(date "2025-04-13")
+		(rev "1")
+		(company "Beep Boop")
+	)
+	(lib_symbols)
+	(sheet
+		(at 64.135 45.085)
+		(size 15.875 14.605)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "1a2fb2be-23b5-42ec-af0b-9de6fb82573b")
+		(property "Sheetname" "MCU"
+			(at 64.135 44.3734 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "MCU.kicad_sch"
+			(at 64.135 60.2746 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Field2" ""
+			(at 64.135 45.085 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "Beacon_Lite"
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 65.405 17.78)
+		(size 14.605 15.24)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "2056b7c0-0a0d-4ddd-9425-ea6d3145e596")
+		(property "Sheetname" "FLED"
+			(at 65.405 17.0684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "FLED.kicad_sch"
+			(at 65.405 33.6046 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Beacon_Lite"
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 26.67 45.72)
+		(size 15.875 14.605)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "34c101fd-1de4-4f82-a7f7-9e3fea8a7b94")
+		(property "Sheetname" "Ambient_Light"
+			(at 26.67 45.0084 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Ambient_Light.kicad_sch"
+			(at 26.67 60.9096 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Field2" ""
+			(at 26.67 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "Beacon_Lite"
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 26.67 78.105)
+		(size 15.875 16.51)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "77a79242-4d11-452e-8307-dc9047acdfa0")
+		(property "Sheetname" "Power Supplies"
+			(at 26.67 77.3934 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Power_Supplies.kicad_sch"
+			(at 26.67 95.1996 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Field2" ""
+			(at 26.67 78.105 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "Beacon_Lite"
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6"
+					(page "9")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 100.965 45.72)
+		(size 14.605 13.97)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "7b6909ac-321e-415f-96bf-575349b8cc37")
+		(property "Sheetname" "IO Expander"
+			(at 100.965 45.0084 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "IO_Expander.kicad_sch"
+			(at 100.965 60.2746 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Field2" ""
+			(at 100.965 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "Beacon_Lite"
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6"
+					(page "7")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 27.94 19.685)
+		(size 15.24 14.605)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "961e3fea-21d0-4d6b-b514-e7b612491dfd")
+		(property "Sheetname" "Motion_Sensor"
+			(at 27.94 18.9734 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Motion_Sensor.kicad_sch"
+			(at 27.94 34.8746 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Field2" ""
+			(at 27.94 19.685 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "Beacon_Lite"
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 100.965 17.145)
+		(size 14.605 15.24)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "ee5f5eaf-a583-4b33-9b7f-39b8833a19f3")
+		(property "Sheetname" "Audio"
+			(at 100.965 16.4334 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Audio.kicad_sch"
+			(at 100.965 32.9696 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Field2" ""
+			(at 100.965 17.145 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "Beacon_Lite"
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
 )

@@ -1,17 +1,742 @@
-(kicad_sch (version 20230121) (generator eeschema)
-
-  (uuid 64f0d7c6-3acb-40d3-82ae-ac2d287d7e6f)
-
-  (paper "A4")
-
-  (title_block
-    (title "Beacon Lite")
-    (date "2025-04-13")
-    (rev "1")
-    (company "Beep Boop")
-  )
-
-  (lib_symbols
-  )
-
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "8527e003-2b97-4e2a-a355-79c771109763")
+	(paper "A4")
+	(title_block
+		(title "Beacon Lite")
+		(date "2025-04-13")
+		(rev "1")
+		(company "Beep Boop")
+	)
+	(lib_symbols
+		(symbol "Beacon_Lite_Library:TCR2EF41"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at 0.254 3.556 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TCR2EF41"
+				(at 4.572 1.016 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.mouser.com/ProductDetail/Toshiba/TCR2EF41LMCT?qs=cW4DzVrAanNmgIk5awDWSg%3D%3D"
+				(at 0 11.684 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "LDO, Fixed 4.1Vout, 200mA"
+				(at 6.858 8.128 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TCR2EF41_1_1"
+				(rectangle
+					(start 0 0)
+					(end 15.24 -20.32)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy 6.35 -2.54) (xy 10.16 -2.54) (xy 8.89 -1.27) (xy 10.16 -2.54) (xy 8.89 -3.81)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(text "DC"
+					(at 3.048 -2.794 0)
+					(effects
+						(font
+							(size 2.54 2.54)
+							(thickness 0.508)
+							(bold yes)
+						)
+					)
+				)
+				(text "LDO"
+					(at 8.128 -5.588 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+							(thickness 0.254)
+							(bold yes)
+						)
+					)
+				)
+				(text "DC"
+					(at 12.7 -2.54 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+							(thickness 0.508)
+							(bold yes)
+						)
+					)
+				)
+				(pin power_in line
+					(at -2.54 -7.62 0)
+					(length 2.54)
+					(name "VIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -12.7 0)
+					(length 2.54)
+					(name "CONTROL"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 -22.86 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 17.78 -10.16 180)
+					(length 2.54)
+					(name "VOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 17.78 -19.05 90)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Beacon_Lite_Library:TPS62A02A"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at 0.508 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TPS62A02A"
+				(at 4.826 1.27 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.mouser.com/ProductDetail/Texas-Instruments/TPS62A02APDDCR?qs=ZcfC38r4PotJY8Nb5BNo3Q%3D%3D"
+				(at 1.524 14.478 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "High Efficiency Synchronous Buck, Integrated FETs, 2A, Adjustable"
+				(at 1.27 11.176 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TPS62A02A_1_1"
+				(rectangle
+					(start 0 0)
+					(end 15.24 -20.32)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy 5.715 -7.62) (xy 5.715 -5.08) (xy 6.985 -5.08) (xy 6.985 -7.62) (xy 8.255 -7.62) (xy 8.255 -5.08)
+						(xy 9.525 -5.08) (xy 9.525 -7.62) (xy 10.795 -7.62)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 6.35 -2.54) (xy 10.16 -2.54) (xy 8.89 -1.27) (xy 10.16 -2.54) (xy 8.89 -3.81)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(text "DC"
+					(at 3.048 -2.794 0)
+					(effects
+						(font
+							(size 2.54 2.54)
+							(thickness 0.508)
+							(bold yes)
+						)
+					)
+				)
+				(text "DC"
+					(at 12.7 -2.54 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+							(thickness 0.508)
+							(bold yes)
+						)
+					)
+				)
+				(pin power_in line
+					(at -2.54 -7.62 0)
+					(length 2.54)
+					(name "VIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -12.7 0)
+					(length 2.54)
+					(name "EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -2.54 -17.78 0)
+					(length 2.54)
+					(name "PG"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 -22.86 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 17.78 -7.62 180)
+					(length 2.54)
+					(name "SW"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 17.78 -17.78 180)
+					(length 2.54)
+					(name "FB"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(symbol
+		(lib_id "Beacon_Lite_Library:TPS62A02A")
+		(at 69.85 149.86 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "05099f45-f20c-4ea4-881d-5c5fdb5939a1")
+		(property "Reference" "U11"
+			(at 77.47 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TPS62A02A"
+			(at 77.47 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 69.85 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/ProductDetail/Texas-Instruments/TPS62A02APDDCR?qs=ZcfC38r4PotJY8Nb5BNo3Q%3D%3D"
+			(at 71.374 135.382 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "High Efficiency Synchronous Buck, Integrated FETs, 2A, Adjustable"
+			(at 71.12 138.684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "4"
+			(uuid "16b0016f-3380-481c-a29b-7c30f807734e")
+		)
+		(pin "1"
+			(uuid "96c5e327-01ad-4f75-8c42-e29c6a3e4ff7")
+		)
+		(pin "6"
+			(uuid "dc67bf39-0b1c-4009-9267-9d4f2097d1fe")
+		)
+		(pin "3"
+			(uuid "12543b6f-eb31-4a34-a5be-3d098e8450e6")
+		)
+		(pin "5"
+			(uuid "a123ddcc-bf2b-475e-9649-0efb022e7403")
+		)
+		(pin "2"
+			(uuid "3fa34bc1-44ae-45e3-89fc-c88c5d635e71")
+		)
+		(instances
+			(project "Beacon_Lite"
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6/77a79242-4d11-452e-8307-dc9047acdfa0"
+					(reference "U11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Beacon_Lite_Library:TPS62A02A")
+		(at 72.39 39.37 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0ef1bdaf-68c4-468c-b6d0-c8e68ca2cb6d")
+		(property "Reference" "U2"
+			(at 80.01 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TPS62A02A"
+			(at 80.01 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 72.39 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/ProductDetail/Texas-Instruments/TPS62A02APDDCR?qs=ZcfC38r4PotJY8Nb5BNo3Q%3D%3D"
+			(at 73.914 24.892 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "High Efficiency Synchronous Buck, Integrated FETs, 2A, Adjustable"
+			(at 73.66 28.194 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "4"
+			(uuid "27be5112-4746-4369-b64a-4ee799bdba06")
+		)
+		(pin "1"
+			(uuid "d71c164c-e6da-4cc1-a945-4bee295e793b")
+		)
+		(pin "6"
+			(uuid "f485a185-cd3a-4d1f-85cd-929897420115")
+		)
+		(pin "3"
+			(uuid "67678162-8f1f-47f9-9a31-5ae1cf357ed1")
+		)
+		(pin "5"
+			(uuid "6ee736ec-334d-4430-8be6-bb9f863b34fc")
+		)
+		(pin "2"
+			(uuid "cfb6932c-e307-4dce-b8a7-482cac12d8cf")
+		)
+		(instances
+			(project ""
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6/77a79242-4d11-452e-8307-dc9047acdfa0"
+					(reference "U2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Beacon_Lite_Library:TCR2EF41")
+		(at 261.62 104.14 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3c6b0e27-6059-43de-8fa9-420d576864b6")
+		(property "Reference" "U12"
+			(at 269.24 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TCR2EF41"
+			(at 269.24 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 261.62 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/ProductDetail/Toshiba/TCR2EF41LMCT?qs=cW4DzVrAanNmgIk5awDWSg%3D%3D"
+			(at 261.62 92.456 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "LDO, Fixed 4.1Vout, 200mA"
+			(at 268.478 96.012 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "3"
+			(uuid "d691537c-c21b-4155-b156-b527e5fe8c45")
+		)
+		(pin "5"
+			(uuid "bc622a24-9ad6-4d7a-8e7c-4da610e86c9b")
+		)
+		(pin "1"
+			(uuid "7469b45a-b215-4b00-9499-b6bb8bc5f63b")
+		)
+		(pin "4"
+			(uuid "cda040c7-f4c8-4154-94d4-64062b4c3b31")
+		)
+		(pin "2"
+			(uuid "98aa42c9-3664-4d53-9855-8dc211e71eb7")
+		)
+		(instances
+			(project ""
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6/77a79242-4d11-452e-8307-dc9047acdfa0"
+					(reference "U12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Beacon_Lite_Library:TPS62A02A")
+		(at 74.93 104.14 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5db34c95-3f65-4058-952e-ca42d1f1bb4c")
+		(property "Reference" "U10"
+			(at 82.55 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TPS62A02A"
+			(at 82.55 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 74.93 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/ProductDetail/Texas-Instruments/TPS62A02APDDCR?qs=ZcfC38r4PotJY8Nb5BNo3Q%3D%3D"
+			(at 76.454 89.662 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "High Efficiency Synchronous Buck, Integrated FETs, 2A, Adjustable"
+			(at 76.2 92.964 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "4"
+			(uuid "139d929e-b9b5-4257-ad6e-50626bfac435")
+		)
+		(pin "1"
+			(uuid "09b4aa4d-d3b7-4063-9208-567fa8bcd96d")
+		)
+		(pin "6"
+			(uuid "b3e40de9-8f9c-4ab1-9e65-b79d711669e6")
+		)
+		(pin "3"
+			(uuid "93901e82-7a7d-4166-84c4-18261b895b4a")
+		)
+		(pin "5"
+			(uuid "31428dd8-e655-48c8-be18-8deedbbd05b0")
+		)
+		(pin "2"
+			(uuid "8d75b50d-9c40-474c-a76d-a34d76e4c4f5")
+		)
+		(instances
+			(project "Beacon_Lite"
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6/77a79242-4d11-452e-8307-dc9047acdfa0"
+					(reference "U10")
+					(unit 1)
+				)
+			)
+		)
+	)
 )
