@@ -2549,8 +2549,8 @@
 		)
 	)
 	(rectangle
-		(start 88.9 59.055)
-		(end 112.395 71.755)
+		(start 97.155 60.96)
+		(end 120.65 73.66)
 		(stroke
 			(width 0)
 			(type default)
@@ -2562,7 +2562,7 @@
 	)
 	(text "ADDR Conn   Address\nSCL 	  | 20h\nSDA		  | 21h\nVSS 	  | 22h\nVDD 	  | 23h"
 		(exclude_from_sim no)
-		(at 90.17 70.485 0)
+		(at 98.425 72.39 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2706,7 +2706,7 @@
 	)
 	(wire
 		(pts
-			(xy 89.535 52.07) (xy 89.535 50.165)
+			(xy 90.17 57.15) (xy 90.17 55.88)
 		)
 		(stroke
 			(width 0)
@@ -2846,6 +2846,16 @@
 	)
 	(wire
 		(pts
+			(xy 90.17 50.8) (xy 90.17 50.165)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "819f9148-76f3-4ff5-a5cf-16c7f36c4ff3")
+	)
+	(wire
+		(pts
 			(xy 37.465 107.95) (xy 48.26 107.95)
 		)
 		(stroke
@@ -2926,7 +2936,7 @@
 	)
 	(wire
 		(pts
-			(xy 89.535 50.165) (xy 86.995 50.165)
+			(xy 90.17 50.165) (xy 86.995 50.165)
 		)
 		(stroke
 			(width 0)
@@ -3588,7 +3598,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 89.535 52.07 0)
+		(at 90.17 57.15 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3596,7 +3606,7 @@
 		(dnp no)
 		(uuid "1464819f-2dfe-4d4f-8a1e-2ccc2ee4219e")
 		(property "Reference" "#PWR08"
-			(at 89.535 58.42 0)
+			(at 90.17 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3605,7 +3615,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 89.535 55.88 0)
+			(at 90.17 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3613,7 +3623,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 89.535 52.07 0)
+			(at 90.17 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3622,7 +3632,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 89.535 52.07 0)
+			(at 90.17 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3631,7 +3641,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 89.535 52.07 0)
+			(at 90.17 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3645,6 +3655,72 @@
 			(project "Beacon_Lite"
 				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6/7b6909ac-321e-415f-96bf-575349b8cc37"
 					(reference "#PWR08")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small")
+		(at 90.17 53.34 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1d9a1252-4b29-4d82-aa32-cf204e4ce6fa")
+		(property "Reference" "R10"
+			(at 93.98 52.578 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10k0_0402_010"
+			(at 98.806 55.372 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Footprint_Library:0402_1005Metric_Handsolder"
+			(at 90.17 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 90.17 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 90.17 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "3fc933e7-3f73-4e51-9564-53a1500c2fdb")
+		)
+		(pin "2"
+			(uuid "8a3cb823-e5fe-4582-aa51-b51f403e78e8")
+		)
+		(instances
+			(project "Beacon_Lite"
+				(path "/33ebacd6-2d94-4d95-bf8a-b8a1895869c6/7b6909ac-321e-415f-96bf-575349b8cc37"
+					(reference "R10")
 					(unit 1)
 				)
 			)

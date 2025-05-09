@@ -442,7 +442,7 @@
     ],
     [
       "2056b7c0-0a0d-4ddd-9425-ea6d3145e596",
-      "FLED"
+      "FLED_Control"
     ],
     [
       "ee5f5eaf-a583-4b33-9b7f-39b8833a19f3",
@@ -459,6 +459,10 @@
     [
       "77a79242-4d11-452e-8307-dc9047acdfa0",
       "Power Supplies"
+    ],
+    [
+      "135fcd6a-159e-4b12-83bc-0661bd8a42c5",
+      "FLED_Field"
     ]
   ],
   "text_variables": {}

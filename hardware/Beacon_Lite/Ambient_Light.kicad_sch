@@ -1148,7 +1148,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 171.45 118.11 0)
+		(at 171.45 116.84 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1156,7 +1156,7 @@
 		(dnp no)
 		(uuid "130f69ee-e99f-4ef9-b729-125c6e73de75")
 		(property "Reference" "#PWR022"
-			(at 171.45 124.46 0)
+			(at 171.45 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1165,7 +1165,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 171.45 121.92 0)
+			(at 171.45 120.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1173,7 +1173,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 171.45 118.11 0)
+			(at 171.45 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1182,7 +1182,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 171.45 118.11 0)
+			(at 171.45 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1191,7 +1191,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 171.45 118.11 0)
+			(at 171.45 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)

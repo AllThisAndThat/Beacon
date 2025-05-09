@@ -78,7 +78,7 @@
 			(color 0 0 0 0.0000)
 		)
 		(uuid "2056b7c0-0a0d-4ddd-9425-ea6d3145e596")
-		(property "Sheetname" "FLED"
+		(property "Sheetname" "FLED_Control"
 			(at 65.405 17.0684 0)
 			(effects
 				(font
@@ -87,7 +87,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "FLED.kicad_sch"
+		(property "Sheetfile" "FLED_Control.kicad_sch"
 			(at 65.405 33.6046 0)
 			(effects
 				(font

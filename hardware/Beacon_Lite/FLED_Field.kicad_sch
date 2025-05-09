@@ -1,0 +1,443 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "f9b882ba-910e-4e52-9029-4464d9baaace")
+	(paper "A4")
+	(title_block
+		(title "Beacon Lite")
+		(date "2025-04-13")
+		(rev "1")
+		(company "Beep Boop")
+	)
+	(lib_symbols)
+	(hierarchical_label "CS34"
+		(shape input)
+		(at 45.72 41.91 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "02fc57c8-3851-4c52-bd00-b13d37ffedfc")
+	)
+	(hierarchical_label "CS3"
+		(shape input)
+		(at 57.15 186.69 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "05be26b9-162c-4333-9299-5511b0bcf88a")
+	)
+	(hierarchical_label "CS11"
+		(shape input)
+		(at 57.15 146.05 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "06e84aed-a812-41aa-a4eb-07243ee80455")
+	)
+	(hierarchical_label "CS38"
+		(shape input)
+		(at 45.72 21.59 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "08c6232e-0c5b-4c6d-954a-916fa3f356aa")
+	)
+	(hierarchical_label "CS22"
+		(shape input)
+		(at 45.72 102.87 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "0b62757c-f206-478c-a5c9-296f3125638c")
+	)
+	(hierarchical_label "CS25"
+		(shape input)
+		(at 45.72 87.63 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "16999512-7b62-4618-97bc-2bb3db3e2234")
+	)
+	(hierarchical_label "CS4"
+		(shape input)
+		(at 57.15 181.61 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1ada5383-9fd0-4d12-b0be-70de1dcf794c")
+	)
+	(hierarchical_label "CS14"
+		(shape input)
+		(at 45.72 143.51 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1c4f21ef-3861-42c3-b04f-3c724c0d1ee5")
+	)
+	(hierarchical_label "CS20"
+		(shape input)
+		(at 45.72 113.03 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "24539311-45ce-4d87-987b-ad877fd6396d")
+	)
+	(hierarchical_label "CS7"
+		(shape input)
+		(at 57.15 166.37 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2a314fa9-ba23-48cf-b01d-3a82be196842")
+	)
+	(hierarchical_label "CS31"
+		(shape input)
+		(at 45.72 57.15 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3108d3f9-3daf-4921-b531-ec98bbc8fea2")
+	)
+	(hierarchical_label "CS19"
+		(shape input)
+		(at 45.72 118.11 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3905b405-2c06-48e5-acd4-bcc8c893e23f")
+	)
+	(hierarchical_label "CS12"
+		(shape input)
+		(at 57.15 140.97 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3c474a8a-7870-442d-9563-34fa05072bba")
+	)
+	(hierarchical_label "CS30"
+		(shape input)
+		(at 45.72 62.23 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "4445c7ec-b79f-4b37-82a6-8b288b38c254")
+	)
+	(hierarchical_label "CS27"
+		(shape input)
+		(at 45.72 77.47 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "5e950fbc-7346-4eb8-90af-c7ca2504b1ea")
+	)
+	(hierarchical_label "CS29"
+		(shape input)
+		(at 45.72 67.31 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "68b6d402-be65-4417-9bf8-a639c0426562")
+	)
+	(hierarchical_label "CS39"
+		(shape input)
+		(at 45.72 16.51 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6adef6b7-efea-4cd6-ba35-57a436e7912d")
+	)
+	(hierarchical_label "CS10"
+		(shape input)
+		(at 57.15 151.13 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6ff0a279-ef8d-4b4b-953a-8cc0cbbdafac")
+	)
+	(hierarchical_label "CS24"
+		(shape input)
+		(at 45.72 92.71 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "74c6b406-f619-4938-8b92-1c570bffd258")
+	)
+	(hierarchical_label "CS1"
+		(shape input)
+		(at 57.15 196.85 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "7af69f34-fa66-4c0d-9bb9-9b3253f9c00e")
+	)
+	(hierarchical_label "CS36"
+		(shape input)
+		(at 45.72 31.75 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "83bb2188-a8d1-419d-a02f-d76a63d0d8f8")
+	)
+	(hierarchical_label "CS5"
+		(shape input)
+		(at 57.15 176.53 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8440a928-711f-4f92-9c0a-d9e457572d54")
+	)
+	(hierarchical_label "CS26"
+		(shape input)
+		(at 45.72 82.55 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "84af2d9f-c534-499e-b627-556b33f66432")
+	)
+	(hierarchical_label "CS9"
+		(shape input)
+		(at 57.15 156.21 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "856ac637-809d-476f-87d6-108e285e38c7")
+	)
+	(hierarchical_label "CS6"
+		(shape input)
+		(at 57.15 171.45 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "87a651ed-84d0-40b0-beef-1247393493a0")
+	)
+	(hierarchical_label "CS28"
+		(shape input)
+		(at 45.72 72.39 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "889717fb-2e06-4c9b-9331-0e6cd1dce2c5")
+	)
+	(hierarchical_label "CS8"
+		(shape input)
+		(at 57.15 161.29 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9613f2bd-854f-4014-ae94-1928f47487fa")
+	)
+	(hierarchical_label "CS23"
+		(shape input)
+		(at 45.72 97.79 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "97be7740-c892-4602-8865-77d5185c49c5")
+	)
+	(hierarchical_label "CS2"
+		(shape input)
+		(at 57.15 191.77 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9e348c66-485e-4d71-b33d-92aed7a9a174")
+	)
+	(hierarchical_label "CS18"
+		(shape input)
+		(at 45.72 123.19 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a0c36b01-f3d5-4317-a9ed-93b418f5c792")
+	)
+	(hierarchical_label "CS33"
+		(shape input)
+		(at 45.72 46.99 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a21348f5-4452-41b0-bfe0-d6161aade477")
+	)
+	(hierarchical_label "CS13"
+		(shape input)
+		(at 57.15 135.89 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b96d61fe-cf6f-4941-9f5f-e4977a090fff")
+	)
+	(hierarchical_label "CS16"
+		(shape input)
+		(at 45.72 133.35 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "bae95ef4-41fc-4252-8d59-24f3326ab2a8")
+	)
+	(hierarchical_label "CS32"
+		(shape input)
+		(at 45.72 52.07 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "bb6fc3ee-6ce9-4a6f-99a5-cdee1bf1dd63")
+	)
+	(hierarchical_label "CS17"
+		(shape input)
+		(at 45.72 128.27 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "de93da77-54c0-4dbd-b797-eb410cfa27aa")
+	)
+	(hierarchical_label "CS35"
+		(shape input)
+		(at 45.72 36.83 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "dfe04544-4c8f-4608-9211-56b1e67f549c")
+	)
+	(hierarchical_label "CS37"
+		(shape input)
+		(at 45.72 26.67 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ed9d1617-b318-4440-aaa5-727a252d7129")
+	)
+	(hierarchical_label "CS21"
+		(shape input)
+		(at 45.72 107.95 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f6fcd57e-eb51-41f9-9c0c-09217f74b1db")
+	)
+	(hierarchical_label "CS15"
+		(shape input)
+		(at 45.72 138.43 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "fea14c0c-e689-4e82-a257-af0ae1c4d7d5")
+	)
+)

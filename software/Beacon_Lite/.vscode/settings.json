@@ -1,0 +1,8 @@
+{
+    "cmake.sourceDirectory": "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite",
+    "files.associations": {
+        "main.h": "c",
+        "app_main.h": "c",
+        "app_main.cpp": "c"
+    }
+}
