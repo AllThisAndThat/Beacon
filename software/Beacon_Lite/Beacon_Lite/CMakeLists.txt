@@ -37,20 +37,19 @@ add_subdirectory(cmake/stm32cubemx)
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths
-
 )
 
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
-    Core/Src/app_main.cpp
-
+    Drivers/beacon_lite/wrappers/timer/timer.cpp
 )
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
-
+    Drivers/beacon_lite/wrappers/timer
+    Drivers/beacon_lite/syscfg
 )
 
 # Add project symbols (macros)
