@@ -33,23 +33,26 @@ add_executable(${CMAKE_PROJECT_NAME})
 
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
+add_subdirectory(cmake/beacon)
 
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths
+
 )
 
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
-    Drivers/beacon_lite/wrappers/timer/timer.cpp
+    # Drivers/beacon/wrappers/timer/timer.cpp
+    ${CMAKE_SOURCE_DIR}/Core/Src/main.cpp # here to throw error if main.c is present
 )
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
-    Drivers/beacon_lite/wrappers/timer
-    Drivers/beacon_lite/syscfg
+    # Drivers/beacon/wrappers/timer
+    # Drivers/beacon/syscfg
 )
 
 # Add project symbols (macros)
@@ -62,5 +65,8 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
     # Add user defined libraries
-
+    beacon
 )
+
+
+

@@ -148,6 +148,24 @@
 			"isCMake" : true,
 			"isExternal" : true,
 			"path" : "C:/ST/STM32CubeCLT_1.18.0/CMake/share/cmake-3.28/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"path" : "cmake/beacon/CMakeLists.txt"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/ST/STM32CubeCLT_1.18.0/CMake/share/cmake-3.28/Modules/CMakeASMInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/ST/STM32CubeCLT_1.18.0/CMake/share/cmake-3.28/Modules/Compiler/GNU-ASM.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/ST/STM32CubeCLT_1.18.0/CMake/share/cmake-3.28/Modules/Compiler/GNU.cmake"
 		}
 	],
 	"kind" : "cmakeFiles",

@@ -25,7 +25,7 @@ HAL_StatusTypeDef Timer::initiate() {
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  status = HAL_TIM_ConfigClockSource(&htim_, &sClockSourceConfig);
+  status = HAL_TIM_ConfigClockSource(&htim_, &sClockSourceConfig); //HAL BUSY?
   if (status != HAL_OK) {return status;}
 
   status = HAL_TIM_PWM_Init(&htim_);
@@ -48,6 +48,10 @@ HAL_StatusTypeDef Timer::initiate() {
   sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
   status = HAL_TIM_PWM_ConfigChannel(&htim_, &sConfigOC, TIM_CHANNEL_1);
   if (status != HAL_OK) {return status;}
+  status = HAL_TIM_PWM_ConfigChannel(&htim_, &sConfigOC, TIM_CHANNEL_2);
+  if (status != HAL_OK) {return status;}
+  status = HAL_TIM_PWM_ConfigChannel(&htim_, &sConfigOC, TIM_CHANNEL_3);
+  if (status != HAL_OK) {return status;}
 
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
   sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
@@ -68,7 +72,7 @@ HAL_StatusTypeDef Timer::initiate() {
 
   __HAL_RCC_GPIOA_CLK_ENABLE();
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-  GPIO_InitStruct.Pin = GPIO_PIN_8;
+  GPIO_InitStruct.Pin = GPIO_PIN_8| GPIO_PIN_9| GPIO_PIN_10;
   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -78,15 +82,35 @@ HAL_StatusTypeDef Timer::initiate() {
   return HAL_OK;
 }
 
-HAL_StatusTypeDef Timer::set_duty(uint32_t duty) {
-  htim_.Instance->CCR1 = duty;
+HAL_StatusTypeDef Timer::set_color(uint32_t r, uint32_t g, uint32_t b) {
+  htim_.Instance->CCR1 = r;
+  htim_.Instance->CCR2 = g;
+  htim_.Instance->CCR3 = b;
   return HAL_OK;
 }
 
 HAL_StatusTypeDef Timer::action_start() {
-  return HAL_TIM_PWM_Start(&htim_, TIM_CHANNEL_1); 
+  HAL_StatusTypeDef status;
+  status =  HAL_TIM_PWM_Start(&htim_, TIM_CHANNEL_1);
+  if (status != HAL_OK) {return status;}
+
+  status =  HAL_TIM_PWM_Start(&htim_, TIM_CHANNEL_2);
+  if (status != HAL_OK) {return status;}
+
+  status =  HAL_TIM_PWM_Start(&htim_, TIM_CHANNEL_3);
+  if (status != HAL_OK) {return status;}
+
+  return HAL_OK;
 }
 
 HAL_StatusTypeDef Timer::action_stop() {
-  return HAL_TIM_PWM_Stop(&htim_, TIM_CHANNEL_1); 
+  HAL_StatusTypeDef status;
+  status =  HAL_TIM_PWM_Stop(&htim_, TIM_CHANNEL_1);
+  if (status != HAL_OK) {return status;}
+
+  status =  HAL_TIM_PWM_Stop(&htim_, TIM_CHANNEL_2);
+  if (status != HAL_OK) {return status;}
+
+  status =  HAL_TIM_PWM_Stop(&htim_, TIM_CHANNEL_3);
+  if (status != HAL_OK) {return status;}
 }
