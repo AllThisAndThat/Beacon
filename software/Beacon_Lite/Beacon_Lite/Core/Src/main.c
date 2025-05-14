@@ -100,7 +100,11 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  cpp_main();
+  handles_t handles;
+  handles.hi2c = &hi2c1;
+  handles.htim = &htim1;
+
+  cpp_main(handles);
   while (1)
   {
     /* USER CODE END WHILE */

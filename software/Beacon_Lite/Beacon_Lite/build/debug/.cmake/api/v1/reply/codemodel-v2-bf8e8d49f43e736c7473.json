@@ -78,7 +78,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Beacon_Lite::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Beacon_Lite-Debug-7d8e62427d777bbc410a.json",
+					"jsonFile" : "target-Beacon_Lite-Debug-ede5db7106f2e30260fd.json",
 					"name" : "Beacon_Lite",
 					"projectIndex" : 0
 				},
@@ -92,7 +92,7 @@
 				{
 					"directoryIndex" : 2,
 					"id" : "beacon::@e3c3a911456abc81d0be",
-					"jsonFile" : "target-beacon-Debug-a9c36a7d6b976a2f2db8.json",
+					"jsonFile" : "target-beacon-Debug-9ac4580db1e58c2592bd.json",
 					"name" : "beacon",
 					"projectIndex" : 0
 				}

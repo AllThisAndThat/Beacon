@@ -19,13 +19,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 23,
+				"line" : 25,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 25,
+				"line" : 27,
 				"parent" : 0
 			}
 		]
@@ -45,7 +45,8 @@
 			[
 				0,
 				1,
-				2
+				2,
+				3
 			]
 		}
 	],
@@ -64,6 +65,11 @@
 		{
 			"backtrace" : 2,
 			"path" : "Drivers/beacon/hardware_objects/debug_led/debug_led.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "Drivers/beacon/hardware_objects/ltr_303als/ltr_303als.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

@@ -9,6 +9,7 @@ set(MX_Include_Dirs
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/wrappers/i2c_master
 
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/debug_led
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/ltr_303als
 )
 
 set(STM32_Drivers_Src
@@ -17,6 +18,7 @@ set(STM32_Drivers_Src
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/wrappers/i2c_master/i2c_master.cpp
     
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/debug_led/debug_led.cpp
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/ltr_303als/ltr_303als.cpp
 
 )
 

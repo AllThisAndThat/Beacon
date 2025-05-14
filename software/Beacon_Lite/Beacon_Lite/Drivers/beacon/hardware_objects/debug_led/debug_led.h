@@ -15,7 +15,6 @@ class DebugLed {
 public:
     DebugLed(TIM_HandleTypeDef hTim);
     ~DebugLed();
-    HAL_StatusTypeDef initiate();
 
     HAL_StatusTypeDef set_color(Color color);
     HAL_StatusTypeDef set_color(uint16_t r, uint16_t g, uint16_t b);

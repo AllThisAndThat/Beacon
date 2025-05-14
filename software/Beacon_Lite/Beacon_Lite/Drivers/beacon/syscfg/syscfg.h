@@ -5,10 +5,17 @@
 namespace syscfg
 {
   namespace pin {
-    constexpr uint16_t kStatusRed = GPIO_PIN_8;
+    
   }
 
   namespace port {
     // constexpr auto kStatusRed = GPIOA;
+  }
+
+  namespace i2c1 {
+    namespace addr {
+      constexpr uint16_t kLtr303als = 0x29 << 1;
+    }
+
   }
 }  
