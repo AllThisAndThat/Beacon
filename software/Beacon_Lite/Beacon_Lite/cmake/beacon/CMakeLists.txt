@@ -4,13 +4,19 @@ enable_language(C CXX ASM)
 
 set(MX_Include_Dirs
     ${CMAKE_SOURCE_DIR}/Core/Inc
-    ${CMAKE_SOURCE_DIR}/Drivers/beacon/wrappers/timer
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/syscfg
 
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/wrappers/i2c_master
+
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/debug_led
 )
 
 set(STM32_Drivers_Src
-    ${CMAKE_SOURCE_DIR}/Drivers/beacon/wrappers/timer/timer.cpp
+    ${CMAKE_SOURCE_DIR}/Core/Src/cpp_main.cpp
+
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/wrappers/i2c_master/i2c_master.cpp
+    
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/debug_led/debug_led.cpp
 
 )
 

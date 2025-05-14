@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "app_main.h": "c"
+        "app_main.h": "c",
+        "cstdlib": "c"
     }
 }

@@ -19,13 +19,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 17,
+				"line" : 23,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 19,
+				"line" : 25,
 				"parent" : 0
 			}
 		]
@@ -43,7 +43,9 @@
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				0
+				0,
+				1,
+				2
 			]
 		}
 	],
@@ -51,7 +53,17 @@
 	[
 		{
 			"backtrace" : 2,
-			"path" : "Drivers/beacon/wrappers/timer/timer.cpp",
+			"path" : "Core/Src/cpp_main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "Drivers/beacon/wrappers/i2c_master/i2c_master.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "Drivers/beacon/hardware_objects/debug_led/debug_led.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
