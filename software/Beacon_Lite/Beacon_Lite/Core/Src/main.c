@@ -31,7 +31,12 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define PWM_HI (26)
+#define PWM_LO (13)
 
+#define NUM_BPP (3)
+#define NUM_PIXELS (20)
+#define NUM_BYTES (NUM_BPP * NUM_PIXELS)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -44,18 +49,30 @@
 I2C_HandleTypeDef hi2c1;
 
 TIM_HandleTypeDef htim1;
+TIM_HandleTypeDef htim2;
+DMA_NodeTypeDef Node_GPDMA1_Channel0;
+DMA_QListTypeDef List_GPDMA1_Channel0;
+DMA_HandleTypeDef handle_GPDMA1_Channel0;
 
 /* USER CODE BEGIN PV */
-
+uint8_t rgb_arr[NUM_BYTES];
+#define WRITE_BUF_LEN (NUM_BPP * 8)
+uint8_t wr_buf[WRITE_BUF_LEN];
+uint_fast8_t wr_buf_p = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_GPDMA1_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_I2C1_Init(void);
+static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
-
+uint32_t hsl_to_rgb(uint8_t h, uint8_t s, uint8_t l);
+void led_set_RGB(uint8_t index, uint8_t r, uint8_t g, uint8_t b);
+void led_set_all_RGBW(uint8_t r, uint8_t g, uint8_t b, uint8_t w);
+void led_render();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -77,8 +94,8 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  
   HAL_Init();
-
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
@@ -92,8 +109,10 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_GPDMA1_Init();
   MX_TIM1_Init();
   MX_I2C1_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -104,16 +123,33 @@ int main(void)
   handles.hi2c = &hi2c1;
   handles.htim = &htim1;
 
-  cpp_main(handles);
+  // cpp_main(handles);
+  // uint8_t angle = 0;
+  // const uint8_t angle_difference = 11;
+  // while (1) {
+  //   for(uint8_t i = 0; i < 8; i++) {
+  //     // Calculate color
+  //     uint32_t rgb_color = hsl_to_rgb(angle + (i * angle_difference), 255, 3);
+  //     // Set color
+  //     led_set_RGB(i, (rgb_color >> 16) & 0xFF, (rgb_color >> 8) & 0xFF, rgb_color & 0xFF);
+  //   }
+    // Write to LED
+    // ++angle;
+    // led_render();
+    // // Some delay
+    // HAL_Delay(30);
+    
+   cpp_main(handles);
   while (1)
   {
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
-
+  
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -161,6 +197,34 @@ void SystemClock_Config(void)
   /** Configure the programming delay
   */
   __HAL_FLASH_SET_PROGRAM_DELAY(FLASH_PROGRAMMING_DELAY_0);
+}
+
+/**
+  * @brief GPDMA1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPDMA1_Init(void)
+{
+
+  /* USER CODE BEGIN GPDMA1_Init 0 */
+
+  /* USER CODE END GPDMA1_Init 0 */
+
+  /* Peripheral clock enable */
+  __HAL_RCC_GPDMA1_CLK_ENABLE();
+
+  /* GPDMA1 interrupt Init */
+    HAL_NVIC_SetPriority(GPDMA1_Channel0_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(GPDMA1_Channel0_IRQn);
+
+  /* USER CODE BEGIN GPDMA1_Init 1 */
+
+  /* USER CODE END GPDMA1_Init 1 */
+  /* USER CODE BEGIN GPDMA1_Init 2 */
+
+  /* USER CODE END GPDMA1_Init 2 */
+
 }
 
 /**
@@ -302,6 +366,65 @@ static void MX_TIM1_Init(void)
 }
 
 /**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 0;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 39;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+  HAL_TIM_MspPostInit(&htim2);
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -319,7 +442,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_RESET);
@@ -338,12 +461,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  /*Configure GPIO pin : GREEN_LED_Pin */
+  GPIO_InitStruct.Pin = GREEN_LED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(GREEN_LED_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PC4 */
   GPIO_InitStruct.Pin = GPIO_PIN_4;
@@ -358,13 +481,99 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : AMB_INT_Pin */
+  GPIO_InitStruct.Pin = AMB_INT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(AMB_INT_GPIO_Port, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI5_IRQn);
+
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 
   /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
+uint32_t hsl_to_rgb(uint8_t h, uint8_t s, uint8_t l) {
+	if(l == 0) return 0;
 
+	volatile uint8_t  r, g, b, lo, c, x, m;
+	volatile uint16_t h1, l1, H;
+	l1 = l + 1;
+	if (l < 128)    c = ((l1 << 1) * s) >> 8;
+	else            c = (512 - (l1 << 1)) * s >> 8;
+
+	H = h * 6;              // 0 to 1535 (actually 1530)
+	lo = H & 255;           // Low byte  = primary/secondary color mix
+	h1 = lo + 1;
+
+	if ((H & 256) == 0)   x = h1 * c >> 8;          // even sextant, like red to yellow
+	else                  x = (256 - h1) * c >> 8;  // odd sextant, like yellow to green
+
+	m = l - (c >> 1);
+	switch(H >> 8) {       // High byte = sextant of colorwheel
+	 case 0 : r = c; g = x; b = 0; break; // R to Y
+	 case 1 : r = x; g = c; b = 0; break; // Y to G
+	 case 2 : r = 0; g = c; b = x; break; // G to C
+	 case 3 : r = 0; g = x; b = c; break; // C to B
+	 case 4 : r = x; g = 0; b = c; break; // B to M
+	 default: r = c; g = 0; b = x; break; // M to R
+	}
+
+	return (((uint32_t)r + m) << 16) | (((uint32_t)g + m) << 8) | ((uint32_t)b + m);
+}
+
+void led_set_RGB(uint8_t index, uint8_t r, uint8_t g, uint8_t b) {
+  rgb_arr[4 * index    ] = g;
+  rgb_arr[4 * index + 1] = r;
+  rgb_arr[4 * index + 2] = b;
+}
+
+void led_render() {
+  if(wr_buf_p != 0 || handle_GPDMA1_Channel0.State != HAL_DMA_STATE_READY) {
+    // Ongoing transfer, cancel!
+    for(uint8_t i = 0; i < WRITE_BUF_LEN; ++i) wr_buf[i] = 0;
+    wr_buf_p = 0;
+    HAL_TIM_PWM_Stop_DMA(&htim2, TIM_CHANNEL_1);
+    return;
+  }
+  // Ooh boi the first data buffer half (and the second!)
+  for(uint_fast8_t i = 0; i < 8; ++i) {
+    wr_buf[i     ] = PWM_LO << (((rgb_arr[0] << i) & 0x80) > 0);
+    wr_buf[i +  8] = PWM_LO << (((rgb_arr[1] << i) & 0x80) > 0);
+    wr_buf[i + 16] = PWM_LO << (((rgb_arr[2] << i) & 0x80) > 0);
+    wr_buf[i + 24] = PWM_LO << (((rgb_arr[3] << i) & 0x80) > 0);
+    wr_buf[i + 32] = PWM_LO << (((rgb_arr[4] << i) & 0x80) > 0);
+    wr_buf[i + 40] = PWM_LO << (((rgb_arr[5] << i) & 0x80) > 0);
+    wr_buf[i + 48] = PWM_LO << (((rgb_arr[6] << i) & 0x80) > 0);
+    wr_buf[i + 56] = PWM_LO << (((rgb_arr[7] << i) & 0x80) > 0);
+  }
+
+  HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_1, (uint32_t *)wr_buf, WRITE_BUF_LEN);
+  wr_buf_p = 2; // Since we're ready for the next buffer
+}
+
+void HAL_TIM_PWM_PulseFinishedHalfCpltCallback(TIM_HandleTypeDef *htim) {
+  // DMA buffer set from LED(wr_buf_p) to LED(wr_buf_p + 1)
+  if(wr_buf_p < NUM_PIXELS) {
+    // We're in. Fill the even buffer
+    for(uint_fast8_t i = 0; i < 8; ++i) {
+      wr_buf[i     ] = PWM_LO << (((rgb_arr[4 * wr_buf_p    ] << i) & 0x80) > 0);
+      wr_buf[i +  8] = PWM_LO << (((rgb_arr[4 * wr_buf_p + 1] << i) & 0x80) > 0);
+      wr_buf[i + 16] = PWM_LO << (((rgb_arr[4 * wr_buf_p + 2] << i) & 0x80) > 0);
+      wr_buf[i + 24] = PWM_LO << (((rgb_arr[4 * wr_buf_p + 3] << i) & 0x80) > 0);
+    }
+    wr_buf_p++;
+  } else if (wr_buf_p < NUM_PIXELS + 2) {
+    // Last two transfers are resets. 64 * 1.25 us = 80 us == good enough reset
+    // First half reset zero fill
+    for(uint8_t i = 0; i < WRITE_BUF_LEN / 2; ++i) wr_buf[i] = 0;
+    wr_buf_p++;
+  }
+}
 /* USER CODE END 4 */
 
 /**

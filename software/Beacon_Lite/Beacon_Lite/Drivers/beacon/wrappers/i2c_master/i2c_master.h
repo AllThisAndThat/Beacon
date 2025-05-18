@@ -11,6 +11,7 @@ public:
   HAL_StatusTypeDef act_pollRead(const uint16_t device_address, const uint16_t register_address,
                                  uint8_t *data);
   HAL_StatusTypeDef act_pollWrite(const uint16_t device_address, const uint16_t register_address, uint8_t data);
+  HAL_StatusTypeDef act_pollVerifyWrite(const uint16_t device_address, const uint16_t register_address, uint8_t data);
 
 private:
   I2C_HandleTypeDef hI2c_;

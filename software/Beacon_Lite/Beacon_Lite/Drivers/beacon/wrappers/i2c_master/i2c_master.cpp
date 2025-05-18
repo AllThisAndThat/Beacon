@@ -27,3 +27,12 @@ HAL_StatusTypeDef I2c::act_pollWrite(const uint16_t device_address, const uint16
                              &data, kDataSize, 10);
   return status;
 }
+
+HAL_StatusTypeDef I2c::act_pollVerifyWrite(const uint16_t device_address, const uint16_t register_address, uint8_t data) {
+  HAL_StatusTypeDef status = HAL_OK;
+  uint8_t rx_buffer;
+  this->act_pollWrite(device_address, register_address, data);
+  this->act_pollRead(device_address, register_address, &rx_buffer);
+  if (rx_buffer != data) {status = HAL_ERROR;}
+  return status;
+}

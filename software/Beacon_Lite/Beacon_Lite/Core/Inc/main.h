@@ -39,6 +39,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define GREEN_LED_Pin GPIO_PIN_5
+#define GREEN_LED_GPIO_Port GPIOA
 #define SWDIO_Pin GPIO_PIN_13
 #define SWDIO_GPIO_Port GPIOA
 #define SWCLK_Pin GPIO_PIN_14
@@ -47,6 +49,9 @@ void Error_Handler(void);
 #define JTDI_GPIO_Port GPIOA
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
+#define AMB_INT_Pin GPIO_PIN_5
+#define AMB_INT_GPIO_Port GPIOB
+#define AMB_INT_EXTI_IRQn EXTI5_IRQn
 
 /* USER CODE BEGIN Private defines */
 /* USER CODE END Private defines */

@@ -439,18 +439,6 @@
 		{
 			"backtrace" : 3,
 			"isGenerated" : true,
-			"path" : "build/debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_i2c.c.obj",
-			"sourceGroupIndex" : 2
-		},
-		{
-			"backtrace" : 3,
-			"isGenerated" : true,
-			"path" : "build/debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_i2c_ex.c.obj",
-			"sourceGroupIndex" : 2
-		},
-		{
-			"backtrace" : 3,
-			"isGenerated" : true,
 			"path" : "build/debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_dma.c.obj",
 			"sourceGroupIndex" : 2
 		},
@@ -512,6 +500,18 @@
 			"backtrace" : 3,
 			"isGenerated" : true,
 			"path" : "build/debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_exti.c.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 3,
+			"isGenerated" : true,
+			"path" : "build/debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_i2c.c.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 3,
+			"isGenerated" : true,
+			"path" : "build/debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_hal_i2c_ex.c.obj",
 			"sourceGroupIndex" : 2
 		},
 		{

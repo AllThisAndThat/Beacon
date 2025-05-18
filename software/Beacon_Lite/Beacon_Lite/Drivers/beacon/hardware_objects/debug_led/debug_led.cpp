@@ -19,7 +19,7 @@ HAL_StatusTypeDef DebugLed::set_color(Color color) {
     case Color::kBlue:
       return set_color(0, 0, 0xFFFF);
     case Color::kYellow:
-      return set_color(0xFFFF, 0xFF, 0);
+      return set_color(0xFFF, 0xFF, 0);
     default:
       return HAL_ERROR;
   }

@@ -19,3 +19,7 @@ namespace syscfg
 
   }
 }  
+
+/*
+Todo: try to make inline function in i2c to write a value and then read is saved. For ltr_303als initiate.
+*/
