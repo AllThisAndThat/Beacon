@@ -1,13 +1,27 @@
 #include "stm32h5xx_hal.h"
 
+// #include "cmsis_os2.h"
+
 #include "i2c_master.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void Task_Ltr_303als(void *argument);
+
+#ifdef __cplusplus
+}
+#endif
+
+// #ifdef __cplusplus
 
 class Ltr_303als {
 public:
   Ltr_303als(I2C_HandleTypeDef hI2c);
   ~Ltr_303als();
 
-  HAL_StatusTypeDef get_brightness(uint16_t *brightness);
+  uint16_t get_brightness() const { return last_brightness_;};
 
   HAL_StatusTypeDef act_setInterruptThresholds();
 
@@ -25,3 +39,5 @@ private:
   HAL_StatusTypeDef act_startSampling();
   HAL_StatusTypeDef act_swReset();
 };
+
+// #endif // __cplusplus

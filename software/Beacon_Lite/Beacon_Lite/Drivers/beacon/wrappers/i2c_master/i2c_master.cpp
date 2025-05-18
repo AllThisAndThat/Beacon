@@ -36,3 +36,4 @@ HAL_StatusTypeDef I2c::act_pollVerifyWrite(const uint16_t device_address, const 
   if (rx_buffer != data) {status = HAL_ERROR;}
   return status;
 }
+

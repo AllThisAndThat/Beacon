@@ -1,10 +1,18 @@
 #include "ltr_303als.h"
 
+#include "cmsis_os2.h"
+
 #include "main.h"
+#include "cpp_main.h"
 
 #include "syscfg.h"
 
 constexpr uint16_t kAddr = syscfg::i2c1::addr::kLtr303als;
+
+#define LTR303ALS_FLAG_INT   (1U << 0)
+
+osEventFlagsId_t ltr303als_event_flags;
+uint16_t brightness;
 
 Ltr_303als::Ltr_303als(I2C_HandleTypeDef hI2c) {
   hI2c_ = I2c(hI2c);
@@ -18,13 +26,6 @@ Ltr_303als::~Ltr_303als() {
 
 }
 
-HAL_StatusTypeDef Ltr_303als::get_brightness(uint16_t *brightness) {
-  HAL_StatusTypeDef status = this->act_pollBrightness();
-  if (status != HAL_OK) {Error_Handler();}
-  *brightness = last_brightness_;
-  return status;
-}
-
 HAL_StatusTypeDef Ltr_303als::act_setInterruptThresholds() {
   HAL_StatusTypeDef status;
 
@@ -33,11 +34,12 @@ HAL_StatusTypeDef Ltr_303als::act_setInterruptThresholds() {
 
   // HAL_NVIC_DisableIRQ(EXTI5_IRQn);
   /*
-  The following math is used to set a high thereshold that is 6% larger/smaller than current brightness.
+  The following math is used to set an interrupt thereshold that is
+  6% larger/smaller than current brightness.
   Uses divider that is power of 2 to avoid floating point math.
   Prevents overflow of the 16 bit number.
   */
- constexpr uint16_t kDenTerm = 8;
+ constexpr uint16_t kDenTerm = 32;
   constexpr uint16_t kNumHighTerm = kDenTerm + 1;
   constexpr uint16_t kMaxThreshold = 0xFFFF;
   constexpr uint16_t KMaxValueToOverflow = ((kMaxThreshold / kNumHighTerm) * kDenTerm);
@@ -174,4 +176,25 @@ HAL_StatusTypeDef Ltr_303als::act_swReset() {
   if (status != HAL_OK) {Error_Handler();}
   HAL_Delay(100);
   return status;
+}
+
+void Task_Ltr_303als(void *argument) {
+  ltr303als_event_flags = osEventFlagsNew(NULL);
+  Ltr_303als ltr303als(hi2c1);
+  HAL_StatusTypeDef status;
+  uint32_t flags;
+  for(;;) {
+    flags = osEventFlagsWait(ltr303als_event_flags, LTR303ALS_FLAG_INT, osFlagsWaitAny, osWaitForever);
+    if (flags & LTR303ALS_FLAG_INT) {
+      status = ltr303als.act_setInterruptThresholds();
+      if (status != HAL_OK) { Error_Handler();}
+      brightness = ltr303als.get_brightness();
+    }
+  }
+}
+
+void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin) {
+  if (GPIO_Pin == AMB_INT_Pin) {
+    osEventFlagsSet(ltr303als_event_flags, LTR303ALS_FLAG_INT);
+  }
 }

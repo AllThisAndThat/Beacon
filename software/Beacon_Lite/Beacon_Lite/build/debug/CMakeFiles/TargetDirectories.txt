@@ -2,6 +2,7 @@ C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/build/debug/CMakeF
 C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/build/debug/CMakeFiles/edit_cache.dir
 C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/build/debug/CMakeFiles/rebuild_cache.dir
 C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/build/debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir
+C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/build/debug/cmake/stm32cubemx/CMakeFiles/RTOS2.dir
 C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/build/debug/cmake/stm32cubemx/CMakeFiles/edit_cache.dir
 C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/build/debug/cmake/stm32cubemx/CMakeFiles/rebuild_cache.dir
 C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/build/debug/cmake/Beacon/CMakeFiles/beacon.dir

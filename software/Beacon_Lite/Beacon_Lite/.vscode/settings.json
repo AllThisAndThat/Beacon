@@ -3,6 +3,9 @@
         "app_main.h": "c",
         "cstdlib": "c",
         "array": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "main.h": "c",
+        "cpp_main.h": "c",
+        "ltr_303als.h": "c"
     }
 }

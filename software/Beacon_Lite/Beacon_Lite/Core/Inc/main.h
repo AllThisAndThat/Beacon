@@ -35,7 +35,9 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+extern I2C_HandleTypeDef hi2c1;
 
+extern TIM_HandleTypeDef htim1;
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

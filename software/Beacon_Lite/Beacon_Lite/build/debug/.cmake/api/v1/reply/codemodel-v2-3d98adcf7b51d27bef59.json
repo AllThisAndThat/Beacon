@@ -35,7 +35,8 @@
 					"source" : "cmake/stm32cubemx",
 					"targetIndexes" : 
 					[
-						1
+						1,
+						2
 					]
 				},
 				{
@@ -50,7 +51,7 @@
 					"source" : "cmake/beacon",
 					"targetIndexes" : 
 					[
-						2
+						3
 					]
 				}
 			],
@@ -69,7 +70,8 @@
 					[
 						0,
 						1,
-						2
+						2,
+						3
 					]
 				}
 			],
@@ -78,14 +80,21 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Beacon_Lite::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Beacon_Lite-Debug-af02865dec6ae4a88267.json",
+					"jsonFile" : "target-Beacon_Lite-Debug-924313546fcf185c5acb.json",
 					"name" : "Beacon_Lite",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
+					"id" : "RTOS2::@768a070a0fe75716b479",
+					"jsonFile" : "target-RTOS2-Debug-e1824c2ab94ce21f76d3.json",
+					"name" : "RTOS2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
 					"id" : "STM32_Drivers::@768a070a0fe75716b479",
-					"jsonFile" : "target-STM32_Drivers-Debug-6d6edaaee30f171d12d0.json",
+					"jsonFile" : "target-STM32_Drivers-Debug-2d8e30491cd1c6416eb7.json",
 					"name" : "STM32_Drivers",
 					"projectIndex" : 0
 				},
