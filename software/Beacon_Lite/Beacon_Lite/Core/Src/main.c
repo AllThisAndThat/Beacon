@@ -22,6 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "cpp_main.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,8 +46,6 @@ I2C_HandleTypeDef hi2c1;
 
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
-DMA_NodeTypeDef Node_GPDMA1_Channel0;
-DMA_QListTypeDef List_GPDMA1_Channel0;
 DMA_HandleTypeDef handle_GPDMA1_Channel0;
 
 /* USER CODE BEGIN PV */
@@ -59,14 +58,69 @@ void MX_FREERTOS_Init(void);
 static void MX_GPIO_Init(void);
 static void MX_GPDMA1_Init(void);
 static void MX_TIM1_Init(void);
-static void MX_I2C1_Init(void);
 static void MX_TIM2_Init(void);
+static void MX_I2C1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+#define PWM_HI (26)
+#define PWM_LO (13)
+
+int datasentflag = 0;
+
+void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
+{
+  htim2.Instance->CCR1 = 0;
+	HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
+	datasentflag = 1;
+}
+
+#define NUM_COLORS 3
+#define NUM_RGBS 20
+
+#define PWM_DATA_SIZE ((NUM_COLORS * 8) * NUM_RGBS)
+uint16_t pwmData[PWM_DATA_SIZE];
+
+void compute_pwm_data(uint32_t color)
+{
+  for (int j = 0; j < NUM_RGBS; j++) {
+    for (int i = 0; i < NUM_COLORS * 8; i++)
+    {
+      if (color & (1 << ((NUM_COLORS * 8 - 1) - i)))
+      {
+        pwmData[j * (NUM_COLORS * 8) + i] = PWM_HI;
+      }
+      else
+      {
+        pwmData[j * (NUM_COLORS * 8) + i] = PWM_LO;
+      }
+    }
+  }
+
+  // for (int i = PWM_DATA_SIZE - 1; i >= 0; i--)
+  //   {
+  //     if (color & (1 << i))
+  //     {
+  //       pwmData[i * j] = PWM_HI;
+  //     }
+  //     else
+  //     {
+  //       pwmData[i * j] = PWM_LO;
+  //     }
+  //   }
+}
+
+void WS2812_Send ()
+{
+	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_1, (uint32_t *)pwmData, PWM_DATA_SIZE);
+	while (!datasentflag){};
+	datasentflag = 0;
+  
+}
+
 
 /* USER CODE END 0 */
 
@@ -101,10 +155,20 @@ int main(void)
   MX_GPIO_Init();
   MX_GPDMA1_Init();
   MX_TIM1_Init();
-  MX_I2C1_Init();
   MX_TIM2_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+  // cpp_main();
+  uint32_t color = 0x347235;
+  compute_pwm_data(color);
+  WS2812_Send();
+  
+  HAL_TIM_PWM_Stop_DMA(&htim2, TIM_CHANNEL_1);
+  
 
+  for (;;) {
+  
+  }
 
   /* USER CODE END 2 */
 
