@@ -130,6 +130,10 @@
 				{
 					"backtrace" : 4,
 					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/ltr_303als"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/neopixel_4310"
 				}
 			],
 			"language" : "C",
@@ -227,6 +231,10 @@
 				{
 					"backtrace" : 4,
 					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/ltr_303als"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/neopixel_4310"
 				}
 			],
 			"language" : "ASM",
@@ -310,6 +318,10 @@
 				{
 					"backtrace" : 4,
 					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/ltr_303als"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/neopixel_4310"
 				}
 			],
 			"language" : "CXX",
@@ -326,7 +338,8 @@
 				8,
 				9,
 				10,
-				11
+				11,
+				12
 			]
 		}
 	],
@@ -384,7 +397,8 @@
 				8,
 				9,
 				10,
-				11
+				11,
+				12
 			]
 		},
 		{
@@ -398,7 +412,6 @@
 			"name" : "Object Libraries",
 			"sourceIndexes" : 
 			[
-				12,
 				13,
 				14,
 				15,
@@ -425,7 +438,8 @@
 				36,
 				37,
 				38,
-				39
+				39,
+				40
 			]
 		}
 	],
@@ -501,6 +515,12 @@
 			"backtrace" : 4,
 			"compileGroupIndex" : 2,
 			"path" : "Drivers/beacon/hardware_objects/ltr_303als/ltr_303als.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 2,
+			"path" : "Drivers/beacon/hardware_objects/neopixel_4310/neopixel_4310.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

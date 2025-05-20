@@ -6,6 +6,8 @@
         "string_view": "cpp",
         "main.h": "c",
         "cpp_main.h": "c",
-        "ltr_303als.h": "c"
+        "ltr_303als.h": "c",
+        "cstdint": "cpp",
+        "random": "cpp"
     }
 }

@@ -66,49 +66,6 @@ static void MX_I2C1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-#define PWM_HI (26)
-#define PWM_LO (13)
-
-int datasentflag = 0;
-
-void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
-{
-  htim2.Instance->CCR1 = 0;
-	HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
-	datasentflag = 1;
-}
-
-#define NUM_COLORS 3
-#define NUM_RGBS 96
-
-#define PWM_DATA_SIZE ((NUM_COLORS * 8) * NUM_RGBS)
-uint8_t pwmData[PWM_DATA_SIZE];
-
-void compute_pwm_data(uint32_t color)
-{
-  for (int j = 0; j < NUM_RGBS; j++) {
-    for (int i = 0; i < NUM_COLORS * 8; i++)
-    {
-      if (color & (1 << ((NUM_COLORS * 8 - 1) - i)))
-      {
-        pwmData[j * (NUM_COLORS * 8) + i] = PWM_HI;
-      }
-      else
-      {
-        pwmData[j * (NUM_COLORS * 8) + i] = PWM_LO;
-      }
-    }
-  }
-
-}
-
-void WS2812_Send ()
-{
-	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_1, (uint32_t *)pwmData, PWM_DATA_SIZE);
-	while (!datasentflag){};
-	datasentflag = 0;
-}
-
 
 /* USER CODE END 0 */
 
@@ -146,18 +103,7 @@ int main(void)
   MX_TIM2_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-  // cpp_main();
-  uint32_t color = 0x000002;
-  // uint32_t color = 0x0;
-  compute_pwm_data(color);
-  WS2812_Send();
-  
-
-  
-
-  for (;;) {
-  
-  }
+  cpp_main();
 
   /* USER CODE END 2 */
 
