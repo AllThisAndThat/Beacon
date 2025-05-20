@@ -74,12 +74,12 @@ int datasentflag = 0;
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 {
   htim2.Instance->CCR1 = 0;
-	HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
+	// HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
 	datasentflag = 1;
 }
 
 #define NUM_COLORS 3
-#define NUM_RGBS 96
+#define NUM_RGBS 1
 
 #define PWM_DATA_SIZE ((NUM_COLORS * 8) * NUM_RGBS)
 uint8_t pwmData[PWM_DATA_SIZE];
@@ -150,9 +150,11 @@ int main(void)
   uint32_t color = 0x000002;
   // uint32_t color = 0x0;
   compute_pwm_data(color);
-  WS2812_Send();
-  
-
+  for (int i = 0; i < 96; i++) {
+    WS2812_Send();
+  }
+  HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
+  // HAL_TIM_PWM_Stop_DMA(&htim2, TIM_CHANNEL_1);
   
 
   for (;;) {
