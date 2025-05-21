@@ -1,3 +1,5 @@
+#pragma once
+
 #include "stm32h5xx_hal.h"
 
 // #include "cmsis_os2.h"
@@ -8,7 +10,7 @@
 extern "C" {
 #endif
 
-void Task_Ltr_303als(void *argument);
+void Task_Ltr_303als();
 
 #ifdef __cplusplus
 }
@@ -18,7 +20,7 @@ void Task_Ltr_303als(void *argument);
 
 class Ltr_303als {
 public:
-  Ltr_303als(I2C_HandleTypeDef hI2c);
+  Ltr_303als();
   ~Ltr_303als();
 
   uint16_t get_brightness() const { return last_brightness_;};

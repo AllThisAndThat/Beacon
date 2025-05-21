@@ -37,3 +37,11 @@ HAL_StatusTypeDef I2c::act_pollVerifyWrite(const uint16_t device_address, const 
   return status;
 }
 
+HAL_StatusTypeDef I2c::act_pollWriteMulti(const uint16_t device_address, const uint16_t register_address,
+                                          uint8_t *data, const size_t size) {
+  HAL_StatusTypeDef status;
+  status = HAL_I2C_Mem_Write(&this->hI2c_, device_address,
+                              register_address, I2C_MEMADD_SIZE_8BIT,
+                              data, size, 10);
+  return status;
+}

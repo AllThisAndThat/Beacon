@@ -7,15 +7,14 @@
 
 #include "syscfg.h"
 
-constexpr uint16_t kAddr = syscfg::i2c1::addr::kLtr303als;
+constexpr uint16_t kAddr = syscfg::i2c::addr::kLtr303als;
 
 #define LTR303ALS_FLAG_INT   (1U << 0)
-
 osEventFlagsId_t ltr303als_event_flags;
 uint16_t brightness;
 
-Ltr_303als::Ltr_303als(I2C_HandleTypeDef hI2c) {
-  hI2c_ = I2c(hI2c);
+Ltr_303als::Ltr_303als() {
+  hI2c_ = I2c(syscfg::i2c::bus::kLtr303als);
   last_brightness_ = 0;
   high_threshold_ = 0XFFFF;
   low_threshold_ = 0;
@@ -178,9 +177,9 @@ HAL_StatusTypeDef Ltr_303als::act_swReset() {
   return status;
 }
 
-void Task_Ltr_303als(void *argument) {
+void Task_Ltr_303als() {
   ltr303als_event_flags = osEventFlagsNew(NULL);
-  Ltr_303als ltr303als(hi2c1);
+  Ltr_303als ltr303als;
   HAL_StatusTypeDef status;
   uint32_t flags;
   for(;;) {

@@ -1,32 +1,58 @@
 #include "cpp_main.h"
 
-#include "neopixel_4310.h"
+#include "is31fl3741.h"
 
-Neopixel4310 neopixel;
-uint8_t hue = 0;
+HAL_StatusTypeDef status = HAL_OK;
 
 void cpp_main() {
-  
-  
-  
-  neopixel.act_refresh();
+  // I2c i2c1 (hi2c1);
+  // uint8_t rx_buffer = 0;
+  // uint16_t addr = 0x30 << 1;
+  // uint8_t idReg = 0xFC;
+  // status = i2c1.act_pollRead(addr, idReg, &rx_buffer);
 
-  
-  uint8_t saturation = 127;
-  uint8_t lightness = 127;
-  uint8_t hue = 0;
+  IS31FL3741 is31fl3741;
+  status = is31fl3741.action_verify();
+  if (status != HAL_OK) { Error_Handler();}
 
-  for(;;) {
-    neopixel.set_colorHSL(hue, saturation, lightness);
-    neopixel.act_refresh();
-    hue += 1;
-    HAL_Delay(50);
+  status = is31fl3741.initiate();
+  if (status != HAL_OK) { Error_Handler();}
 
-    if (hue == 255) {
-      neopixel.act_blank();
-      while(1);
+  is31fl3741.set_global_current(0x01);
+  if (status != HAL_OK) { Error_Handler();}
+
+  is31fl3741.action_on();
+  if (status != HAL_OK) { Error_Handler();}
+
+  LedConfig config = {0, 0, 0, 0, 0};
+  uint8_t period = 1;
+  uint8_t increment = 10;
+
+  for (;;) {
+    increment += 5;
+    for (int color = 0; color < 3; color++) {
+      for (uint8_t x = 0; x < 13; x++) {
+        if (color == 0) {
+          config.r += increment;
+        }
+        else if (color == 1) {
+          config.b += increment;
+        }
+        else {
+          config.g += increment;
+        }
+        config.x = x;
+        for (uint8_t y = 0; y < 9; y++) {
+          config.y = y;
+          status = is31fl3741.set_rgb_led(config);
+          if (status != HAL_OK) {
+            Error_Handler();
+          }
+          HAL_Delay(period);
+
+        }
+      }
     }
-    
-  }
+}
 
 }

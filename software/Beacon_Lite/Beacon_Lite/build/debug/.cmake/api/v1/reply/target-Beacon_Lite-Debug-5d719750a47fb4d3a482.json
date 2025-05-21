@@ -129,6 +129,10 @@
 				},
 				{
 					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/is31fl3741"
+				},
+				{
+					"backtrace" : 4,
 					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/ltr_303als"
 				},
 				{
@@ -230,6 +234,10 @@
 				},
 				{
 					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/is31fl3741"
+				},
+				{
+					"backtrace" : 4,
 					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/ltr_303als"
 				},
 				{
@@ -317,6 +325,10 @@
 				},
 				{
 					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/is31fl3741"
+				},
+				{
+					"backtrace" : 4,
 					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/ltr_303als"
 				},
 				{
@@ -339,7 +351,8 @@
 				9,
 				10,
 				11,
-				12
+				12,
+				13
 			]
 		}
 	],
@@ -398,7 +411,8 @@
 				9,
 				10,
 				11,
-				12
+				12,
+				13
 			]
 		},
 		{
@@ -412,7 +426,6 @@
 			"name" : "Object Libraries",
 			"sourceIndexes" : 
 			[
-				13,
 				14,
 				15,
 				16,
@@ -439,7 +452,8 @@
 				37,
 				38,
 				39,
-				40
+				40,
+				41
 			]
 		}
 	],
@@ -509,6 +523,12 @@
 			"backtrace" : 4,
 			"compileGroupIndex" : 2,
 			"path" : "Drivers/beacon/hardware_objects/debug_led/debug_led.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 2,
+			"path" : "Drivers/beacon/hardware_objects/is31fl3741/is31fl3741.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

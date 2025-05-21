@@ -36,9 +36,9 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
 extern I2C_HandleTypeDef hi2c1;
+extern I2C_HandleTypeDef hi2c2;
 
 extern TIM_HandleTypeDef htim1;
-
 extern TIM_HandleTypeDef htim2;
 /* USER CODE END EFP */
 
