@@ -12,16 +12,11 @@ void cpp_main() {
   // status = i2c1.act_pollRead(addr, idReg, &rx_buffer);
 
   IS31FL3741 is31fl3741;
-  status = is31fl3741.action_verify();
+
+  is31fl3741.set_globalCurrent(0x01);
   if (status != HAL_OK) { Error_Handler();}
 
-  status = is31fl3741.initiate();
-  if (status != HAL_OK) { Error_Handler();}
-
-  is31fl3741.set_global_current(0x01);
-  if (status != HAL_OK) { Error_Handler();}
-
-  is31fl3741.action_on();
+  is31fl3741.act_on();
   if (status != HAL_OK) { Error_Handler();}
 
   LedConfig config = {0, 0, 0, 0, 0};
@@ -44,7 +39,7 @@ void cpp_main() {
         config.x = x;
         for (uint8_t y = 0; y < 9; y++) {
           config.y = y;
-          status = is31fl3741.set_rgb_led(config);
+          status = is31fl3741.set_pixel(config);
           if (status != HAL_OK) {
             Error_Handler();
           }
