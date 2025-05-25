@@ -1,10 +1,9 @@
 #include "ltr_303als.h"
 
 #include "cmsis_os2.h"
-
 #include "main.h"
-#include "cpp_main.h"
 
+#include "cpp_main.h"
 #include "syscfg.h"
 
 constexpr uint16_t kAddr = syscfg::i2c::addr::kLtr303als;
@@ -177,7 +176,7 @@ HAL_StatusTypeDef Ltr_303als::act_swReset() {
   return status;
 }
 
-void Task_Ltr_303als() {
+void Task_Ltr_303als(void *argument) {
   ltr303als_event_flags = osEventFlagsNew(NULL);
   Ltr_303als ltr303als;
   HAL_StatusTypeDef status;
@@ -189,6 +188,7 @@ void Task_Ltr_303als() {
       if (status != HAL_OK) { Error_Handler();}
       brightness = ltr303als.get_brightness();
     }
+    
   }
 }
 

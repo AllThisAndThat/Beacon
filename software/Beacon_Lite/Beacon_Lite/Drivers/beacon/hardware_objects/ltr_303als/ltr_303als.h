@@ -2,21 +2,17 @@
 
 #include "stm32h5xx_hal.h"
 
-// #include "cmsis_os2.h"
-
 #include "i2c_master.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void Task_Ltr_303als();
+void Task_Ltr_303als(void *argument);
 
 #ifdef __cplusplus
 }
 #endif
-
-// #ifdef __cplusplus
 
 class Ltr_303als {
 public:

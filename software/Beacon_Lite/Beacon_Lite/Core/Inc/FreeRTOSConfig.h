@@ -162,6 +162,9 @@ header file. */
 
 /* USER CODE BEGIN Defines */
 /* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
+// #define configGENERATE_RUN_TIME_STATS 1
+// #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()
+// #define portGET_RUN_TIME_COUNTER_VALUE()
 /* USER CODE END Defines */
 
 #endif /* __FREERTOS_CONFIG_H */

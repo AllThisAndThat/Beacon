@@ -1,19 +1,13 @@
 #include "is31fl3741.h"
 
+#include "cmsis_os2.h"
+
 #include "syscfg.h"
 
-constexpr uint8_t kAddr = syscfg::i2c::addr::kIs31fl3741;
+constexpr uint8_t kDevAddr = syscfg::i2c::addr::kIs31fl3741;
 
-constexpr int kGroup1Max = 180;
-constexpr int kGroup2Max = kArraySize - kGroup1Max;
-
-enum Flag
-{
-  kWait = 0,
-  kReady = 1
-};
-
-volatile Flag i2c_dma_flag = kReady;
+constexpr int kNumRows = 9;
+constexpr int kNumCols = 13;
 
 namespace IS31FL3741_Config {
   // Page 14 datasheet
@@ -25,6 +19,9 @@ namespace IS31FL3741_Config {
   constexpr uint8_t kDataOff = kData | (0 << 0);
   constexpr uint8_t kDataOn  = kData | (1 << 0);
   constexpr uint8_t rRegister = 0x00;
+
+  constexpr uint8_t kUnlock = 0b1100'0101;
+  constexpr uint8_t rUnlock = 0xFE;
 }
 
 IS31FL3741::IS31FL3741()
@@ -48,7 +45,7 @@ HAL_StatusTypeDef IS31FL3741::set_globalCurrent(const uint8_t current) {
   global_current_ = current;
 
   constexpr uint8_t rGlobalCurrent = 0x01;
-  status = hI2c_.act_pollVerifyWrite(kAddr, rGlobalCurrent, current);
+  status = hI2c_.act_pollVerifyWrite(kDevAddr, rGlobalCurrent, current);
   if (status != HAL_OK) {this->error_handler();}
 
   return HAL_OK;
@@ -58,51 +55,112 @@ HAL_StatusTypeDef IS31FL3741::set_pixel(uint32_t row, uint32_t col,
                                          HslColor hsl) {
   if ((row > kNumRows) || (col > kNumCols)) {return HAL_ERROR;}             
 
-  row = this->act_mapRow(row);
-  uint32_t offset;
-  if (col < 10) {
-    offset = ((row * 10) + col) * 3;
+  RgbColor rgb = this->act_hslToRgb(hsl);
+  
+  return set_pixel(row, col, rgb);
+}
+
+HAL_StatusTypeDef IS31FL3741::set_pixel(uint32_t row, uint32_t col,
+                                        RgbColor rgb) {
+  if ((row > kNumRows) || (col > kNumCols)) {return HAL_ERROR;}
+      // Due to layout, physically remaps the rows
+  constexpr uint32_t rowmap[] = {8, 5, 4, 3, 2, 1, 0, 7, 6};
+  row =  rowmap[row];
+
+  // Converts 2D (row, col) pixel address cordinates to 1D LED address 
+  uint32_t address;
+  uint8_t *array;
+  if (col >= 10) {
+    address = (3 * col) + (9 * row) + 60;
+    if (address > kPage1ArraySize) {
+      return HAL_ERROR;
+    }
+    array = page1_leds_;
+  }
+  else if (row <= 5) {
+    address = (3 * col) + (30 * row);
+    if (address > kPage0ArraySize) {
+      return HAL_ERROR;
+    }
+    array = page0_leds_;
   }
   else {
-    offset = (((row * 3) + 80) + col) * 3;
+    address = (3 * col) + (30 * row) - 180;
+    if (address > kPage1ArraySize) {
+      return HAL_ERROR;
+    }
+    array = page1_leds_;
   }
-
-  RgbColor rgb = this->act_hslToRgb(hsl);
+  
+  // RGB colors are flipped on odd columns and column 12
   constexpr uint32_t rOffset = 2;
   constexpr uint32_t gOffset = 1;
   constexpr uint32_t bOffset = 0;
   if ((col & 1) || (col == 12)) {
     constexpr uint32_t remap[] = {2, 0, 1};
-    led_data_[offset + remap[rOffset]] = rgb.r;
-    led_data_[offset + remap[gOffset]] = rgb.g;
-    led_data_[offset + remap[bOffset]] = rgb.b;
+    array[address + remap[rOffset]] = rgb.r;
+    array[address + remap[gOffset]] = rgb.g;
+    array[address + remap[bOffset]] = rgb.b;
   }
   else {
-    led_data_[offset + rOffset] = rgb.r;
-    led_data_[offset + gOffset] = rgb.g;
-    led_data_[offset + bOffset] = rgb.b;
+    array[address + rOffset] = rgb.r;
+    array[address + gOffset] = rgb.g;
+    array[address + bOffset] = rgb.b;
   }
-
-
-
 
   return HAL_OK;
 }
 
-HAL_StatusTypeDef IS31FL3741::set_all(HslColor hsl) {
+HAL_StatusTypeDef IS31FL3741::set_row(uint32_t row, HslColor hsl) {
+  if (row >= kNumRows) {return HAL_ERROR;}
+
   RgbColor rgb = this->act_hslToRgb(hsl);
-  
+
+  for (int col = 0; col < kNumCols; col++) {
+    this->set_pixel(row, col, rgb);
+  }
 
   return HAL_OK;
+}
+
+HAL_StatusTypeDef IS31FL3741::set_col(uint32_t col, HslColor hsl) {
+  if (col >= kNumCols) {return HAL_ERROR;}
+
+  RgbColor rgb = this->act_hslToRgb(hsl);
+
+  for (int row = 0; row < kNumRows; row++) {
+    this->set_pixel(row, col, rgb);
+  }
+
+  return HAL_OK;
+}
+
+void IS31FL3741::set_all_pixels(HslColor hsl) {
+  RgbColor rgb = this->act_hslToRgb(hsl);
+
+  for (int row = 0; row < kNumRows; row++) {
+    for (int col = 0; col < kNumCols; col++) {
+      this->set_pixel(row, col, rgb);
+    }
+  }
+}
+
+void IS31FL3741::set_all_pixels_blank() {
+  for (int i = (kPage0ArraySize - 1); i >= 0; i--) {
+    page0_leds_[i] = 0;
+  }
+  for (int i = (kPage1ArraySize - 1); i >= 0; i--) {
+    page1_leds_[i] = 0;
+  }
 }
 
 HAL_StatusTypeDef IS31FL3741::act_verify() {
   HAL_StatusTypeDef status;
 
-  constexpr uint8_t kCorrectId = 0x60;
   constexpr uint8_t rId = 0xFC;
   uint8_t readId = 0;
-  status = hI2c_.act_pollRead(kAddr, rId, &readId);
+  status = hI2c_.act_pollRead(kDevAddr, rId, &readId);
+  constexpr uint8_t kCorrectId = 0x60;
   if (readId != kCorrectId) {this->error_handler();}
 
   return HAL_OK;
@@ -113,7 +171,7 @@ HAL_StatusTypeDef IS31FL3741::act_off() {
   if (status != HAL_OK) {this->error_handler();}
 
   using namespace IS31FL3741_Config;
-  status = hI2c_.act_pollVerifyWrite(kAddr, rRegister, kDataOff);
+  status = hI2c_.act_pollVerifyWrite(kDevAddr, rRegister, kDataOff);
   if (status != HAL_OK) {this->error_handler();}
 
   state_ = IS31FL3741_State::kOff;
@@ -126,8 +184,10 @@ HAL_StatusTypeDef IS31FL3741::act_on() {
   if (status != HAL_OK) {this->error_handler();}
 
   using namespace IS31FL3741_Config;
-  status = hI2c_.act_pollVerifyWrite(kAddr, rRegister, kDataOn);
+  status = hI2c_.act_pollVerifyWrite(kDevAddr, rRegister, kDataOn);
   if (status != HAL_OK) {this->error_handler();}
+
+  
 
   state_ = IS31FL3741_State::kOn;
 
@@ -140,7 +200,7 @@ HAL_StatusTypeDef IS31FL3741::act_resetAllLeds() {
 
   constexpr uint8_t rReset = 0x3F;
   constexpr uint8_t kReset = 0xAE;
-  status = hI2c_.act_pollWrite(kAddr, rReset, kReset);
+  status = hI2c_.act_pollWrite(kDevAddr, rReset, kReset);
   if (status != HAL_OK) {this->error_handler();}
   page_ = Page::k0; // Default value after reset
 
@@ -165,15 +225,15 @@ HAL_StatusTypeDef IS31FL3741::act_refreshBrightness() {
 
   status = set_page(Page::k2);
   if (status != HAL_OK) {this->error_handler();}
-  for (int i = 0; i < kGroup1Max; i++) {
-    status = hI2c_.act_pollVerifyWrite(kAddr, i, 0xFF);
+  for (int i = 0; i < kPage0ArraySize; i++) {
+    status = hI2c_.act_pollVerifyWrite(kDevAddr, i, 0xFF);
     if (status != HAL_OK) {this->error_handler();}
   }
 
   status = set_page(Page::k3);
-  for (int i = 0; i < kGroup2Max; i++) {
+  for (int i = 0; i < kPage1ArraySize; i++) {
     if (status != HAL_OK) {this->error_handler();}
-    status = hI2c_.act_pollVerifyWrite(kAddr, i, 0xFF);
+    status = hI2c_.act_pollVerifyWrite(kDevAddr, i, 0xFF);
     if (status != HAL_OK) {this->error_handler();}
   }
 
@@ -183,17 +243,17 @@ HAL_StatusTypeDef IS31FL3741::act_refreshBrightness() {
 HAL_StatusTypeDef IS31FL3741::act_refreshColor() {
   HAL_StatusTypeDef status;
 
-  // &syscfg::i2c::bus::kIs31fl3741
-
   status = set_page(Page::k0);
   if (status != HAL_OK) {this->error_handler();}
-  status = HAL_I2C_Mem_Write_DMA(&hi2c1, kAddr, 0, I2C_MEMADD_SIZE_8BIT,
-                                 led_data_, kGroup1Max);
+  status = HAL_I2C_Mem_Write_DMA(&hi2c1, kDevAddr, 0, I2C_MEMADD_SIZE_8BIT,
+                                 page0_leds_, kPage0ArraySize);
+  if (status != HAL_OK) {this->error_handler();}
 
   status = set_page(Page::k1);
   if (status != HAL_OK) {this->error_handler();}
-  status = HAL_I2C_Mem_Write_DMA(&hi2c1, kAddr, 0, I2C_MEMADD_SIZE_8BIT,
-  &led_data_[kGroup1Max], kGroup2Max);
+  status = HAL_I2C_Mem_Write_DMA(&hi2c1, kDevAddr, 0, I2C_MEMADD_SIZE_8BIT,
+                                 page1_leds_, kPage1ArraySize);
+  if (status != HAL_OK) {this->error_handler();}
 
   return HAL_OK;
 }
@@ -221,7 +281,7 @@ HAL_StatusTypeDef IS31FL3741::setup_configRegister() {
   if (status != HAL_OK) {this->error_handler();}
 
   using namespace IS31FL3741_Config;
-  status = hI2c_.act_pollVerifyWrite(kAddr, rRegister, kDataOff);
+  status = hI2c_.act_pollVerifyWrite(kDevAddr, rRegister, kDataOff);
   if (status != HAL_OK) {this->error_handler();}
 
   return HAL_OK;
@@ -237,7 +297,7 @@ HAL_StatusTypeDef IS31FL3741::setup_pullResistor() {
   constexpr uint8_t kPUR_8k = (0b101 << 0);
   constexpr uint8_t kPullResistor = kPDR_8k | kPUR_8k;
   constexpr uint8_t rPullResistor = 0x02;
-  status = hI2c_.act_pollVerifyWrite(kAddr, rPullResistor,
+  status = hI2c_.act_pollVerifyWrite(kDevAddr, rPullResistor,
                                 kPullResistor);
   if (status != HAL_OK) {this->error_handler();}
 
@@ -246,18 +306,18 @@ HAL_StatusTypeDef IS31FL3741::setup_pullResistor() {
 
 HAL_StatusTypeDef IS31FL3741::set_page(const Page page) {
   if (page == page_) {return HAL_OK;}
-  page_ = page;
+  
+  using namespace IS31FL3741_Config;
 
-  constexpr uint8_t kUnlock = 0b1100'0101;
-  constexpr uint8_t rUnlock = 0xFE;
-  HAL_StatusTypeDef status = hI2c_.act_pollVerifyWrite(kAddr, rUnlock, kUnlock);
+  HAL_StatusTypeDef status = hI2c_.act_pollVerifyWrite(kDevAddr, rUnlock, kUnlock);
   if (status != HAL_OK) {this->error_handler();}
 
   constexpr uint8_t rPageSelect = 0xFD;
-  status = hI2c_.act_pollWrite(kAddr, rPageSelect, 
+  status = hI2c_.act_pollWrite(kDevAddr, rPageSelect, 
                                 static_cast<uint8_t>(page));
   if (status != HAL_OK) {this->error_handler();}
 
+  page_ = page;
   return HAL_OK;
 }
 
@@ -268,17 +328,11 @@ HAL_StatusTypeDef IS31FL3741::act_writePage(const Page page,
   if (status != HAL_OK) {this->error_handler();}
 
   constexpr uint8_t rInitialAddress = 0x00;
-  status = hI2c_.act_pollWriteMulti(kAddr, rInitialAddress, data,
+  status = hI2c_.act_pollWriteMulti(kDevAddr, rInitialAddress, data,
                                   data_len);
   if (status != HAL_OK) {this->error_handler();}
 
   return HAL_OK;
-}
-
-uint32_t IS31FL3741::act_mapRow(const uint32_t row) {
-  //  Maps {0, 1, 2, 3, 4, 5, 6, 7, 8} to {8, 5, 4, 3, 2, 1, 0, 7, 6}
-  constexpr uint32_t rowmap[] = {8, 5, 4, 3, 2, 1, 0, 7, 6};
-  return rowmap[row];
 }
 
 RgbColor IS31FL3741::act_hslToRgb(HslColor hsl) {
@@ -326,12 +380,57 @@ RgbColor IS31FL3741::act_hslToRgb(HslColor hsl) {
 }
 
 
+HslColor global_hsl = {0, 0, 30};
+void Task_Is31fl3741(void *argument) {
+  IS31FL3741 is31fl3741;
+  HAL_StatusTypeDef status;
+
+  status = is31fl3741.set_globalCurrent(0x01);
+  if (status != HAL_OK) { Error_Handler();}
+
+  status = is31fl3741.act_on();
+  if (status != HAL_OK) { Error_Handler();}
+
+  status = is31fl3741.act_refreshBrightness();
+  
+  int delay = 40;
+
+  for(;;) {
+    for (int col = 0; col < kNumCols; col++) {
+      is31fl3741.set_all_pixels_blank();
+      is31fl3741.set_col(col, global_hsl);
+      status = is31fl3741.act_refreshColor();
+      global_hsl.s += 1;
+      osDelay(delay);
+    }
+    for (int row = 0; row < kNumRows; row++) {
+      is31fl3741.set_all_pixels_blank();
+      is31fl3741.set_row(row, global_hsl);
+      status = is31fl3741.act_refreshColor();
+      global_hsl.s += 1;
+      osDelay(delay);
+    }
+    for (int col = (kNumCols - 1); col >= 0; col--)
+    {
+      is31fl3741.set_all_pixels_blank();
+      is31fl3741.set_col(col, global_hsl);
+      status = is31fl3741.act_refreshColor();
+      global_hsl.s += 1;
+      osDelay(delay);
+    }
+    for (int row = kNumRows - 1; row >= 0; row--) {
+      is31fl3741.set_all_pixels_blank();
+      is31fl3741.set_row(row, global_hsl);
+      status = is31fl3741.act_refreshColor();
+      global_hsl.s += 1;
+      osDelay(delay);
+    } 
+    global_hsl.h += 5;
+  }
+}
+
 void IS31FL3741::error_handler() {
   while (1) {
       
   }
-}
-
-void I2C1_EV_IRQHandler(void) {
-  i2c_dma_flag = kReady;
 }

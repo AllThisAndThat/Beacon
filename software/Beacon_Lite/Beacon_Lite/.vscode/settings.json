@@ -8,6 +8,12 @@
         "cpp_main.h": "c",
         "ltr_303als.h": "c",
         "cstdint": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "deque": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "unordered_map": "cpp",
+        "initializer_list": "cpp",
+        "app_freertos.h": "c"
     }
 }
