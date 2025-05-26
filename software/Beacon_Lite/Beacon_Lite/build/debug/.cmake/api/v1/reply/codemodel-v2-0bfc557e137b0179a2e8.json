@@ -80,21 +80,21 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Beacon_Lite::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Beacon_Lite-Debug-5d719750a47fb4d3a482.json",
+					"jsonFile" : "target-Beacon_Lite-Debug-287b020b1f9daaaebf21.json",
 					"name" : "Beacon_Lite",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "RTOS2::@768a070a0fe75716b479",
-					"jsonFile" : "target-RTOS2-Debug-e1824c2ab94ce21f76d3.json",
+					"jsonFile" : "target-RTOS2-Debug-8fe8bea370bea1544e56.json",
 					"name" : "RTOS2",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "STM32_Drivers::@768a070a0fe75716b479",
-					"jsonFile" : "target-STM32_Drivers-Debug-2d8e30491cd1c6416eb7.json",
+					"jsonFile" : "target-STM32_Drivers-Debug-aad3631e2a201e016578.json",
 					"name" : "STM32_Drivers",
 					"projectIndex" : 0
 				},
