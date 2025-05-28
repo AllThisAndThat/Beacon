@@ -80,6 +80,15 @@ static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 // #include "usart.h" // or the header where huart2 is declared
 
+void drain_string(int string);
+void read_fret();
+
+#define NUM_STRINGS 2
+#define NUM_FRETS 2
+uint16_t fret_state[NUM_STRINGS][NUM_FRETS] = {0};
+
+int current_string = 0;
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -126,9 +135,15 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&adc_buffer, BUFFER_SIZE);
-  
-  for (;;) {
 
+  int refresh_period = 10;
+  for (;;) {
+    drain_string(0);
+    HAL_Delay(refresh_period);
+    read_fret();
+    drain_string(1);
+    HAL_Delay(refresh_period);
+    read_fret();
   }
 
     cpp_main();
@@ -230,7 +245,7 @@ static void MX_ADC1_Init(void)
   /** Common config
   */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV16;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV2;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
@@ -245,8 +260,8 @@ static void MX_ADC1_Init(void)
   hadc1.Init.SamplingMode = ADC_SAMPLING_MODE_NORMAL;
   hadc1.Init.Overrun = ADC_OVR_DATA_PRESERVED;
   hadc1.Init.OversamplingMode = ENABLE;
-  hadc1.Init.Oversampling.Ratio = ADC_OVERSAMPLING_RATIO_16;
-  hadc1.Init.Oversampling.RightBitShift = ADC_RIGHTBITSHIFT_NONE;
+  hadc1.Init.Oversampling.Ratio = ADC_OVERSAMPLING_RATIO_256;
+  hadc1.Init.Oversampling.RightBitShift = ADC_RIGHTBITSHIFT_4;
   hadc1.Init.Oversampling.TriggeredMode = ADC_TRIGGEREDMODE_SINGLE_TRIGGER;
   hadc1.Init.Oversampling.OversamplingStopReset = ADC_REGOVERSAMPLING_CONTINUED_MODE;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
@@ -260,8 +275,8 @@ static void MX_ADC1_Init(void)
   AnalogWDGConfig.WatchdogMode = ADC_ANALOGWATCHDOG_SINGLE_REG;
   AnalogWDGConfig.Channel = ADC_CHANNEL_1;
   AnalogWDGConfig.ITMode = ENABLE;
-  AnalogWDGConfig.HighThreshold = 31500;
-  AnalogWDGConfig.LowThreshold = 30500;
+  AnalogWDGConfig.HighThreshold = 33650+350;
+  AnalogWDGConfig.LowThreshold = 33650-350;
   AnalogWDGConfig.FilteringConfig = ADC_AWD_FILTERING_NONE;
   if (HAL_ADC_AnalogWDGConfig(&hadc1, &AnalogWDGConfig) != HAL_OK)
   {
@@ -667,7 +682,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, STRING1_Pin|STRING0_Pin|GPIO_PIN_10, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -686,6 +701,19 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = GPIO_PIN_4;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : STRING1_Pin STRING0_Pin */
+  GPIO_InitStruct.Pin = STRING1_Pin|STRING0_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : FRET1_Pin FRET0_Pin */
+  GPIO_InitStruct.Pin = FRET1_Pin|FRET0_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PC10 */
@@ -727,6 +755,28 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
       uint32_t value = HAL_ADC_GetValue(hadc);
       HAL_GPIO_TogglePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin);
     }
+}
+
+
+void drain_string(int string) {
+  if (string == 0) {
+    HAL_GPIO_WritePin(GPIOC, STRING0_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOC, STRING1_Pin, GPIO_PIN_SET);
+  }
+  else if (string == 1) {
+    HAL_GPIO_WritePin(GPIOC, STRING0_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOC, STRING1_Pin, GPIO_PIN_RESET);
+  }
+  else {
+    Error_Handler();
+  }
+  current_string = string;
+  HAL_Delay(5);
+}
+
+void read_fret() {
+  fret_state[current_string][0] = !HAL_GPIO_ReadPin(GPIOC, FRET0_Pin);
+  fret_state[current_string][1] = !HAL_GPIO_ReadPin(GPIOC, FRET1_Pin);
 }
 /* USER CODE END 4 */
 
