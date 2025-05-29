@@ -45,14 +45,6 @@ extern TIM_HandleTypeDef htim2;
 /* Private defines -----------------------------------------------------------*/
 #define GREEN_LED_Pin GPIO_PIN_5
 #define GREEN_LED_GPIO_Port GPIOA
-#define STRING1_Pin GPIO_PIN_6
-#define STRING1_GPIO_Port GPIOC
-#define STRING0_Pin GPIO_PIN_7
-#define STRING0_GPIO_Port GPIOC
-#define FRET1_Pin GPIO_PIN_8
-#define FRET1_GPIO_Port GPIOC
-#define FRET0_Pin GPIO_PIN_9
-#define FRET0_GPIO_Port GPIOC
 #define SWDIO_Pin GPIO_PIN_13
 #define SWDIO_GPIO_Port GPIOA
 #define SWCLK_Pin GPIO_PIN_14

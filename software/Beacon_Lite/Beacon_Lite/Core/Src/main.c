@@ -60,8 +60,25 @@ UART_HandleTypeDef huart2;
 DMA_HandleTypeDef handle_GPDMA1_Channel2;
 
 /* USER CODE BEGIN PV */
-#define BUFFER_SIZE 32
-uint16_t adc_buffer[BUFFER_SIZE] = {0}; 
+#define BUFFER_SIZE 256
+uint16_t adc_buffer[BUFFER_SIZE] = {0};
+
+typedef enum
+{
+  RESETFLAG = 0,
+  SETFLAG = 1
+} Flag;
+
+volatile Flag half_complete = RESETFLAG;
+volatile Flag complete = RESETFLAG;
+
+uint16_t count = 0;
+
+uint32_t start;
+uint32_t elapsed;
+
+const uint32_t kBaseValue = 16840;
+const uint32_t threshold  = kBaseValue + 20;
 // uint16_t adc_buffer;
 /* USER CODE END PV */
 
@@ -78,16 +95,6 @@ static void MX_ADC1_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
-// #include "usart.h" // or the header where huart2 is declared
-
-void drain_string(int string);
-void read_fret();
-
-#define NUM_STRINGS 2
-#define NUM_FRETS 2
-uint16_t fret_state[NUM_STRINGS][NUM_FRETS] = {0};
-
-int current_string = 0;
 
 /* USER CODE END PFP */
 
@@ -136,17 +143,39 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&adc_buffer, BUFFER_SIZE);
 
-  int refresh_period = 10;
+  uint16_t temp = 0;
   for (;;) {
-    drain_string(0);
-    HAL_Delay(refresh_period);
-    read_fret();
-    drain_string(1);
-    HAL_Delay(refresh_period);
-    read_fret();
+    
+    if (half_complete == SETFLAG) {
+      start = HAL_GetTick();
+      half_complete = RESETFLAG;
+      temp = 0;
+
+      for (int i = 0; i < BUFFER_SIZE / 2; i++) {
+        if (threshold < adc_buffer[i]) {
+          temp++;
+        }
+      }
+      
+    }
+    
+
+    if (complete == SETFLAG) {
+      complete = RESETFLAG;
+
+      for (int i = BUFFER_SIZE / 2; i < BUFFER_SIZE; i++) {
+        if (threshold < adc_buffer[i]) {
+          temp++;
+        }
+      }
+      
+      count = temp;
+      elapsed = HAL_GetTick() - start;
+    }
+    
   }
 
-    cpp_main();
+  cpp_main();
 
   /* USER CODE END 2 */
 
@@ -235,7 +264,6 @@ static void MX_ADC1_Init(void)
 
   /* USER CODE END ADC1_Init 0 */
 
-  ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
   ADC_ChannelConfTypeDef sConfig = {0};
 
   /* USER CODE BEGIN ADC1_Init 1 */
@@ -260,25 +288,11 @@ static void MX_ADC1_Init(void)
   hadc1.Init.SamplingMode = ADC_SAMPLING_MODE_NORMAL;
   hadc1.Init.Overrun = ADC_OVR_DATA_PRESERVED;
   hadc1.Init.OversamplingMode = ENABLE;
-  hadc1.Init.Oversampling.Ratio = ADC_OVERSAMPLING_RATIO_256;
+  hadc1.Init.Oversampling.Ratio = ADC_OVERSAMPLING_RATIO_128;
   hadc1.Init.Oversampling.RightBitShift = ADC_RIGHTBITSHIFT_4;
   hadc1.Init.Oversampling.TriggeredMode = ADC_TRIGGEREDMODE_SINGLE_TRIGGER;
   hadc1.Init.Oversampling.OversamplingStopReset = ADC_REGOVERSAMPLING_CONTINUED_MODE;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /** Configure Analog WatchDog 1
-  */
-  AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
-  AnalogWDGConfig.WatchdogMode = ADC_ANALOGWATCHDOG_SINGLE_REG;
-  AnalogWDGConfig.Channel = ADC_CHANNEL_1;
-  AnalogWDGConfig.ITMode = ENABLE;
-  AnalogWDGConfig.HighThreshold = 33650+350;
-  AnalogWDGConfig.LowThreshold = 33650-350;
-  AnalogWDGConfig.FilteringConfig = ADC_AWD_FILTERING_NONE;
-  if (HAL_ADC_AnalogWDGConfig(&hadc1, &AnalogWDGConfig) != HAL_OK)
   {
     Error_Handler();
   }
@@ -682,7 +696,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, STRING1_Pin|STRING0_Pin|GPIO_PIN_10, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -701,19 +715,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = GPIO_PIN_4;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : STRING1_Pin STRING0_Pin */
-  GPIO_InitStruct.Pin = STRING1_Pin|STRING0_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : FRET1_Pin FRET0_Pin */
-  GPIO_InitStruct.Pin = FRET1_Pin|FRET0_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PC10 */
@@ -737,47 +738,27 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 volatile uint8_t uart_ready = 1;
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
-  if (huart->Instance == USART2)
+  if (huart->Instance == USART2) {
     uart_ready = 1;
-}
-
-
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
-  if (hadc->Instance == ADC1 && uart_ready) {
-    uart_ready = 0;
-    HAL_UART_Transmit_DMA(&huart2, (uint8_t*)adc_buffer, sizeof(uint16_t)*BUFFER_SIZE);
   }
 }
 
-void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 {
-    if (hadc->Instance == ADC1) {
-      uint32_t value = HAL_ADC_GetValue(hadc);
-      HAL_GPIO_TogglePin(GREEN_LED_GPIO_Port, GREEN_LED_Pin);
-    }
+  // Use the half callback to process the first half of the buffer while the ADC fills the second half
+  half_complete = SETFLAG;
 }
 
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+{
+  complete = SETFLAG;
+  if (uart_ready == 1) {
+    uart_ready = 0;
+    HAL_UART_Transmit_DMA(&huart2, (uint8_t*)&count, sizeof(uint16_t));
+  }
 
-void drain_string(int string) {
-  if (string == 0) {
-    HAL_GPIO_WritePin(GPIOC, STRING0_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOC, STRING1_Pin, GPIO_PIN_SET);
-  }
-  else if (string == 1) {
-    HAL_GPIO_WritePin(GPIOC, STRING0_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(GPIOC, STRING1_Pin, GPIO_PIN_RESET);
-  }
-  else {
-    Error_Handler();
-  }
-  current_string = string;
-  HAL_Delay(5);
 }
 
-void read_fret() {
-  fret_state[current_string][0] = !HAL_GPIO_ReadPin(GPIOC, FRET0_Pin);
-  fret_state[current_string][1] = !HAL_GPIO_ReadPin(GPIOC, FRET1_Pin);
-}
 /* USER CODE END 4 */
 
 /**
