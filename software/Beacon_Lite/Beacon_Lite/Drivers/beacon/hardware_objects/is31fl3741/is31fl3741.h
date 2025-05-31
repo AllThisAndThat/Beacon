@@ -12,7 +12,7 @@ TODO:
 
 #include "stm32h5xx_hal.h"
 
-#include "i2c_master.h"
+#include "i2c_device.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -75,7 +75,7 @@ public:
   HAL_StatusTypeDef act_refreshColor();
 
 private:
-  I2c hI2c_;
+  I2cDevice hI2c_;
   Page page_;
   IS31FL3741_State state_;
   uint8_t global_current_;

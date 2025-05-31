@@ -55,6 +55,7 @@ extern TIM_HandleTypeDef htim2;
 #define SWO_GPIO_Port GPIOB
 #define AMB_INT_Pin GPIO_PIN_5
 #define AMB_INT_GPIO_Port GPIOB
+#define AMB_INT_EXTI_IRQn EXTI5_IRQn
 
 /* USER CODE BEGIN Private defines */
 /* USER CODE END Private defines */

@@ -6,20 +6,23 @@ set(MX_Include_Dirs
     ${CMAKE_SOURCE_DIR}/Core/Inc
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/syscfg
 
-    ${CMAKE_SOURCE_DIR}/Drivers/beacon/wrappers/i2c_master
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/wrappers/i2c_device
 
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/ano_rotary
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/debug_led
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/is31fl3741
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/ltr_303als
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/neopixel_4310
+    
 
 )
 
 set(STM32_Drivers_Src
     ${CMAKE_SOURCE_DIR}/Core/Src/cpp_main.cpp
 
-    ${CMAKE_SOURCE_DIR}/Drivers/beacon/wrappers/i2c_master/i2c_master.cpp
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/wrappers/i2c_device/i2c_device.cpp
     
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/ano_rotary/ano_rotary.cpp
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/debug_led/debug_led.cpp
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/is31fl3741/is31fl3741.cpp
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/ltr_303als/ltr_303als.cpp

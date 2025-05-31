@@ -141,39 +141,39 @@ int main(void)
   MX_I2C2_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&adc_buffer, BUFFER_SIZE);
+  // HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&adc_buffer, BUFFER_SIZE);
 
-  uint16_t temp = 0;
-  for (;;) {
+  // uint16_t temp = 0;
+  // for (;;) {
     
-    if (half_complete == SETFLAG) {
-      start = HAL_GetTick();
-      half_complete = RESETFLAG;
-      temp = 0;
+  //   if (half_complete == SETFLAG) {
+  //     start = HAL_GetTick();
+  //     half_complete = RESETFLAG;
+  //     temp = 0;
 
-      for (int i = 0; i < BUFFER_SIZE / 2; i++) {
-        if (threshold < adc_buffer[i]) {
-          temp++;
-        }
-      }
+  //     for (int i = 0; i < BUFFER_SIZE / 2; i++) {
+  //       if (threshold < adc_buffer[i]) {
+  //         temp++;
+  //       }
+  //     }
       
-    }
+  //   }
     
 
-    if (complete == SETFLAG) {
-      complete = RESETFLAG;
+  //   if (complete == SETFLAG) {
+  //     complete = RESETFLAG;
 
-      for (int i = BUFFER_SIZE / 2; i < BUFFER_SIZE; i++) {
-        if (threshold < adc_buffer[i]) {
-          temp++;
-        }
-      }
+  //     for (int i = BUFFER_SIZE / 2; i < BUFFER_SIZE; i++) {
+  //       if (threshold < adc_buffer[i]) {
+  //         temp++;
+  //       }
+  //     }
       
-      count = temp;
-      elapsed = HAL_GetTick() - start;
-    }
+  //     count = temp;
+  //     elapsed = HAL_GetTick() - start;
+  //   }
     
-  }
+  // }
 
   cpp_main();
 
@@ -391,7 +391,7 @@ static void MX_I2C1_Init(void)
 
   /* USER CODE END I2C1_Init 1 */
   hi2c1.Instance = I2C1;
-  hi2c1.Init.Timing = 0x00100413;
+  hi2c1.Init.Timing = 0x00300F38;
   hi2c1.Init.OwnAddress1 = 0;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
@@ -417,13 +417,6 @@ static void MX_I2C1_Init(void)
   {
     Error_Handler();
   }
-
-  /** I2C Fast mode Plus enable
-  */
-  if (HAL_I2CEx_ConfigFastModePlus(&hi2c1, I2C_FASTMODEPLUS_ENABLE) != HAL_OK)
-  {
-    Error_Handler();
-  }
   /* USER CODE BEGIN I2C1_Init 2 */
 
   /* USER CODE END I2C1_Init 2 */
@@ -446,7 +439,7 @@ static void MX_I2C2_Init(void)
 
   /* USER CODE END I2C2_Init 1 */
   hi2c2.Instance = I2C2;
-  hi2c2.Init.Timing = 0x00300F38;
+  hi2c2.Init.Timing = 0x00707CBB;
   hi2c2.Init.OwnAddress1 = 0;
   hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
@@ -730,6 +723,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(AMB_INT_GPIO_Port, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI5_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI5_IRQn);
+
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 
   /* USER CODE END MX_GPIO_Init_2 */
@@ -792,7 +789,7 @@ void Error_Handler(void)
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_SET);
+  // HAL_GPIO_WritePin(GPIOC, GPIO_PIN_10, GPIO_PIN_SET);
   while (1)
   {
   }

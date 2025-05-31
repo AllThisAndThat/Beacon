@@ -121,7 +121,11 @@
 				},
 				{
 					"backtrace" : 4,
-					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/wrappers/i2c_master"
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/wrappers/i2c_device"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/ano_rotary"
 				},
 				{
 					"backtrace" : 4,
@@ -226,7 +230,11 @@
 				},
 				{
 					"backtrace" : 4,
-					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/wrappers/i2c_master"
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/wrappers/i2c_device"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/ano_rotary"
 				},
 				{
 					"backtrace" : 4,
@@ -317,7 +325,11 @@
 				},
 				{
 					"backtrace" : 4,
-					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/wrappers/i2c_master"
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/wrappers/i2c_device"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/ano_rotary"
 				},
 				{
 					"backtrace" : 4,
@@ -352,7 +364,8 @@
 				10,
 				11,
 				12,
-				13
+				13,
+				14
 			]
 		}
 	],
@@ -412,7 +425,8 @@
 				10,
 				11,
 				12,
-				13
+				13,
+				14
 			]
 		},
 		{
@@ -426,7 +440,6 @@
 			"name" : "Object Libraries",
 			"sourceIndexes" : 
 			[
-				14,
 				15,
 				16,
 				17,
@@ -457,7 +470,8 @@
 				42,
 				43,
 				44,
-				45
+				45,
+				46
 			]
 		}
 	],
@@ -520,7 +534,13 @@
 		{
 			"backtrace" : 4,
 			"compileGroupIndex" : 2,
-			"path" : "Drivers/beacon/wrappers/i2c_master/i2c_master.cpp",
+			"path" : "Drivers/beacon/wrappers/i2c_device/i2c_device.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 2,
+			"path" : "Drivers/beacon/hardware_objects/ano_rotary/ano_rotary.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

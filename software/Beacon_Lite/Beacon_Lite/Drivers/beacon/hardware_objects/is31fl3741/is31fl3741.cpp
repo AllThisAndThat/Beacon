@@ -4,12 +4,22 @@
 
 #include "syscfg.h"
 
-constexpr uint8_t kDevAddr = syscfg::i2c::addr::kIs31fl3741;
+/*
+TODO:
+- update formatting
+- add comments
+- move registers to g namespace
+*/
 
 constexpr int kNumRows = 9;
 constexpr int kNumCols = 13;
 
-namespace IS31FL3741_Config {
+namespace {
+// I2C configuration
+  constexpr uint16_t kAddr = syscfg::i2c::addr::kIs31fl3741;
+  inline I2C_HandleTypeDef&  kBus  = syscfg::i2c::bus::kIs31fl3741;
+  constexpr RegSize  kRegSize = RegSize::k8Bit;
+
   // Page 14 datasheet
   constexpr uint8_t kSWS_n9        = (0b0000 << 4);
   constexpr uint8_t kLGC_2V4_0V6   = (1 << 3);
@@ -25,7 +35,7 @@ namespace IS31FL3741_Config {
 }
 
 IS31FL3741::IS31FL3741()
-  : hI2c_(syscfg::i2c::bus::kIs31fl3741) {
+  : hI2c_(kBus, kAddr, kRegSize) {
   page_ = Page::k0;
   state_ = IS31FL3741_State::kOff;
   global_current_ = 0x00;
@@ -42,10 +52,10 @@ HAL_StatusTypeDef IS31FL3741::set_globalCurrent(const uint8_t current) {
   HAL_StatusTypeDef status = set_page(Page::k4);
   if (status != HAL_OK) {this->error_handler();}
 
-  global_current_ = current;
+  global_current_ = current; //TODO: remove
 
-  constexpr uint8_t rGlobalCurrent = 0x01;
-  status = hI2c_.act_pollVerifyWrite(kDevAddr, rGlobalCurrent, current);
+  constexpr uint16_t rGlobalCurrent = 0x01;
+  status = hI2c_.act_pollVerifyWrite(rGlobalCurrent, global_current_);
   if (status != HAL_OK) {this->error_handler();}
 
   return HAL_OK;
@@ -159,7 +169,7 @@ HAL_StatusTypeDef IS31FL3741::act_verify() {
 
   constexpr uint8_t rId = 0xFC;
   uint8_t readId = 0;
-  status = hI2c_.act_pollRead(kDevAddr, rId, &readId);
+  status = hI2c_.act_pollRead(rId, &readId);
   constexpr uint8_t kCorrectId = 0x60;
   if (readId != kCorrectId) {this->error_handler();}
 
@@ -170,8 +180,7 @@ HAL_StatusTypeDef IS31FL3741::act_off() {
   HAL_StatusTypeDef status = set_page(Page::k4);
   if (status != HAL_OK) {this->error_handler();}
 
-  using namespace IS31FL3741_Config;
-  status = hI2c_.act_pollVerifyWrite(kDevAddr, rRegister, kDataOff);
+  status = hI2c_.act_pollVerifyWrite(rRegister, kDataOff);
   if (status != HAL_OK) {this->error_handler();}
 
   state_ = IS31FL3741_State::kOff;
@@ -183,11 +192,8 @@ HAL_StatusTypeDef IS31FL3741::act_on() {
   HAL_StatusTypeDef status = set_page(Page::k4);
   if (status != HAL_OK) {this->error_handler();}
 
-  using namespace IS31FL3741_Config;
-  status = hI2c_.act_pollVerifyWrite(kDevAddr, rRegister, kDataOn);
+  status = hI2c_.act_pollVerifyWrite(rRegister, kDataOn);
   if (status != HAL_OK) {this->error_handler();}
-
-  
 
   state_ = IS31FL3741_State::kOn;
 
@@ -200,7 +206,7 @@ HAL_StatusTypeDef IS31FL3741::act_resetAllLeds() {
 
   constexpr uint8_t rReset = 0x3F;
   constexpr uint8_t kReset = 0xAE;
-  status = hI2c_.act_pollWrite(kDevAddr, rReset, kReset);
+  status = hI2c_.act_pollWrite(rReset, kReset);
   if (status != HAL_OK) {this->error_handler();}
   page_ = Page::k0; // Default value after reset
 
@@ -226,14 +232,14 @@ HAL_StatusTypeDef IS31FL3741::act_refreshBrightness() {
   status = set_page(Page::k2);
   if (status != HAL_OK) {this->error_handler();}
   for (int i = 0; i < kPage0ArraySize; i++) {
-    status = hI2c_.act_pollVerifyWrite(kDevAddr, i, 0xFF);
+    status = hI2c_.act_pollVerifyWrite(i, 0xFF);
     if (status != HAL_OK) {this->error_handler();}
   }
 
   status = set_page(Page::k3);
   for (int i = 0; i < kPage1ArraySize; i++) {
     if (status != HAL_OK) {this->error_handler();}
-    status = hI2c_.act_pollVerifyWrite(kDevAddr, i, 0xFF);
+    status = hI2c_.act_pollVerifyWrite(i, 0xFF);
     if (status != HAL_OK) {this->error_handler();}
   }
 
@@ -245,13 +251,13 @@ HAL_StatusTypeDef IS31FL3741::act_refreshColor() {
 
   status = set_page(Page::k0);
   if (status != HAL_OK) {this->error_handler();}
-  status = HAL_I2C_Mem_Write_DMA(&hi2c1, kDevAddr, 0, I2C_MEMADD_SIZE_8BIT,
+  status = HAL_I2C_Mem_Write_DMA(&hi2c1, kAddr, 0, I2C_MEMADD_SIZE_8BIT,
                                  page0_leds_, kPage0ArraySize);
   if (status != HAL_OK) {this->error_handler();}
 
   status = set_page(Page::k1);
   if (status != HAL_OK) {this->error_handler();}
-  status = HAL_I2C_Mem_Write_DMA(&hi2c1, kDevAddr, 0, I2C_MEMADD_SIZE_8BIT,
+  status = HAL_I2C_Mem_Write_DMA(&hi2c1, kAddr, 0, I2C_MEMADD_SIZE_8BIT,
                                  page1_leds_, kPage1ArraySize);
   if (status != HAL_OK) {this->error_handler();}
 
@@ -280,8 +286,7 @@ HAL_StatusTypeDef IS31FL3741::setup_configRegister() {
   HAL_StatusTypeDef status = set_page(Page::k4);
   if (status != HAL_OK) {this->error_handler();}
 
-  using namespace IS31FL3741_Config;
-  status = hI2c_.act_pollVerifyWrite(kDevAddr, rRegister, kDataOff);
+  status = hI2c_.act_pollVerifyWrite(rRegister, kDataOff);
   if (status != HAL_OK) {this->error_handler();}
 
   return HAL_OK;
@@ -297,8 +302,7 @@ HAL_StatusTypeDef IS31FL3741::setup_pullResistor() {
   constexpr uint8_t kPUR_8k = (0b101 << 0);
   constexpr uint8_t kPullResistor = kPDR_8k | kPUR_8k;
   constexpr uint8_t rPullResistor = 0x02;
-  status = hI2c_.act_pollVerifyWrite(kDevAddr, rPullResistor,
-                                kPullResistor);
+  status = hI2c_.act_pollVerifyWrite(rPullResistor, kPullResistor);
   if (status != HAL_OK) {this->error_handler();}
 
   return HAL_OK;
@@ -306,14 +310,12 @@ HAL_StatusTypeDef IS31FL3741::setup_pullResistor() {
 
 HAL_StatusTypeDef IS31FL3741::set_page(const Page page) {
   if (page == page_) {return HAL_OK;}
-  
-  using namespace IS31FL3741_Config;
 
-  HAL_StatusTypeDef status = hI2c_.act_pollVerifyWrite(kDevAddr, rUnlock, kUnlock);
+  HAL_StatusTypeDef status = hI2c_.act_pollVerifyWrite(rUnlock, kUnlock);
   if (status != HAL_OK) {this->error_handler();}
 
   constexpr uint8_t rPageSelect = 0xFD;
-  status = hI2c_.act_pollWrite(kDevAddr, rPageSelect, 
+  status = hI2c_.act_pollWrite(rPageSelect, 
                                 static_cast<uint8_t>(page));
   if (status != HAL_OK) {this->error_handler();}
 
@@ -328,8 +330,7 @@ HAL_StatusTypeDef IS31FL3741::act_writePage(const Page page,
   if (status != HAL_OK) {this->error_handler();}
 
   constexpr uint8_t rInitialAddress = 0x00;
-  status = hI2c_.act_pollWriteMulti(kDevAddr, rInitialAddress, data,
-                                  data_len);
+  status = hI2c_.act_pollWrite(rInitialAddress, data, data_len);
   if (status != HAL_OK) {this->error_handler();}
 
   return HAL_OK;

@@ -19,13 +19,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 30,
+				"line" : 33,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 32,
+				"line" : 35,
 				"parent" : 0
 			}
 		]
@@ -48,7 +48,8 @@
 				2,
 				3,
 				4,
-				5
+				5,
+				6
 			]
 		}
 	],
@@ -61,7 +62,12 @@
 		},
 		{
 			"backtrace" : 2,
-			"path" : "Drivers/beacon/wrappers/i2c_master/i2c_master.cpp",
+			"path" : "Drivers/beacon/wrappers/i2c_device/i2c_device.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "Drivers/beacon/hardware_objects/ano_rotary/ano_rotary.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

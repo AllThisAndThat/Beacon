@@ -2,7 +2,7 @@
 
 #include "stm32h5xx_hal.h"
 
-#include "i2c_master.h"
+#include "i2c_device.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,7 +24,7 @@ public:
   HAL_StatusTypeDef act_setInterruptThresholds();
 
 private:
-  I2c hI2c_;
+  I2cDevice hI2c_;
   uint16_t last_brightness_;
   uint16_t high_threshold_;
   uint16_t low_threshold_;
@@ -37,5 +37,3 @@ private:
   HAL_StatusTypeDef act_startSampling();
   HAL_StatusTypeDef act_swReset();
 };
-
-// #endif // __cplusplus

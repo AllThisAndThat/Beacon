@@ -6,14 +6,20 @@
 #include "cpp_main.h"
 #include "syscfg.h"
 
-constexpr uint16_t kAddr = syscfg::i2c::addr::kLtr303als;
+namespace {
+// I2C configuration
+constexpr uint16_t  kAddr = syscfg::i2c::addr::kLtr303als;
+inline I2C_HandleTypeDef&   kBus = syscfg::i2c::bus::kLtr303als;
+constexpr RegSize   kRegSize = RegSize::k8Bit;
+}
+
 
 #define LTR303ALS_FLAG_INT   (1U << 0)
 osEventFlagsId_t ltr303als_event_flags;
 uint16_t brightness;
 
 Ltr_303als::Ltr_303als() {
-  hI2c_ = I2c(syscfg::i2c::bus::kLtr303als);
+  hI2c_ = I2cDevice(kBus, kAddr, kRegSize);
   last_brightness_ = 0;
   high_threshold_ = 0XFFFF;
   low_threshold_ = 0;
@@ -50,23 +56,23 @@ HAL_StatusTypeDef Ltr_303als::act_setInterruptThresholds() {
 
   constexpr uint16_t rIntThresholdHigh1 = 0x98;
   uint8_t high_threshold_msb = static_cast<uint8_t>((high_threshold_ >> 8) & 0xFF);
-  status = hI2c_.act_pollVerifyWrite(kAddr, rIntThresholdHigh1, high_threshold_msb);
+  status = hI2c_.act_pollVerifyWrite(rIntThresholdHigh1, high_threshold_msb);
   if (status != HAL_OK) {return status;}
   constexpr uint16_t rIntThresholdHigh0 = 0x97;
   uint8_t high_threshold_lsb = static_cast<uint8_t>(high_threshold_ & 0xFF);
-  status = hI2c_.act_pollVerifyWrite(kAddr, rIntThresholdHigh0, high_threshold_lsb);
+  status = hI2c_.act_pollVerifyWrite(rIntThresholdHigh0, high_threshold_lsb);
   if (status != HAL_OK) {return status;}
 
   constexpr uint16_t kNumLowTerm = kDenTerm - 1;
   low_threshold_ = ((last_brightness_ * kNumLowTerm) / kDenTerm);
   constexpr uint16_t rIntThresholdLow1 = 0x9A;
   uint8_t low_threshold_msb = static_cast<uint8_t>((low_threshold_ >> 8) & 0xFF);
-  status = hI2c_.act_pollVerifyWrite(kAddr, rIntThresholdLow1, low_threshold_msb);
+  status = hI2c_.act_pollVerifyWrite(rIntThresholdLow1, low_threshold_msb);
   if (status != HAL_OK) {return status;}
   low_threshold_ = last_brightness_ >> 1;
   constexpr uint16_t rIntThresholdLow0 = 0x99;
   uint8_t low_threshold_lsb = static_cast<uint8_t>(low_threshold_ & 0xFF);
-  status = hI2c_.act_pollVerifyWrite(kAddr, rIntThresholdLow0, low_threshold_lsb);
+  status = hI2c_.act_pollVerifyWrite(rIntThresholdLow0, low_threshold_lsb);
   if (status != HAL_OK) {return status;}
 
 
@@ -85,12 +91,12 @@ void Ltr_303als::initiate() {
 
   constexpr uint16_t rMeasIntRate = 0x85;
   constexpr uint8_t kMeasAndIntRate = 0b00'010'010; 
-  status = hI2c_.act_pollVerifyWrite(kAddr, rMeasIntRate, kMeasAndIntRate);
+  status = hI2c_.act_pollVerifyWrite(rMeasIntRate, kMeasAndIntRate);
   if (status != HAL_OK) {Error_Handler();}
 
   constexpr uint16_t rIntPersist = 0x9E;
   constexpr uint8_t kIntPersist = 0b0000'0011;
-  status = hI2c_.act_pollVerifyWrite(kAddr, rIntPersist, kIntPersist);
+  status = hI2c_.act_pollVerifyWrite(rIntPersist, kIntPersist);
   if (status != HAL_OK) {Error_Handler();}
 
   status = this->act_enableInterrupts();
@@ -109,7 +115,7 @@ HAL_StatusTypeDef Ltr_303als::act_disableInterrupts() {
 
   constexpr uint16_t rIntConfig = 0x8F;
   constexpr uint8_t kIntConfig = 0b00000'0'0'0; 
-  status = hI2c_.act_pollVerifyWrite(kAddr, rIntConfig, kIntConfig);
+  status = hI2c_.act_pollVerifyWrite(rIntConfig, kIntConfig);
   return status;
 }
 
@@ -117,7 +123,7 @@ HAL_StatusTypeDef Ltr_303als::act_enableInterrupts() {
   HAL_StatusTypeDef status = HAL_OK;
   constexpr uint16_t rIntConfig = 0x8F;
   constexpr uint8_t kIntConfig = 0b00000'1'1'0; // enable active high interrupts
-  status = hI2c_.act_pollVerifyWrite(kAddr, rIntConfig, kIntConfig);
+  status = hI2c_.act_pollVerifyWrite(rIntConfig, kIntConfig);
   if (status != HAL_OK) {return status;}
 
   status = this->act_startSampling();
@@ -136,14 +142,14 @@ HAL_StatusTypeDef Ltr_303als::act_pollBrightness() {
   */
 
   uint8_t rx_buffer = 0;
-  hI2c_.act_pollRead(kAddr, rChan1_LSB, &rx_buffer);
+  hI2c_.act_pollRead(rChan1_LSB, &rx_buffer);
   // data = rx_buffer;
-  hI2c_.act_pollRead(kAddr, rChan1_MSB, &rx_buffer);
+  hI2c_.act_pollRead(rChan1_MSB, &rx_buffer);
   // last_brightness_ = data + (rx_buffer << 8);
 
-  hI2c_.act_pollRead(kAddr, rChan0_LSB, &rx_buffer);
+  hI2c_.act_pollRead(rChan0_LSB, &rx_buffer);
   last_brightness_ = rx_buffer;
-  hI2c_.act_pollRead(kAddr, rChan0_MSB, &rx_buffer);
+  hI2c_.act_pollRead(rChan0_MSB, &rx_buffer);
   last_brightness_ = last_brightness_ + (rx_buffer << 8);
 
   return HAL_OK;
@@ -153,7 +159,7 @@ HAL_StatusTypeDef Ltr_303als::act_stopSampling() {
   HAL_StatusTypeDef status;
   constexpr uint16_t rGainSetting = 0x80;
   constexpr uint8_t kGainSetting = 0b000'111'0'0; // 96X gain, deactivates sensor
-  status = hI2c_.act_pollVerifyWrite(kAddr, rGainSetting, kGainSetting);
+  status = hI2c_.act_pollVerifyWrite(rGainSetting, kGainSetting);
   if (status != HAL_OK) {Error_Handler();}
   return status;
 }
@@ -162,7 +168,7 @@ HAL_StatusTypeDef Ltr_303als::act_startSampling() {
   HAL_StatusTypeDef status;
   constexpr uint16_t rGainSetting = 0x80;
   constexpr uint8_t kMaxGainSetting = 0b000'111'0'1; // 96X gain, activates sensor
-  status = hI2c_.act_pollVerifyWrite(kAddr, rGainSetting, kMaxGainSetting);
+  status = hI2c_.act_pollVerifyWrite(rGainSetting, kMaxGainSetting);
   return status;
 }
 
@@ -170,7 +176,7 @@ HAL_StatusTypeDef Ltr_303als::act_swReset() {
   HAL_StatusTypeDef status;
   constexpr uint16_t rSwReset = 0x80;
   constexpr uint8_t  kSwReset = 0b000'000'1'0;
-  status = hI2c_.act_pollWrite(kAddr, rSwReset, kSwReset);
+  status = hI2c_.act_pollWrite(rSwReset, kSwReset);
   if (status != HAL_OK) {Error_Handler();}
   HAL_Delay(100);
   return status;

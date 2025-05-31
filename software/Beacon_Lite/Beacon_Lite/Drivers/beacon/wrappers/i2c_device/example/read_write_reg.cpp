@@ -28,7 +28,7 @@ void cpp_main(void)
   HAL_Delay(300);
 
   constexpr uint16_t dev_address = 0x29 << 1;
-  I2c i2c(hi2c1, dev_address);
+  I2cDevice i2c(hi2c1, dev_address);
 
   uint8_t data;
   HAL_StatusTypeDef status = HAL_OK;

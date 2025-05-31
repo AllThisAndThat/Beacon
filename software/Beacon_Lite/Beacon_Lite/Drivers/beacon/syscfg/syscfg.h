@@ -13,11 +13,13 @@ namespace syscfg
 
       // Bus 2
       constexpr uint16_t kLtr303als = 0x29 << 1;
+      constexpr uint16_t kAnoRotary = 0x49 << 1;
     }
     namespace bus {
       inline I2C_HandleTypeDef& kIs31fl3741 = hi2c1;
 
       inline I2C_HandleTypeDef& kLtr303als = hi2c2;
+      inline I2C_HandleTypeDef& kAnoRotary = hi2c2;
       
     }
 

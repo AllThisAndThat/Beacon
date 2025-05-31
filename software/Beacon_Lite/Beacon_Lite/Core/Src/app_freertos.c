@@ -96,7 +96,7 @@ const osThreadAttr_t Task_Is31fl3741_attributes = {
   */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
-  // cpp_main();
+
   /* USER CODE END Init */
 
   /* USER CODE BEGIN RTOS_MUTEX */
