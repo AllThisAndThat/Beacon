@@ -2,6 +2,8 @@
 
 #include "main.h"
 #include <cstring>
+
+#include "app_freertos.h"
 /*
 TODO: 
 Fix up I2C
@@ -26,12 +28,15 @@ I2cDevice::~I2cDevice() {
 
 }
 
+// TODO: something is wrong here
 HAL_StatusTypeDef I2cDevice::act_pollRead(const uint16_t reg_addr,
                                     uint8_t *data, const size_t size) {
   HAL_StatusTypeDef status;
+  osMutexAcquire(i2c_mutexHandle, osWaitForever);
   status = HAL_I2C_Mem_Read(&i2c_bus_, dev_addr_, reg_addr,
                             reg_size_, data, size,
                             kTimeout);
+  osMutexRelease(i2c_mutexHandle);
   return status;
 }
 
@@ -44,9 +49,11 @@ HAL_StatusTypeDef I2cDevice::act_dmaRead(const uint16_t reg_addr,
 HAL_StatusTypeDef I2cDevice::act_pollWrite(const uint16_t reg_addr,
                                            uint8_t data) {
   HAL_StatusTypeDef status;
+  osMutexAcquire(i2c_mutexHandle, osWaitForever);
   status = HAL_I2C_Mem_Write(&i2c_bus_, dev_addr_,
-  reg_addr, reg_size_,
-  &data, 1, kTimeout);
+                             reg_addr, reg_size_,
+                             &data, 1, kTimeout);
+  osMutexRelease(i2c_mutexHandle);
   return status;
 }
 
@@ -54,15 +61,19 @@ HAL_StatusTypeDef I2cDevice::act_pollWrite(const uint16_t reg_addr,
                                            uint8_t *data,
                                            const size_t size) {
   HAL_StatusTypeDef status;
+  osMutexAcquire(i2c_mutexHandle, osWaitForever);
   status = HAL_I2C_Mem_Write(&i2c_bus_, dev_addr_,
                              reg_addr, reg_size_,
                              data, size, kTimeout);
+  osMutexRelease(i2c_mutexHandle);
   return status;
 }
 
 HAL_StatusTypeDef I2cDevice::act_pollVerifyWrite(const uint16_t reg_addr,
                                                  uint8_t data) {
-  this->act_pollWrite(reg_addr, data);
+  HAL_StatusTypeDef status;
+  status = this->act_pollWrite(reg_addr, data);
+  if (status != HAL_OK) { return status;}
 
   uint8_t rx_buffer;
   this->act_pollRead(reg_addr, &rx_buffer);
@@ -78,10 +89,14 @@ HAL_StatusTypeDef I2cDevice::act_pollVerifyWrite(const uint16_t reg_addr,
 HAL_StatusTypeDef I2cDevice::act_pollVerifyWrite(const uint16_t reg_addr,
                                                  uint8_t *data,
                                                  const size_t size) {
-  this->act_pollWrite(reg_addr, data, size);
+  HAL_StatusTypeDef status;
+  status = this->act_pollWrite(reg_addr, data, size);
+  if (status != HAL_OK) { return status;}
 
-  uint8_t rx_buffer[size];
-  this->act_pollRead(reg_addr, rx_buffer);
+  constexpr int kMaxSize = 256;
+  uint8_t rx_buffer[kMaxSize] = {0};
+  status = this->act_pollRead(reg_addr, rx_buffer, size);
+  if (status != HAL_OK) { return status;}
 
   // Compare the data written with the data read back
   if (memcmp(data, rx_buffer, size) == 0) {

@@ -1,6 +1,9 @@
 #include "ano_rotary.h"
 
+// #include "cmsis_os2.h"
 #include "syscfg.h"
+
+#include "cpp_main.h"
 
 namespace {
 // I2C Setup
@@ -14,7 +17,6 @@ constexpr uint8_t kSetAllButtons = static_cast<uint8_t>(Button::kAll);
 // Base/High Registers
 constexpr uint16_t rStatusBase  = 0x00 << 8;
 constexpr uint16_t rGpioBase    = 0x01 << 8;
-constexpr uint16_t rIntBase     = 0x0B << 8; // TODO: delete if not used
 constexpr uint16_t rEncoderBase = 0x11 << 8;
 
 // Status registers
@@ -52,9 +54,7 @@ constexpr uint16_t rEncoderPosition = rEncoderBase + 0x30;
 AnoRotary::AnoRotary()
   : hI2c_(kBus, kAddr, kRegSize) {
 
-  this->act_verify();
-  this->act_SWReset();
-  HAL_Delay(1); // Wait for reset to complete
+  this->act_SWReset(); // Resets and waits for the device to be ready
 
   this->act_enableEncoderInts();
   this->act_setButtonInputPU();
@@ -65,42 +65,10 @@ AnoRotary::~AnoRotary() {
 
 }
 
-ButtonState AnoRotary::get_buttonState(Button button) {
-  HAL_StatusTypeDef status;
-  constexpr size_t rxBuffSize = 4;
-  uint8_t rxBuff[rxBuffSize];
-  status = hI2c_.act_pollRead(rGpioState, rxBuff, rxBuffSize);
-  if (status != HAL_OK) {this->error_handler();}
-
-  ButtonState val = ButtonState::kNotPresed;
-  if ((rxBuff[3] & static_cast<uint8_t>(button)) == 0) {
-    val = ButtonState::kPressed; // Button is pressed
-  }
-  
-  return val;
-  // Assume we only need first byte
-  // uint8_t rxBuff;
-  // status = hI2c_.act_pollRead(rGpioState, &rxBuff);
-  // if (status != HAL_OK) {this->error_handler();}
-  
-  // return rxBuff; //TODO: Fix
-}
-
-uint32_t AnoRotary::get_encoderPosition() {
-  HAL_StatusTypeDef status;
-  constexpr size_t rxBuffSize = 4;
-  uint8_t rxBuff[rxBuffSize];
-  status = hI2c_.act_pollRead(rEncoderPosition, rxBuff, rxBuffSize); 
-  if (status != HAL_OK) {this->error_handler();}
-
-  return (uint32_t)rxBuff[0] << 24 | ((uint32_t)rxBuff[1] << 16) | ((uint32_t)rxBuff[2] << 8) | ((uint32_t)rxBuff[3] << 0);
-  //TODO: interpret the result and return appropriate value. Do all 4 bytes hold useful data? Do I need to collect them into a uint32_t?
-}
-
 void AnoRotary::act_enableEncoderInts() {
   HAL_StatusTypeDef status;
 
-  status = hI2c_.act_pollWrite(rIntEncoderSet, kIntEncoderSet);
+  status = hI2c_.act_pollVerifyWrite(rIntEncoderSet, kIntEncoderSet);
   if (status != HAL_OK) {this->error_handler();}
 }
 
@@ -119,28 +87,41 @@ void AnoRotary::act_enableButtonInts() {
   if (status != HAL_OK) {this->error_handler();}
 }
 
-void AnoRotary::act_setButtonInputPU() {
-  /*
- pinModeBulk(1ul << pin, mode);
- 1 << 1 = 0b0011_1110
- 1 << 2
- 1 << 3
- 1 << 4
- 1 << 5
+void AnoRotary::act_readButtonState() {
+  HAL_StatusTypeDef status;
+  constexpr size_t rxBuffSize = 4;
+  uint8_t rxBuff[rxBuffSize];
+  status = hI2c_.act_pollRead(rGpioState, rxBuff, rxBuffSize);
+  if (status != HAL_OK) {this->error_handler();}
 
+  buttonState_ = (rxBuff[3] & static_cast<uint8_t>(Button::kAll));
+}
+
+void AnoRotary::act_readEncoderPosition() {
+  HAL_StatusTypeDef status;
+  constexpr size_t rxBuffSize = 4;
+  uint8_t rxBuff[rxBuffSize];
+  status = hI2c_.act_pollRead(rEncoderPosition, rxBuff, rxBuffSize); 
+  if (status != HAL_OK) {this->error_handler();}
+
+  encoderPosition_ = (static_cast<uint32_t>(rxBuff[0]) << 24) |
+                     (static_cast<uint32_t>(rxBuff[1]) << 16) |
+                     (static_cast<uint32_t>(rxBuff[2]) << 8)  |
+                     (static_cast<uint32_t>(rxBuff[3]) << 0);
+}
+
+void AnoRotary::act_setButtonInputPU() {
+/*
     this->write(SEESAW_GPIO_BASE, SEESAW_GPIO_DIRCLR_BULK, cmd, 4);
     this->write(SEESAW_GPIO_BASE, SEESAW_GPIO_PULLENSET, cmd, 4);
     this->write(SEESAW_GPIO_BASE, SEESAW_GPIO_BULK_SET, cmd, 4);
 
-    this->write(1 << 8 = 256, 0x03 = 3, cmd, 4); 259
-    this->write(SEESAW_GPIO_BASE, SEESAW_GPIO_PULLENSET, cmd, 4); 256+ 11 = 267
-    this->write(SEESAW_GPIO_BASE, SEESAW_GPIO_BULK_SET, cmd, 4); 256 + 5 = 261
-    break;
 */
+
   HAL_StatusTypeDef status;
   constexpr size_t setInputBuffSize = 4;
   uint8_t setInputBuff[setInputBuffSize] = {0, 0, 0, kSetAllButtons};
-  status = hI2c_.act_pollWrite(rInputSet, setInputBuff, setInputBuffSize); //SEESAW_GPIO_DIRCLR_BULK 0x03
+  status = hI2c_.act_pollWrite(rInputSet, setInputBuff, setInputBuffSize);
   if (status != HAL_OK) {this->error_handler();}
  
   constexpr size_t pullEnBuffSize = 4;
@@ -158,14 +139,42 @@ void AnoRotary::act_SWReset() {
   HAL_StatusTypeDef status;
   status = hI2c_.act_pollWrite(rSWReset, kSWReset);
   if (status != HAL_OK) {this->error_handler();}
+
+  constexpr int kNumRetries = 10;
+  for (int retries = 0; retries < kNumRetries; retries++) {
+    HAL_StatusTypeDef status = this->act_verify();
+    if (status == HAL_OK) {
+      break;
+    }
+    osDelay(10);
+  }
 }
 
-void AnoRotary::act_verify() {
+HAL_StatusTypeDef AnoRotary::act_verify() {
   constexpr size_t rxBuffSize = 2;
   uint8_t rxBuffer[rxBuffSize];
   hI2c_.act_pollRead(rVersion, rxBuffer, rxBuffSize);
   uint16_t retVal = ((uint16_t)rxBuffer[0] << 8) | ((uint16_t)rxBuffer[1] << 0);
-  if (retVal != kVersion) {this->error_handler();}
+  if (retVal != kVersion) {return HAL_ERROR;}
+
+  return HAL_OK;
+}
+
+
+void Task_AnoEncoder(void *argument) {
+  ano_rotary_event_flags = osEventFlagsNew(NULL);
+  AnoRotary ano;
+  uint32_t flags;
+  ano.act_readButtonState();
+  ano.act_readEncoderPosition();
+  for(;;) {
+    flags = osEventFlagsWait(ano_rotary_event_flags, ANO_ROTARY_FLAG_INT, osFlagsWaitAny, osWaitForever);
+    if (flags & ANO_ROTARY_FLAG_INT) {
+      ano.act_readButtonState();
+      ano.act_readEncoderPosition();
+      osDelay(10);
+    }
+  }
 }
 
 void AnoRotary::error_handler () {

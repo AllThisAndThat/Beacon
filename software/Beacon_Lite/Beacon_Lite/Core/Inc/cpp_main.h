@@ -1,18 +1,18 @@
 #pragma once
 
 #include "main.h"
-
-// typedef struct {
-//   I2C_HandleTypeDef *hi2c;
-//   TIM_HandleTypeDef *htim;
-// } handles_t;
+#include "cmsis_os2.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
   void cpp_main();
-
 #ifdef __cplusplus
 }
 #endif
+
+#define LTR303ALS_FLAG_INT   (1U << 0)
+extern osEventFlagsId_t ltr303als_event_flags;
+
+#define ANO_ROTARY_FLAG_INT   (1U << 1)
+extern osEventFlagsId_t ano_rotary_event_flags;

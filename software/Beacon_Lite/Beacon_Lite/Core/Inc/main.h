@@ -43,6 +43,9 @@ extern TIM_HandleTypeDef htim2;
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define ANO_INT_Pin GPIO_PIN_3
+#define ANO_INT_GPIO_Port GPIOC
+#define ANO_INT_EXTI_IRQn EXTI3_IRQn
 #define GREEN_LED_Pin GPIO_PIN_5
 #define GREEN_LED_GPIO_Port GPIOA
 #define SWDIO_Pin GPIO_PIN_13

@@ -6,6 +6,8 @@
 #include "cpp_main.h"
 #include "syscfg.h"
 
+uint16_t brightness;
+
 namespace {
 // I2C configuration
 constexpr uint16_t  kAddr = syscfg::i2c::addr::kLtr303als;
@@ -13,10 +15,6 @@ inline I2C_HandleTypeDef&   kBus = syscfg::i2c::bus::kLtr303als;
 constexpr RegSize   kRegSize = RegSize::k8Bit;
 }
 
-
-#define LTR303ALS_FLAG_INT   (1U << 0)
-osEventFlagsId_t ltr303als_event_flags;
-uint16_t brightness;
 
 Ltr_303als::Ltr_303als() {
   hI2c_ = I2cDevice(kBus, kAddr, kRegSize);
@@ -195,11 +193,5 @@ void Task_Ltr_303als(void *argument) {
       brightness = ltr303als.get_brightness();
     }
     
-  }
-}
-
-void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin) {
-  if (GPIO_Pin == AMB_INT_Pin) {
-    osEventFlagsSet(ltr303als_event_flags, LTR303ALS_FLAG_INT);
   }
 }

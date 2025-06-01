@@ -74,14 +74,31 @@ const osThreadAttr_t Task_Heartbeat_attributes = {
 /* Definitions for Task_Is31fl3741 */
 osThreadId_t Task_Is31fl3741Handle;
 uint32_t Buffer_Is31fl3741[ 1024 ];
-osStaticThreadDef_t control_Is31fl3741;
+osStaticThreadDef_t Control_Is31fl3741;
 const osThreadAttr_t Task_Is31fl3741_attributes = {
   .name = "Task_Is31fl3741",
   .stack_mem = &Buffer_Is31fl3741[0],
   .stack_size = sizeof(Buffer_Is31fl3741),
-  .cb_mem = &control_Is31fl3741,
-  .cb_size = sizeof(control_Is31fl3741),
+  .cb_mem = &Control_Is31fl3741,
+  .cb_size = sizeof(Control_Is31fl3741),
   .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for Task_AnoEncoder */
+osThreadId_t Task_AnoEncoderHandle;
+uint32_t Buffer_AnoEncoder[ 256 ];
+osStaticThreadDef_t Control_AnoEncoder;
+const osThreadAttr_t Task_AnoEncoder_attributes = {
+  .name = "Task_AnoEncoder",
+  .stack_mem = &Buffer_AnoEncoder[0],
+  .stack_size = sizeof(Buffer_AnoEncoder),
+  .cb_mem = &Control_AnoEncoder,
+  .cb_size = sizeof(Control_AnoEncoder),
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for i2c_mutex */
+osMutexId_t i2c_mutexHandle;
+const osMutexAttr_t i2c_mutex_attributes = {
+  .name = "i2c_mutex"
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -98,6 +115,8 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
+  /* creation of i2c_mutex */
+  i2c_mutexHandle = osMutexNew(&i2c_mutex_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
@@ -122,6 +141,9 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of Task_Is31fl3741 */
   Task_Is31fl3741Handle = osThreadNew(Task_Is31fl3741, NULL, &Task_Is31fl3741_attributes);
+
+  /* creation of Task_AnoEncoder */
+  Task_AnoEncoderHandle = osThreadNew(Task_AnoEncoder, NULL, &Task_AnoEncoder_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
