@@ -15,25 +15,29 @@ void Task_Ltr_303als(void *argument);
 #endif
 
 class Ltr_303als {
-public:
+ public:
   Ltr_303als();
   ~Ltr_303als();
 
   uint16_t get_brightness() const { return last_brightness_;};
 
-  HAL_StatusTypeDef act_setInterruptThresholds();
+  friend void Task_Ltr_303als(void *argument);
 
-private:
-  I2cDevice hI2c_;
+ private:
   uint16_t last_brightness_;
-  uint16_t high_threshold_;
+  uint16_t high_threshold_; 
   uint16_t low_threshold_;
+  I2cDevice hI2c_;
 
-  void initiate();
-  HAL_StatusTypeDef act_disableInterrupts();
-  HAL_StatusTypeDef act_enableInterrupts();
+  void setup_measureConfig();
+  void setup_interruptConfig();
+
+  void act_disableInterrupts();
+  void act_enableInterrupts();
   HAL_StatusTypeDef act_pollBrightness();
-  HAL_StatusTypeDef act_stopSampling();
-  HAL_StatusTypeDef act_startSampling();
-  HAL_StatusTypeDef act_swReset();
+  HAL_StatusTypeDef act_setInterruptThresholds();
+  void act_startSampling();
+  void act_stopSampling();
+  void act_swReset();
+  void act_verifyPartId();
 };

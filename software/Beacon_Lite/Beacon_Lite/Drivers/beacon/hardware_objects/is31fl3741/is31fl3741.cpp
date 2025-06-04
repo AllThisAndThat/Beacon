@@ -41,7 +41,7 @@ IS31FL3741::IS31FL3741()
   global_current_ = 0x00;
 
   HAL_StatusTypeDef status = initiate();
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 }
 
 IS31FL3741::~IS31FL3741() {
@@ -50,13 +50,13 @@ IS31FL3741::~IS31FL3741() {
 
 HAL_StatusTypeDef IS31FL3741::set_globalCurrent(const uint8_t current) {
   HAL_StatusTypeDef status = set_page(Page::k4);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   global_current_ = current; //TODO: remove
 
   constexpr uint16_t rGlobalCurrent = 0x01;
   status = hI2c_.act_pollVerifyWrite(rGlobalCurrent, global_current_);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   return HAL_OK;
 }
@@ -171,17 +171,17 @@ HAL_StatusTypeDef IS31FL3741::act_verify() {
   uint8_t readId = 0;
   status = hI2c_.act_pollRead(rId, &readId);
   constexpr uint8_t kCorrectId = 0x60;
-  if (readId != kCorrectId) {this->error_handler();}
+  if (readId != kCorrectId) {Error_Handler();}
 
   return HAL_OK;
 }
 
 HAL_StatusTypeDef IS31FL3741::act_off() {
   HAL_StatusTypeDef status = set_page(Page::k4);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   status = hI2c_.act_pollVerifyWrite(rRegister, kDataOff);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   state_ = IS31FL3741_State::kOff;
 
@@ -190,10 +190,10 @@ HAL_StatusTypeDef IS31FL3741::act_off() {
 
 HAL_StatusTypeDef IS31FL3741::act_on() {
   HAL_StatusTypeDef status = set_page(Page::k4);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   status = hI2c_.act_pollVerifyWrite(rRegister, kDataOn);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   state_ = IS31FL3741_State::kOn;
 
@@ -202,25 +202,25 @@ HAL_StatusTypeDef IS31FL3741::act_on() {
 
 HAL_StatusTypeDef IS31FL3741::act_resetAllLeds() {
   HAL_StatusTypeDef status = set_page(Page::k4);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   constexpr uint8_t rReset = 0x3F;
   constexpr uint8_t kReset = 0xAE;
   status = hI2c_.act_pollWrite(rReset, kReset);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
   page_ = Page::k0; // Default value after reset
 
   // Restore non-led registers
   status = setup_configRegister();
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
   status = setup_pullResistor();
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
   status = set_globalCurrent(global_current_);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   if (state_ == IS31FL3741_State::kOn) {
     status = act_on();
-    if (status != HAL_OK) {this->error_handler();}
+    if (status != HAL_OK) {Error_Handler();}
   }
 
   return HAL_OK;
@@ -230,17 +230,17 @@ HAL_StatusTypeDef IS31FL3741::act_refreshBrightness() {
   HAL_StatusTypeDef status;
 
   status = set_page(Page::k2);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
   for (int i = 0; i < kPage0ArraySize; i++) {
     status = hI2c_.act_pollVerifyWrite(i, 0xFF);
-    if (status != HAL_OK) {this->error_handler();}
+    if (status != HAL_OK) {Error_Handler();}
   }
 
   status = set_page(Page::k3);
   for (int i = 0; i < kPage1ArraySize; i++) {
-    if (status != HAL_OK) {this->error_handler();}
+    if (status != HAL_OK) {Error_Handler();}
     status = hI2c_.act_pollVerifyWrite(i, 0xFF);
-    if (status != HAL_OK) {this->error_handler();}
+    if (status != HAL_OK) {Error_Handler();}
   }
 
   return HAL_OK;
@@ -250,51 +250,47 @@ HAL_StatusTypeDef IS31FL3741::act_refreshColor() {
   HAL_StatusTypeDef status;
 
   status = set_page(Page::k0);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
   status = HAL_I2C_Mem_Write_DMA(&hi2c1, kAddr, 0, I2C_MEMADD_SIZE_8BIT,
                                  page0_leds_, kPage0ArraySize);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   status = set_page(Page::k1);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
   status = HAL_I2C_Mem_Write_DMA(&hi2c1, kAddr, 0, I2C_MEMADD_SIZE_8BIT,
                                  page1_leds_, kPage1ArraySize);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   return HAL_OK;
 }
 
 HAL_StatusTypeDef IS31FL3741::initiate() {
   HAL_StatusTypeDef status;
-
-  status = act_verify();
-  if (status != HAL_OK) {this->error_handler();}
-
   status = act_resetAllLeds();
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   status = setup_configRegister();
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   status = setup_pullResistor();
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   return HAL_OK;
 }
 
 HAL_StatusTypeDef IS31FL3741::setup_configRegister() {
   HAL_StatusTypeDef status = set_page(Page::k4);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   status = hI2c_.act_pollVerifyWrite(rRegister, kDataOff);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   return HAL_OK;
 }
 
 HAL_StatusTypeDef IS31FL3741::setup_pullResistor() {
   HAL_StatusTypeDef status = set_page(Page::k4);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   // Datasheet Page 15
   // Saw ghosting with 16k
@@ -303,7 +299,7 @@ HAL_StatusTypeDef IS31FL3741::setup_pullResistor() {
   constexpr uint8_t kPullResistor = kPDR_8k | kPUR_8k;
   constexpr uint8_t rPullResistor = 0x02;
   status = hI2c_.act_pollVerifyWrite(rPullResistor, kPullResistor);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   return HAL_OK;
 }
@@ -312,12 +308,12 @@ HAL_StatusTypeDef IS31FL3741::set_page(const Page page) {
   if (page == page_) {return HAL_OK;}
 
   HAL_StatusTypeDef status = hI2c_.act_pollVerifyWrite(rUnlock, kUnlock);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   constexpr uint8_t rPageSelect = 0xFD;
   status = hI2c_.act_pollWrite(rPageSelect, 
                                 static_cast<uint8_t>(page));
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   page_ = page;
   return HAL_OK;
@@ -327,11 +323,11 @@ HAL_StatusTypeDef IS31FL3741::act_writePage(const Page page,
                                         uint8_t* data,
                                         const size_t data_len) {
   HAL_StatusTypeDef status = set_page(page);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   constexpr uint8_t rInitialAddress = 0x00;
   status = hI2c_.act_pollWrite(rInitialAddress, data, data_len);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   return HAL_OK;
 }
@@ -387,10 +383,10 @@ void Task_Is31fl3741(void *argument) {
   HAL_StatusTypeDef status;
 
   status = is31fl3741.set_globalCurrent(0x01);
-  if (status != HAL_OK) { Error_Handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   status = is31fl3741.act_on();
-  if (status != HAL_OK) { Error_Handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   status = is31fl3741.act_refreshBrightness();
   
@@ -427,11 +423,5 @@ void Task_Is31fl3741(void *argument) {
       osDelay(delay);
     } 
     global_hsl.h += 5;
-  }
-}
-
-void IS31FL3741::error_handler() {
-  while (1) {
-      
   }
 }

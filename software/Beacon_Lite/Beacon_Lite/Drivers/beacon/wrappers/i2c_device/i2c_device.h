@@ -16,6 +16,10 @@ public:
             const RegSize reg_size);
   // : i2c_bus_(bus), dev_addr_(dev_addr), reg_size_(reg_size) {};
   ~I2cDevice();
+
+  HAL_StatusTypeDef act_pingDevice();
+  HAL_StatusTypeDef act_waitForResponse();
+
   HAL_StatusTypeDef act_pollRead(const uint16_t reg_addr,
                                  uint8_t *data, 
                                  const size_t size = 1);                               

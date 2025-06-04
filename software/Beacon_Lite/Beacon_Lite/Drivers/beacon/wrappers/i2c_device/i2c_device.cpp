@@ -7,13 +7,13 @@
 /*
 TODO: 
 Fix up I2C
-- fix LTR-303 ALS
-- fix IS31FL3741
-- fix ano_rotary
-
+- multi-write verify broken
+- add wait for response
+- add DMA read/write
 */
 namespace {
   constexpr uint32_t kTimeout = 10; // In milliseconds
+  constexpr int kNumRetries = 100; // Each retry is 10 ms, so wait 1 second
 }
 
 
@@ -22,10 +22,33 @@ I2cDevice::I2cDevice(I2C_HandleTypeDef hI2c, const uint16_t device_addr,
   this->i2c_bus_ = hI2c;
   this->dev_addr_ = device_addr;
   this->reg_size_ = reg_size;
+
+  HAL_StatusTypeDef status;
+  status = this->act_waitForResponse();
+  if (status != HAL_OK) {Error_Handler();}
 }
 
 I2cDevice::~I2cDevice() {
 
+}
+
+HAL_StatusTypeDef I2cDevice::act_pingDevice() {
+  constexpr uint32_t kNumTrials = 1;
+  HAL_StatusTypeDef status;
+  osMutexAcquire(i2c_mutexHandle, osWaitForever);
+  status = HAL_I2C_IsDeviceReady(&i2c_bus_, dev_addr_, kNumTrials, kTimeout);
+  osMutexRelease(i2c_mutexHandle);
+  return status;
+}
+
+HAL_StatusTypeDef I2cDevice::act_waitForResponse() {
+  HAL_StatusTypeDef status;
+  for (int retries = 0; retries < kNumRetries; retries++) {
+    status = act_pingDevice();
+    if (status == HAL_OK) {break;}
+    osDelay(10);
+  }
+  return status;
 }
 
 // TODO: something is wrong here
@@ -75,6 +98,7 @@ HAL_StatusTypeDef I2cDevice::act_pollVerifyWrite(const uint16_t reg_addr,
   status = this->act_pollWrite(reg_addr, data);
   if (status != HAL_OK) { return status;}
 
+  osDelay(10);
   uint8_t rx_buffer;
   this->act_pollRead(reg_addr, &rx_buffer);
 

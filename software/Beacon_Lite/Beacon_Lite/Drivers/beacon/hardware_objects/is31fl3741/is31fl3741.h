@@ -92,6 +92,4 @@ private:
   HAL_StatusTypeDef act_writePage(Page page, uint8_t* data,
                                   const size_t data_len);
   RgbColor act_hslToRgb(HslColor hsl);
-
-  void error_handler();
 };

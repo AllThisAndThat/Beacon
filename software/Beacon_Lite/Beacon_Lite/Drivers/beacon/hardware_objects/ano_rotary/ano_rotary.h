@@ -76,7 +76,4 @@ private:
   void act_setButtonInputPU();
   void act_SWReset();
   HAL_StatusTypeDef act_verify();
-
-
-  void error_handler();
 };

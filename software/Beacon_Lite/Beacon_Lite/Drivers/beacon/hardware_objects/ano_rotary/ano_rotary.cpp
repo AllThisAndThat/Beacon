@@ -44,6 +44,9 @@ constexpr uint8_t  kIntButtonClrAll = 0xFF;
 constexpr uint16_t rPullEnable = rGpioBase + 0x0B;
 
 // Encoder registers
+/*
+rIntEncoderSet is write only!
+*/
 constexpr uint16_t rIntEncoderSet = rEncoderBase + 0x10;
 constexpr uint8_t  kIntEncoderSet = 0x01;
 
@@ -54,11 +57,11 @@ constexpr uint16_t rEncoderPosition = rEncoderBase + 0x30;
 AnoRotary::AnoRotary()
   : hI2c_(kBus, kAddr, kRegSize) {
 
-  this->act_SWReset(); // Resets and waits for the device to be ready
-
-  this->act_enableEncoderInts();
-  this->act_setButtonInputPU();
-  this->act_enableButtonInts();
+  act_verify();  
+  act_SWReset();
+  act_enableEncoderInts();
+  act_setButtonInputPU();
+  act_enableButtonInts();
 }
 
 AnoRotary::~AnoRotary() {
@@ -67,9 +70,8 @@ AnoRotary::~AnoRotary() {
 
 void AnoRotary::act_enableEncoderInts() {
   HAL_StatusTypeDef status;
-
-  status = hI2c_.act_pollVerifyWrite(rIntEncoderSet, kIntEncoderSet);
-  if (status != HAL_OK) {this->error_handler();}
+  status = hI2c_.act_pollWrite(rIntEncoderSet, kIntEncoderSet);
+  if (status != HAL_OK) {Error_Handler();}
 }
 
 void AnoRotary::act_enableButtonInts() {
@@ -79,12 +81,12 @@ void AnoRotary::act_enableButtonInts() {
   constexpr size_t clrBuffSize = 4;
   uint8_t clrBuffer[clrBuffSize] = {0, 0, 0, kIntButtonClrAll};
   status = hI2c_.act_pollWrite(rIntButtonClr, clrBuffer, clrBuffSize);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   constexpr size_t setBuffSize = 4;
   uint8_t setBuffer[setBuffSize] = {0, 0, 0, kIntButtonSetAll};
   status = hI2c_.act_pollWrite(rIntButtonSet, setBuffer, setBuffSize);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 }
 
 void AnoRotary::act_readButtonState() {
@@ -92,7 +94,7 @@ void AnoRotary::act_readButtonState() {
   constexpr size_t rxBuffSize = 4;
   uint8_t rxBuff[rxBuffSize];
   status = hI2c_.act_pollRead(rGpioState, rxBuff, rxBuffSize);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   buttonState_ = (rxBuff[3] & static_cast<uint8_t>(Button::kAll));
 }
@@ -102,7 +104,7 @@ void AnoRotary::act_readEncoderPosition() {
   constexpr size_t rxBuffSize = 4;
   uint8_t rxBuff[rxBuffSize];
   status = hI2c_.act_pollRead(rEncoderPosition, rxBuff, rxBuffSize); 
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   encoderPosition_ = (static_cast<uint32_t>(rxBuff[0]) << 24) |
                      (static_cast<uint32_t>(rxBuff[1]) << 16) |
@@ -122,32 +124,26 @@ void AnoRotary::act_setButtonInputPU() {
   constexpr size_t setInputBuffSize = 4;
   uint8_t setInputBuff[setInputBuffSize] = {0, 0, 0, kSetAllButtons};
   status = hI2c_.act_pollWrite(rInputSet, setInputBuff, setInputBuffSize);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
  
   constexpr size_t pullEnBuffSize = 4;
   uint8_t pullEnBuffer[pullEnBuffSize] = {0, 0, 0, kSetAllButtons};
   status = hI2c_.act_pollWrite(rPullEnable, pullEnBuffer, pullEnBuffSize);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
   constexpr size_t setPuBuffSize = 4;
   uint8_t setPuBuff[setPuBuffSize] = {0, 0, 0, kSetAllButtons};
   status = hI2c_.act_pollWrite(rPullUpSet, setPuBuff, setPuBuffSize);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 }
 
 void AnoRotary::act_SWReset() {
   HAL_StatusTypeDef status;
   status = hI2c_.act_pollWrite(rSWReset, kSWReset);
-  if (status != HAL_OK) {this->error_handler();}
+  if (status != HAL_OK) {Error_Handler();}
 
-  constexpr int kNumRetries = 10;
-  for (int retries = 0; retries < kNumRetries; retries++) {
-    HAL_StatusTypeDef status = this->act_verify();
-    if (status == HAL_OK) {
-      break;
-    }
-    osDelay(10);
-  }
+  status = hI2c_.act_waitForResponse();
+  if (status != HAL_OK) {Error_Handler();}
 }
 
 HAL_StatusTypeDef AnoRotary::act_verify() {
@@ -174,12 +170,5 @@ void Task_AnoEncoder(void *argument) {
       ano.act_readEncoderPosition();
       osDelay(10);
     }
-  }
-}
-
-void AnoRotary::error_handler () {
-  // TODO: Hold LED RED
-  for(;;) {
-
   }
 }
