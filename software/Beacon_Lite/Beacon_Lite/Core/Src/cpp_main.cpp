@@ -2,6 +2,7 @@
 
 #include "cmsis_os2.h"
 
+#include "syscfg.h"
 
 void cpp_main() {
 
@@ -9,6 +10,7 @@ void cpp_main() {
 
 osEventFlagsId_t ltr303als_event_flags;
 osEventFlagsId_t ano_rotary_event_flags;
+osEventFlagsId_t i2c_dma_done_event_flags;
 
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin) {
   if (GPIO_Pin == AMB_INT_Pin) {
@@ -19,5 +21,12 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin) {
 void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin) {
   if (GPIO_Pin == ANO_INT_Pin) {
     osEventFlagsSet(ano_rotary_event_flags, ANO_ROTARY_FLAG_INT);
+  }
+}
+
+// volatile int i2c_dma_done;
+void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *hi2c) {
+  if (hi2c->Instance == syscfg::i2c::bus::kIs31fl3741.Instance) {
+    osEventFlagsSet(i2c_dma_done_event_flags, I2C_DMA_FLAG_DONE);
   }
 }

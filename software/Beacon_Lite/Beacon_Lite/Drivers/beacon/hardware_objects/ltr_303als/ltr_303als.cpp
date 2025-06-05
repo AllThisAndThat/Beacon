@@ -90,7 +90,7 @@ constexpr InterruptDeviation kInterruptDeviation = k3Percent;
 
 
 Ltr_303als::Ltr_303als() {
-  hI2c_ = I2cDevice(kBus, kAddr, kRegSize);
+  hI2c_ = I2cDevice(&kBus, kAddr, kRegSize);
   last_brightness_ = 0;
   high_threshold_ = 0XFFFF;
   low_threshold_ = 0;

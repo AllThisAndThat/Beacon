@@ -12,7 +12,7 @@ enum RegSize
 class I2cDevice {
 public:
   I2cDevice() = default;
-  I2cDevice(I2C_HandleTypeDef bus, const uint16_t dev_addr,
+  I2cDevice(I2C_HandleTypeDef* bus, const uint16_t dev_addr,
             const RegSize reg_size);
   // : i2c_bus_(bus), dev_addr_(dev_addr), reg_size_(reg_size) {};
   ~I2cDevice();
@@ -38,10 +38,10 @@ public:
                                         uint8_t *data,
                                         const size_t size = 1);
   HAL_StatusTypeDef act_dmaWrite(const uint16_t reg_addr,
-                                 const uint8_t *data, 
+                                 uint8_t *data, 
                                  const size_t size = 1);
 private:
-  I2C_HandleTypeDef i2c_bus_;
+  I2C_HandleTypeDef* i2c_bus_;
   uint16_t dev_addr_;
   RegSize reg_size_;
 };

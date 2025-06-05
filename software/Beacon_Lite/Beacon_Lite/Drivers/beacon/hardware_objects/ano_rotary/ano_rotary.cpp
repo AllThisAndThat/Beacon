@@ -55,7 +55,7 @@ constexpr uint16_t rEncoderPosition = rEncoderBase + 0x30;
 } // namespace
 
 AnoRotary::AnoRotary()
-  : hI2c_(kBus, kAddr, kRegSize) {
+  : hI2c_(&kBus, kAddr, kRegSize) {
 
   act_verify();  
   act_SWReset();

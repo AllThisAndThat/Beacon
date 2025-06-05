@@ -4,6 +4,7 @@
 #include <cstring>
 
 #include "app_freertos.h"
+#include "cpp_main.h"
 /*
 TODO: 
 Fix up I2C
@@ -17,7 +18,7 @@ namespace {
 }
 
 
-I2cDevice::I2cDevice(I2C_HandleTypeDef hI2c, const uint16_t device_addr, 
+I2cDevice::I2cDevice(I2C_HandleTypeDef* hI2c, const uint16_t device_addr, 
                      const RegSize reg_size) {
   this->i2c_bus_ = hI2c;
   this->dev_addr_ = device_addr;
@@ -36,7 +37,7 @@ HAL_StatusTypeDef I2cDevice::act_pingDevice() {
   constexpr uint32_t kNumTrials = 1;
   HAL_StatusTypeDef status;
   osMutexAcquire(i2c_mutexHandle, osWaitForever);
-  status = HAL_I2C_IsDeviceReady(&i2c_bus_, dev_addr_, kNumTrials, kTimeout);
+  status = HAL_I2C_IsDeviceReady(i2c_bus_, dev_addr_, kNumTrials, kTimeout);
   osMutexRelease(i2c_mutexHandle);
   return status;
 }
@@ -56,7 +57,7 @@ HAL_StatusTypeDef I2cDevice::act_pollRead(const uint16_t reg_addr,
                                     uint8_t *data, const size_t size) {
   HAL_StatusTypeDef status;
   osMutexAcquire(i2c_mutexHandle, osWaitForever);
-  status = HAL_I2C_Mem_Read(&i2c_bus_, dev_addr_, reg_addr,
+  status = HAL_I2C_Mem_Read(i2c_bus_, dev_addr_, reg_addr,
                             reg_size_, data, size,
                             kTimeout);
   osMutexRelease(i2c_mutexHandle);
@@ -73,7 +74,7 @@ HAL_StatusTypeDef I2cDevice::act_pollWrite(const uint16_t reg_addr,
                                            uint8_t data) {
   HAL_StatusTypeDef status;
   osMutexAcquire(i2c_mutexHandle, osWaitForever);
-  status = HAL_I2C_Mem_Write(&i2c_bus_, dev_addr_,
+  status = HAL_I2C_Mem_Write(i2c_bus_, dev_addr_,
                              reg_addr, reg_size_,
                              &data, 1, kTimeout);
   osMutexRelease(i2c_mutexHandle);
@@ -85,7 +86,7 @@ HAL_StatusTypeDef I2cDevice::act_pollWrite(const uint16_t reg_addr,
                                            const size_t size) {
   HAL_StatusTypeDef status;
   osMutexAcquire(i2c_mutexHandle, osWaitForever);
-  status = HAL_I2C_Mem_Write(&i2c_bus_, dev_addr_,
+  status = HAL_I2C_Mem_Write(i2c_bus_, dev_addr_,
                              reg_addr, reg_size_,
                              data, size, kTimeout);
   osMutexRelease(i2c_mutexHandle);
@@ -132,8 +133,14 @@ HAL_StatusTypeDef I2cDevice::act_pollVerifyWrite(const uint16_t reg_addr,
 }
 
 HAL_StatusTypeDef I2cDevice::act_dmaWrite(const uint16_t reg_addr,
-                                           const uint8_t *data,
-                                           const size_t size) {
-  // DMA write is not implemented in this example
-  return HAL_ERROR;
+                                          uint8_t *data,
+                                          const size_t size) {
+  HAL_StatusTypeDef status = HAL_OK;
+  osMutexAcquire(i2c_mutexHandle, osWaitForever);
+  status = HAL_I2C_Mem_Write_DMA(i2c_bus_, dev_addr_, reg_addr, reg_size_,
+                                 data, size);                     
+  osEventFlagsWait(i2c_dma_done_event_flags, I2C_DMA_FLAG_DONE, osFlagsWaitAny,
+                   osWaitForever);
+  osMutexRelease(i2c_mutexHandle);
+  return status;
 }

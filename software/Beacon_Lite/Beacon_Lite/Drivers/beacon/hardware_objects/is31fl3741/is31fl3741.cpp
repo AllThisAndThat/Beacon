@@ -1,51 +1,114 @@
+/*
+https://lumissil.com/assets/pdf/core/IS31FL3741A_DS.pdf
+https://www.adafruit.com/product/5201
+*/
+
 #include "is31fl3741.h"
 
+#include <cstring>
+
 #include "cmsis_os2.h"
+#include "cpp_main.h"
 
 #include "syscfg.h"
 
-/*
-TODO:
-- update formatting
-- add comments
-- move registers to g namespace
-*/
-
-constexpr int kNumRows = 9;
-constexpr int kNumCols = 13;
-
 namespace {
 // I2C configuration
-  constexpr uint16_t kAddr = syscfg::i2c::addr::kIs31fl3741;
-  inline I2C_HandleTypeDef&  kBus  = syscfg::i2c::bus::kIs31fl3741;
-  constexpr RegSize  kRegSize = RegSize::k8Bit;
-
-  // Page 14 datasheet
-  constexpr uint8_t kSWS_n9        = (0b0000 << 4);
-  constexpr uint8_t kLGC_2V4_0V6   = (1 << 3);
-  constexpr uint8_t kOSDE_noDetect = (0b00 << 1);
-  
-  constexpr uint8_t kData = kSWS_n9 | kLGC_2V4_0V6 | kOSDE_noDetect;
-  constexpr uint8_t kDataOff = kData | (0 << 0);
-  constexpr uint8_t kDataOn  = kData | (1 << 0);
-  constexpr uint8_t rRegister = 0x00;
-
-  constexpr uint8_t kUnlock = 0b1100'0101;
-  constexpr uint8_t rUnlock = 0xFE;
+constexpr uint16_t kAddr = syscfg::i2c::addr::kIs31fl3741;
+inline I2C_HandleTypeDef&  kBus  = syscfg::i2c::bus::kIs31fl3741;
+constexpr RegSize  kRegSize = RegSize::k8Bit;
+// Pageless Registers
+/*
+Page 10
+Read only
+Returns the device ID.
+*/
+constexpr uint16_t rDeviceId = 0xFC;
+constexpr uint8_t  kDeviceId = 0x60;
+/*
+page 10
+Write only (if unlocked)
+Selects the active page.
+*/
+constexpr uint8_t rPageSelect = 0xFD;
+/*
+Page 10
+Read/Write
+Unlocks page change register once.
+*/
+constexpr uint16_t rUnlock = 0xFE;
+constexpr uint8_t  kUnlock = 0b1100'0101;
+// Page 0 Registers - PWM Registers 1
+// Page 1 Registers - PWM Registers 2
+// Page 2 Registers - Scale Registers 1
+// Page 3 Registers - Scale Registers 2
+// Page 4 Registers
+/*
+Page 14
+Read/Write
+Enables/Disables IC, enables open/short detection,
+sets logic voltage, and defines array shape.
+*/
+constexpr uint16_t rOperationConfig   =  0x00;
+constexpr uint8_t  kNumChannelScan    = (0b0000 << 4); // 9 rows, can be 0-9
+constexpr uint8_t  kLogicThresholds   = (0b1 << 3); // 1 = 2.4V/0.6V, 0 = 1.4V/0.4V
+constexpr uint8_t  kOpenOrShortDetect = (0b00 << 1); // Disabled open and short detection
+constexpr uint8_t  kDeviceDisabled = 
+    kNumChannelScan | kLogicThresholds | kOpenOrShortDetect;
+constexpr uint8_t  kDeviceEnabled = kDeviceDisabled | 0b1;
+/*
+Page 14
+Read/Write
+Sets the global current for all LEDs. Linear increase for 0x00 to 0xFF.
+*/
+constexpr uint16_t rGlobalCurrent = 0x01;
+/*
+Page 15
+Read/Write
+Assigns pull-up and pull-down when a channel is inactive. 
+Drains residual charge from led (ghosting).
+*/
+constexpr uint16_t rPullResistor  =  0x02;
+constexpr uint8_t  kPullDownValue = (0b101 << 4); // 8k ohm, saw ghosting with 16k
+constexpr uint8_t  kPullUpValue   = (0b101 << 0); // 8k ohm
+constexpr uint8_t  kPullResistor  = kPullDownValue | kPullUpValue;
+/*
+Page 16
+Read/Write 
+Resets all LEDs to default values.
+*/
+constexpr uint16_t rReset = 0x3F;
+constexpr uint8_t  kReset = 0xAE;
+// Other constants
+constexpr int kNumRows = 9;
+constexpr int kNumCols = 13;
 }
 
 IS31FL3741::IS31FL3741()
-  : hI2c_(kBus, kAddr, kRegSize) {
+  : hI2c_(&kBus, kAddr, kRegSize) {
   page_ = Page::k0;
   state_ = IS31FL3741_State::kOff;
   global_current_ = 0x00;
 
-  HAL_StatusTypeDef status = initiate();
+  /*
+  TODO:
+  - SW Reset - with device wait to respond
+  - configure_and_deactive() <- same register
+  - Setup pullResistors
+  - enable device
+  - function order.
+  - using software reset might have significant delay so manually write 0 to all leds?
+  */
+
+  HAL_StatusTypeDef status;
+  status = act_resetAllLeds();
   if (status != HAL_OK) {Error_Handler();}
-}
 
-IS31FL3741::~IS31FL3741() {
+  status = setup_configRegister();
+  if (status != HAL_OK) {Error_Handler();}
 
+  status = setup_pullResistor();
+  if (status != HAL_OK) {Error_Handler();}
 }
 
 HAL_StatusTypeDef IS31FL3741::set_globalCurrent(const uint8_t current) {
@@ -54,7 +117,6 @@ HAL_StatusTypeDef IS31FL3741::set_globalCurrent(const uint8_t current) {
 
   global_current_ = current; //TODO: remove
 
-  constexpr uint16_t rGlobalCurrent = 0x01;
   status = hI2c_.act_pollVerifyWrite(rGlobalCurrent, global_current_);
   if (status != HAL_OK) {Error_Handler();}
 
@@ -117,7 +179,6 @@ HAL_StatusTypeDef IS31FL3741::set_pixel(uint32_t row, uint32_t col,
     array[address + gOffset] = rgb.g;
     array[address + bOffset] = rgb.b;
   }
-
   return HAL_OK;
 }
 
@@ -167,11 +228,10 @@ void IS31FL3741::set_all_pixels_blank() {
 HAL_StatusTypeDef IS31FL3741::act_verify() {
   HAL_StatusTypeDef status;
 
-  constexpr uint8_t rId = 0xFC;
-  uint8_t readId = 0;
-  status = hI2c_.act_pollRead(rId, &readId);
-  constexpr uint8_t kCorrectId = 0x60;
-  if (readId != kCorrectId) {Error_Handler();}
+
+  uint8_t read_id = 0;
+  status = hI2c_.act_pollRead(rDeviceId, &read_id);
+  if (read_id != kDeviceId) {Error_Handler();}
 
   return HAL_OK;
 }
@@ -180,7 +240,7 @@ HAL_StatusTypeDef IS31FL3741::act_off() {
   HAL_StatusTypeDef status = set_page(Page::k4);
   if (status != HAL_OK) {Error_Handler();}
 
-  status = hI2c_.act_pollVerifyWrite(rRegister, kDataOff);
+  status = hI2c_.act_pollVerifyWrite(rOperationConfig, kDeviceDisabled);
   if (status != HAL_OK) {Error_Handler();}
 
   state_ = IS31FL3741_State::kOff;
@@ -192,7 +252,7 @@ HAL_StatusTypeDef IS31FL3741::act_on() {
   HAL_StatusTypeDef status = set_page(Page::k4);
   if (status != HAL_OK) {Error_Handler();}
 
-  status = hI2c_.act_pollVerifyWrite(rRegister, kDataOn);
+  status = hI2c_.act_pollVerifyWrite(rOperationConfig, kDeviceEnabled);
   if (status != HAL_OK) {Error_Handler();}
 
   state_ = IS31FL3741_State::kOn;
@@ -204,8 +264,6 @@ HAL_StatusTypeDef IS31FL3741::act_resetAllLeds() {
   HAL_StatusTypeDef status = set_page(Page::k4);
   if (status != HAL_OK) {Error_Handler();}
 
-  constexpr uint8_t rReset = 0x3F;
-  constexpr uint8_t kReset = 0xAE;
   status = hI2c_.act_pollWrite(rReset, kReset);
   if (status != HAL_OK) {Error_Handler();}
   page_ = Page::k0; // Default value after reset
@@ -228,51 +286,47 @@ HAL_StatusTypeDef IS31FL3741::act_resetAllLeds() {
 
 HAL_StatusTypeDef IS31FL3741::act_refreshBrightness() {
   HAL_StatusTypeDef status;
+  uint8_t kFullBrightnessPage0[kPage0ArraySize];
+  memset(kFullBrightnessPage0, 0xFF, kPage0ArraySize); 
+  uint8_t kFullBrightnessPage1[kPage1ArraySize];
+  memset(kFullBrightnessPage1, 0xFF, kPage1ArraySize); 
+  
+  uint8_t kInitialAddress = 0x00;
 
   status = set_page(Page::k2);
   if (status != HAL_OK) {Error_Handler();}
-  for (int i = 0; i < kPage0ArraySize; i++) {
-    status = hI2c_.act_pollVerifyWrite(i, 0xFF);
-    if (status != HAL_OK) {Error_Handler();}
-  }
+  status = hI2c_.act_dmaWrite(kInitialAddress, kFullBrightnessPage0, kPage0ArraySize);
+  if (status != HAL_OK) {Error_Handler();}
 
   status = set_page(Page::k3);
-  for (int i = 0; i < kPage1ArraySize; i++) {
-    if (status != HAL_OK) {Error_Handler();}
-    status = hI2c_.act_pollVerifyWrite(i, 0xFF);
-    if (status != HAL_OK) {Error_Handler();}
-  }
+  if (status != HAL_OK) {Error_Handler();}
+  status = hI2c_.act_dmaWrite(kInitialAddress, kFullBrightnessPage1, kPage1ArraySize);
+  if (status != HAL_OK) {Error_Handler();}
 
   return HAL_OK;
 }
 
 HAL_StatusTypeDef IS31FL3741::act_refreshColor() {
-  HAL_StatusTypeDef status;
-
+  HAL_StatusTypeDef status = HAL_OK;
+  constexpr uint16_t kInitialAddress = 0x00;
   status = set_page(Page::k0);
   if (status != HAL_OK) {Error_Handler();}
-  status = HAL_I2C_Mem_Write_DMA(&hi2c1, kAddr, 0, I2C_MEMADD_SIZE_8BIT,
-                                 page0_leds_, kPage0ArraySize);
+  // status = HAL_I2C_Mem_Write_DMA(&hi2c1, kAddr, 0, I2C_MEMADD_SIZE_8BIT,
+  //                                page0_leds_, kPage0ArraySize);
+  // while (hi2c1.State != HAL_I2C_STATE_READY) {
+  //   osDelay(5);
+  // }
+  status = hI2c_.act_dmaWrite(kInitialAddress, page0_leds_, kPage0ArraySize);
   if (status != HAL_OK) {Error_Handler();}
 
   status = set_page(Page::k1);
   if (status != HAL_OK) {Error_Handler();}
-  status = HAL_I2C_Mem_Write_DMA(&hi2c1, kAddr, 0, I2C_MEMADD_SIZE_8BIT,
-                                 page1_leds_, kPage1ArraySize);
-  if (status != HAL_OK) {Error_Handler();}
-
-  return HAL_OK;
-}
-
-HAL_StatusTypeDef IS31FL3741::initiate() {
-  HAL_StatusTypeDef status;
-  status = act_resetAllLeds();
-  if (status != HAL_OK) {Error_Handler();}
-
-  status = setup_configRegister();
-  if (status != HAL_OK) {Error_Handler();}
-
-  status = setup_pullResistor();
+  // status = HAL_I2C_Mem_Write_DMA(&hi2c1, kAddr, 0, I2C_MEMADD_SIZE_8BIT,
+  //                                page1_leds_, kPage1ArraySize);
+  // while (hi2c1.State != HAL_I2C_STATE_READY) {
+  //   osDelay(5);
+  // }
+  status = hI2c_.act_dmaWrite(kInitialAddress, page1_leds_, kPage1ArraySize);                                 
   if (status != HAL_OK) {Error_Handler();}
 
   return HAL_OK;
@@ -282,7 +336,7 @@ HAL_StatusTypeDef IS31FL3741::setup_configRegister() {
   HAL_StatusTypeDef status = set_page(Page::k4);
   if (status != HAL_OK) {Error_Handler();}
 
-  status = hI2c_.act_pollVerifyWrite(rRegister, kDataOff);
+  status = hI2c_.act_pollVerifyWrite(rOperationConfig, kDeviceDisabled);
   if (status != HAL_OK) {Error_Handler();}
 
   return HAL_OK;
@@ -292,12 +346,6 @@ HAL_StatusTypeDef IS31FL3741::setup_pullResistor() {
   HAL_StatusTypeDef status = set_page(Page::k4);
   if (status != HAL_OK) {Error_Handler();}
 
-  // Datasheet Page 15
-  // Saw ghosting with 16k
-  constexpr uint8_t kPDR_8k = (0b101 << 4); 
-  constexpr uint8_t kPUR_8k = (0b101 << 0);
-  constexpr uint8_t kPullResistor = kPDR_8k | kPUR_8k;
-  constexpr uint8_t rPullResistor = 0x02;
   status = hI2c_.act_pollVerifyWrite(rPullResistor, kPullResistor);
   if (status != HAL_OK) {Error_Handler();}
 
@@ -310,7 +358,6 @@ HAL_StatusTypeDef IS31FL3741::set_page(const Page page) {
   HAL_StatusTypeDef status = hI2c_.act_pollVerifyWrite(rUnlock, kUnlock);
   if (status != HAL_OK) {Error_Handler();}
 
-  constexpr uint8_t rPageSelect = 0xFD;
   status = hI2c_.act_pollWrite(rPageSelect, 
                                 static_cast<uint8_t>(page));
   if (status != HAL_OK) {Error_Handler();}
@@ -376,11 +423,11 @@ RgbColor IS31FL3741::act_hslToRgb(HslColor hsl) {
   return rgb;
 }
 
-
 HslColor global_hsl = {0, 0, 30};
 void Task_Is31fl3741(void *argument) {
+  i2c_dma_done_event_flags = osEventFlagsNew(NULL);
   IS31FL3741 is31fl3741;
-  HAL_StatusTypeDef status;
+  HAL_StatusTypeDef status = HAL_OK;
 
   status = is31fl3741.set_globalCurrent(0x01);
   if (status != HAL_OK) {Error_Handler();}
