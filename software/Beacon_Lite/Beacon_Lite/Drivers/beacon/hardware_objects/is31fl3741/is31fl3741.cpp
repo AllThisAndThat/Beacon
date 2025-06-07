@@ -14,9 +14,11 @@ https://www.adafruit.com/product/5201
 
 namespace {
 // I2C configuration
-constexpr uint16_t kAddr = syscfg::i2c::addr::kIs31fl3741;
-inline I2C_HandleTypeDef&  kBus  = syscfg::i2c::bus::kIs31fl3741;
-constexpr RegSize  kRegSize = RegSize::k8Bit;
+  namespace I2c {
+  constexpr uint16_t kAddr = syscfg::i2c::addr::kIs31fl3741;
+  inline I2C_HandleTypeDef&  kBus  = syscfg::i2c::bus::kIs31fl3741;
+  constexpr RegSize  kRegSize = RegSize::k8Bit;
+} // namespace I2c
 // Pageless Registers
 /*
 Page 10
@@ -85,39 +87,18 @@ constexpr int kNumCols = 13;
 }
 
 IS31FL3741::IS31FL3741()
-  : hI2c_(&kBus, kAddr, kRegSize) {
-  page_ = Page::k0;
-  state_ = IS31FL3741_State::kOff;
-  global_current_ = 0x00;
-
-  /*
-  TODO:
-  - SW Reset - with device wait to respond
-  - configure_and_deactive() <- same register
-  - Setup pullResistors
-  - enable device
-  - function order.
-  - using software reset might have significant delay so manually write 0 to all leds?
-  */
-
-  HAL_StatusTypeDef status;
-  status = act_resetAllLeds();
-  if (status != HAL_OK) {Error_Handler();}
-
-  status = setup_configRegister();
-  if (status != HAL_OK) {Error_Handler();}
-
-  status = setup_pullResistor();
-  if (status != HAL_OK) {Error_Handler();}
+  : hI2c_(&I2c::kBus, I2c::kAddr, I2c::kRegSize) {
+  act_verifyId();
+  act_swReset();
+  setup_configAndDisable();
+  setup_pullResistor();
 }
 
 HAL_StatusTypeDef IS31FL3741::set_globalCurrent(const uint8_t current) {
-  HAL_StatusTypeDef status = set_page(Page::k4);
-  if (status != HAL_OK) {Error_Handler();}
+  set_page(Page::k4);
 
-  global_current_ = current; //TODO: remove
-
-  status = hI2c_.act_pollVerifyWrite(rGlobalCurrent, global_current_);
+  HAL_StatusTypeDef status = HAL_OK;
+  status = hI2c_.act_pollVerifyWrite(rGlobalCurrent, current);
   if (status != HAL_OK) {Error_Handler();}
 
   return HAL_OK;
@@ -184,31 +165,24 @@ HAL_StatusTypeDef IS31FL3741::set_pixel(uint32_t row, uint32_t col,
 
 HAL_StatusTypeDef IS31FL3741::set_row(uint32_t row, HslColor hsl) {
   if (row >= kNumRows) {return HAL_ERROR;}
-
   RgbColor rgb = this->act_hslToRgb(hsl);
-
   for (int col = 0; col < kNumCols; col++) {
     this->set_pixel(row, col, rgb);
   }
-
   return HAL_OK;
 }
 
 HAL_StatusTypeDef IS31FL3741::set_col(uint32_t col, HslColor hsl) {
   if (col >= kNumCols) {return HAL_ERROR;}
-
   RgbColor rgb = this->act_hslToRgb(hsl);
-
   for (int row = 0; row < kNumRows; row++) {
     this->set_pixel(row, col, rgb);
   }
-
   return HAL_OK;
 }
 
 void IS31FL3741::set_all_pixels(HslColor hsl) {
   RgbColor rgb = this->act_hslToRgb(hsl);
-
   for (int row = 0; row < kNumRows; row++) {
     for (int col = 0; col < kNumCols; col++) {
       this->set_pixel(row, col, rgb);
@@ -216,72 +190,31 @@ void IS31FL3741::set_all_pixels(HslColor hsl) {
   }
 }
 
-void IS31FL3741::set_all_pixels_blank() {
-  for (int i = (kPage0ArraySize - 1); i >= 0; i--) {
-    page0_leds_[i] = 0;
-  }
-  for (int i = (kPage1ArraySize - 1); i >= 0; i--) {
-    page1_leds_[i] = 0;
-  }
+void IS31FL3741::set_pixels_blank() {
+  memset(page0_leds_, 0, kPage0ArraySize);
+  memset(page1_leds_, 0, kPage1ArraySize);
 }
 
-HAL_StatusTypeDef IS31FL3741::act_verify() {
+void IS31FL3741::act_verifyId() {
   HAL_StatusTypeDef status;
-
-
   uint8_t read_id = 0;
   status = hI2c_.act_pollRead(rDeviceId, &read_id);
+  if (status != HAL_OK) {Error_Handler();}
   if (read_id != kDeviceId) {Error_Handler();}
-
-  return HAL_OK;
 }
 
-HAL_StatusTypeDef IS31FL3741::act_off() {
-  HAL_StatusTypeDef status = set_page(Page::k4);
-  if (status != HAL_OK) {Error_Handler();}
-
+void IS31FL3741::act_off() {
+  set_page(Page::k4);
+  HAL_StatusTypeDef status = HAL_OK;
   status = hI2c_.act_pollVerifyWrite(rOperationConfig, kDeviceDisabled);
   if (status != HAL_OK) {Error_Handler();}
-
-  state_ = IS31FL3741_State::kOff;
-
-  return status;
 }
 
-HAL_StatusTypeDef IS31FL3741::act_on() {
-  HAL_StatusTypeDef status = set_page(Page::k4);
-  if (status != HAL_OK) {Error_Handler();}
-
+void IS31FL3741::act_on() {
+  set_page(Page::k4);
+  HAL_StatusTypeDef status;
   status = hI2c_.act_pollVerifyWrite(rOperationConfig, kDeviceEnabled);
   if (status != HAL_OK) {Error_Handler();}
-
-  state_ = IS31FL3741_State::kOn;
-
-  return HAL_OK;
-}
-
-HAL_StatusTypeDef IS31FL3741::act_resetAllLeds() {
-  HAL_StatusTypeDef status = set_page(Page::k4);
-  if (status != HAL_OK) {Error_Handler();}
-
-  status = hI2c_.act_pollWrite(rReset, kReset);
-  if (status != HAL_OK) {Error_Handler();}
-  page_ = Page::k0; // Default value after reset
-
-  // Restore non-led registers
-  status = setup_configRegister();
-  if (status != HAL_OK) {Error_Handler();}
-  status = setup_pullResistor();
-  if (status != HAL_OK) {Error_Handler();}
-  status = set_globalCurrent(global_current_);
-  if (status != HAL_OK) {Error_Handler();}
-
-  if (state_ == IS31FL3741_State::kOn) {
-    status = act_on();
-    if (status != HAL_OK) {Error_Handler();}
-  }
-
-  return HAL_OK;
 }
 
 HAL_StatusTypeDef IS31FL3741::act_refreshBrightness() {
@@ -293,13 +226,11 @@ HAL_StatusTypeDef IS31FL3741::act_refreshBrightness() {
   
   uint8_t kInitialAddress = 0x00;
 
-  status = set_page(Page::k2);
-  if (status != HAL_OK) {Error_Handler();}
+  set_page(Page::k2);
   status = hI2c_.act_dmaWrite(kInitialAddress, kFullBrightnessPage0, kPage0ArraySize);
   if (status != HAL_OK) {Error_Handler();}
 
-  status = set_page(Page::k3);
-  if (status != HAL_OK) {Error_Handler();}
+  set_page(Page::k3);
   status = hI2c_.act_dmaWrite(kInitialAddress, kFullBrightnessPage1, kPage1ArraySize);
   if (status != HAL_OK) {Error_Handler();}
 
@@ -309,51 +240,32 @@ HAL_StatusTypeDef IS31FL3741::act_refreshBrightness() {
 HAL_StatusTypeDef IS31FL3741::act_refreshColor() {
   HAL_StatusTypeDef status = HAL_OK;
   constexpr uint16_t kInitialAddress = 0x00;
-  status = set_page(Page::k0);
-  if (status != HAL_OK) {Error_Handler();}
-  // status = HAL_I2C_Mem_Write_DMA(&hi2c1, kAddr, 0, I2C_MEMADD_SIZE_8BIT,
-  //                                page0_leds_, kPage0ArraySize);
-  // while (hi2c1.State != HAL_I2C_STATE_READY) {
-  //   osDelay(5);
-  // }
+  set_page(Page::k0);
   status = hI2c_.act_dmaWrite(kInitialAddress, page0_leds_, kPage0ArraySize);
   if (status != HAL_OK) {Error_Handler();}
 
-  status = set_page(Page::k1);
-  if (status != HAL_OK) {Error_Handler();}
-  // status = HAL_I2C_Mem_Write_DMA(&hi2c1, kAddr, 0, I2C_MEMADD_SIZE_8BIT,
-  //                                page1_leds_, kPage1ArraySize);
-  // while (hi2c1.State != HAL_I2C_STATE_READY) {
-  //   osDelay(5);
-  // }
+  set_page(Page::k1);
   status = hI2c_.act_dmaWrite(kInitialAddress, page1_leds_, kPage1ArraySize);                                 
   if (status != HAL_OK) {Error_Handler();}
 
   return HAL_OK;
 }
 
-HAL_StatusTypeDef IS31FL3741::setup_configRegister() {
-  HAL_StatusTypeDef status = set_page(Page::k4);
+void IS31FL3741::setup_configAndDisable() {
+  set_page(Page::k4);
+  HAL_StatusTypeDef status = hI2c_.act_pollVerifyWrite(rOperationConfig, kDeviceDisabled);
   if (status != HAL_OK) {Error_Handler();}
-
-  status = hI2c_.act_pollVerifyWrite(rOperationConfig, kDeviceDisabled);
-  if (status != HAL_OK) {Error_Handler();}
-
-  return HAL_OK;
 }
 
-HAL_StatusTypeDef IS31FL3741::setup_pullResistor() {
-  HAL_StatusTypeDef status = set_page(Page::k4);
-  if (status != HAL_OK) {Error_Handler();}
-
+void IS31FL3741::setup_pullResistor() {
+  set_page(Page::k4);
+  HAL_StatusTypeDef status;
   status = hI2c_.act_pollVerifyWrite(rPullResistor, kPullResistor);
   if (status != HAL_OK) {Error_Handler();}
-
-  return HAL_OK;
 }
 
-HAL_StatusTypeDef IS31FL3741::set_page(const Page page) {
-  if (page == page_) {return HAL_OK;}
+void IS31FL3741::set_page(const Page page) {
+  if (page == page_) {return;}
 
   HAL_StatusTypeDef status = hI2c_.act_pollVerifyWrite(rUnlock, kUnlock);
   if (status != HAL_OK) {Error_Handler();}
@@ -363,20 +275,6 @@ HAL_StatusTypeDef IS31FL3741::set_page(const Page page) {
   if (status != HAL_OK) {Error_Handler();}
 
   page_ = page;
-  return HAL_OK;
-}
-
-HAL_StatusTypeDef IS31FL3741::act_writePage(const Page page,
-                                        uint8_t* data,
-                                        const size_t data_len) {
-  HAL_StatusTypeDef status = set_page(page);
-  if (status != HAL_OK) {Error_Handler();}
-
-  constexpr uint8_t rInitialAddress = 0x00;
-  status = hI2c_.act_pollWrite(rInitialAddress, data, data_len);
-  if (status != HAL_OK) {Error_Handler();}
-
-  return HAL_OK;
 }
 
 RgbColor IS31FL3741::act_hslToRgb(HslColor hsl) {
@@ -423,52 +321,67 @@ RgbColor IS31FL3741::act_hslToRgb(HslColor hsl) {
   return rgb;
 }
 
-HslColor global_hsl = {0, 0, 30};
+void IS31FL3741::act_swReset() {
+  set_page(Page::k4);
+  HAL_StatusTypeDef status = hI2c_.act_pollWrite(rReset, kReset);
+  if (status != HAL_OK) {Error_Handler();}
+
+  page_ = Page::k0; // Set to default reset state
+  set_pixels_blank();
+
+  status = hI2c_.act_waitForResponse();
+  if (status != HAL_OK) {Error_Handler();}
+}
+
+HslColor global_hsl = {0, 255, 0x80};
 void Task_Is31fl3741(void *argument) {
   i2c_dma_done_event_flags = osEventFlagsNew(NULL);
   IS31FL3741 is31fl3741;
   HAL_StatusTypeDef status = HAL_OK;
 
-  status = is31fl3741.set_globalCurrent(0x01);
-  if (status != HAL_OK) {Error_Handler();}
+  status = is31fl3741.set_globalCurrent(0x02);
 
-  status = is31fl3741.act_on();
-  if (status != HAL_OK) {Error_Handler();}
+  is31fl3741.act_on();
 
   status = is31fl3741.act_refreshBrightness();
   
-  int delay = 40;
+  int delay = 50;
 
   for(;;) {
-    for (int col = 0; col < kNumCols; col++) {
-      is31fl3741.set_all_pixels_blank();
-      is31fl3741.set_col(col, global_hsl);
-      status = is31fl3741.act_refreshColor();
-      global_hsl.s += 1;
-      osDelay(delay);
-    }
-    for (int row = 0; row < kNumRows; row++) {
-      is31fl3741.set_all_pixels_blank();
-      is31fl3741.set_row(row, global_hsl);
-      status = is31fl3741.act_refreshColor();
-      global_hsl.s += 1;
-      osDelay(delay);
-    }
-    for (int col = (kNumCols - 1); col >= 0; col--)
-    {
-      is31fl3741.set_all_pixels_blank();
-      is31fl3741.set_col(col, global_hsl);
-      status = is31fl3741.act_refreshColor();
-      global_hsl.s += 1;
-      osDelay(delay);
-    }
-    for (int row = kNumRows - 1; row >= 0; row--) {
-      is31fl3741.set_all_pixels_blank();
-      is31fl3741.set_row(row, global_hsl);
-      status = is31fl3741.act_refreshColor();
-      global_hsl.s += 1;
-      osDelay(delay);
-    } 
-    global_hsl.h += 5;
+    is31fl3741.set_col(0, global_hsl);
+    status = is31fl3741.act_refreshColor();
+    osDelay(delay);
+    global_hsl.h += 1;
+
+    // for (int col = 0; col < kNumCols; col++) {
+    //   is31fl3741.set_pixels_blank();
+    //   is31fl3741.set_col(col, global_hsl);
+    //   status = is31fl3741.act_refreshColor();
+    //   global_hsl.s += 1;
+    //   osDelay(delay);
+    // }
+    // for (int row = 0; row < kNumRows; row++) {
+    //   is31fl3741.set_pixels_blank();
+    //   is31fl3741.set_row(row, global_hsl);
+    //   status = is31fl3741.act_refreshColor();
+    //   global_hsl.s += 1;
+    //   osDelay(delay);
+    // }
+    // for (int col = (kNumCols - 1); col >= 0; col--)
+    // {
+    //   is31fl3741.set_pixels_blank();
+    //   is31fl3741.set_col(col, global_hsl);
+    //   status = is31fl3741.act_refreshColor();
+    //   global_hsl.s += 1;
+    //   osDelay(delay);
+    // }
+    // for (int row = kNumRows - 1; row >= 0; row--) {
+    //   is31fl3741.set_pixels_blank();
+    //   is31fl3741.set_row(row, global_hsl);
+    //   status = is31fl3741.act_refreshColor();
+    //   global_hsl.s += 1;
+    //   osDelay(delay);
+    // } 
+    // global_hsl.h += 5;
   }
 }

@@ -57,35 +57,30 @@ class IS31FL3741 {
   IS31FL3741();
 
   HAL_StatusTypeDef set_globalCurrent(const uint8_t current);
-
   HAL_StatusTypeDef set_pixel(uint32_t row, uint32_t col, HslColor hsl);
   HAL_StatusTypeDef set_pixel(uint32_t row, uint32_t col, RgbColor rgb);
   HAL_StatusTypeDef set_row(uint32_t row, HslColor hsl);
   HAL_StatusTypeDef set_col(uint32_t col, HslColor hsl);
   void set_all_pixels(HslColor hsl);
-  void set_all_pixels_blank();
+  void set_pixels_blank();
 
-  HAL_StatusTypeDef act_verify();
-  HAL_StatusTypeDef act_off();
-  HAL_StatusTypeDef act_on();
-  HAL_StatusTypeDef act_resetAllLeds();
+  void act_verifyId();
+  void act_off();
+  void act_on();
   HAL_StatusTypeDef act_refreshBrightness();
   HAL_StatusTypeDef act_refreshColor();
 
  private:
+  Page page_;
   uint8_t page0_leds_[kPage0ArraySize] = {0};
   uint8_t page1_leds_[kPage1ArraySize] = {0};
   I2cDevice hI2c_;
-  Page page_;
-  IS31FL3741_State state_;
-  uint8_t global_current_;
 
-  HAL_StatusTypeDef setup_configRegister();
-  HAL_StatusTypeDef setup_pullResistor();
+  void setup_configAndDisable();
+  void setup_pullResistor();
 
-  HAL_StatusTypeDef set_page(const Page page);
+  void set_page(const Page page);
 
-  HAL_StatusTypeDef act_writePage(Page page, uint8_t* data,
-                                  const size_t data_len);
   RgbColor act_hslToRgb(HslColor hsl);
+  void act_swReset();
 };

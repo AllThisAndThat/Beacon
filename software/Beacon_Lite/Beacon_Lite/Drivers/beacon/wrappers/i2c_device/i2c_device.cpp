@@ -24,7 +24,7 @@ I2cDevice::I2cDevice(I2C_HandleTypeDef* hI2c, const uint16_t device_addr,
   this->dev_addr_ = device_addr;
   this->reg_size_ = reg_size;
 
-  HAL_StatusTypeDef status;
+  HAL_StatusTypeDef status = HAL_OK;
   status = this->act_waitForResponse();
   if (status != HAL_OK) {Error_Handler();}
 }
@@ -43,7 +43,7 @@ HAL_StatusTypeDef I2cDevice::act_pingDevice() {
 }
 
 HAL_StatusTypeDef I2cDevice::act_waitForResponse() {
-  HAL_StatusTypeDef status;
+  HAL_StatusTypeDef status = HAL_OK;
   for (int retries = 0; retries < kNumRetries; retries++) {
     status = act_pingDevice();
     if (status == HAL_OK) {break;}
@@ -55,7 +55,7 @@ HAL_StatusTypeDef I2cDevice::act_waitForResponse() {
 // TODO: something is wrong here
 HAL_StatusTypeDef I2cDevice::act_pollRead(const uint16_t reg_addr,
                                     uint8_t *data, const size_t size) {
-  HAL_StatusTypeDef status;
+  HAL_StatusTypeDef status = HAL_OK;
   osMutexAcquire(i2c_mutexHandle, osWaitForever);
   status = HAL_I2C_Mem_Read(i2c_bus_, dev_addr_, reg_addr,
                             reg_size_, data, size,
@@ -72,7 +72,7 @@ HAL_StatusTypeDef I2cDevice::act_dmaRead(const uint16_t reg_addr,
 
 HAL_StatusTypeDef I2cDevice::act_pollWrite(const uint16_t reg_addr,
                                            uint8_t data) {
-  HAL_StatusTypeDef status;
+  HAL_StatusTypeDef status = HAL_OK;
   osMutexAcquire(i2c_mutexHandle, osWaitForever);
   status = HAL_I2C_Mem_Write(i2c_bus_, dev_addr_,
                              reg_addr, reg_size_,
@@ -84,7 +84,7 @@ HAL_StatusTypeDef I2cDevice::act_pollWrite(const uint16_t reg_addr,
 HAL_StatusTypeDef I2cDevice::act_pollWrite(const uint16_t reg_addr,
                                            uint8_t *data,
                                            const size_t size) {
-  HAL_StatusTypeDef status;
+  HAL_StatusTypeDef status = HAL_OK;
   osMutexAcquire(i2c_mutexHandle, osWaitForever);
   status = HAL_I2C_Mem_Write(i2c_bus_, dev_addr_,
                              reg_addr, reg_size_,
@@ -95,7 +95,7 @@ HAL_StatusTypeDef I2cDevice::act_pollWrite(const uint16_t reg_addr,
 
 HAL_StatusTypeDef I2cDevice::act_pollVerifyWrite(const uint16_t reg_addr,
                                                  uint8_t data) {
-  HAL_StatusTypeDef status;
+  HAL_StatusTypeDef status = HAL_OK;
   status = this->act_pollWrite(reg_addr, data);
   if (status != HAL_OK) { return status;}
 
@@ -114,7 +114,7 @@ HAL_StatusTypeDef I2cDevice::act_pollVerifyWrite(const uint16_t reg_addr,
 HAL_StatusTypeDef I2cDevice::act_pollVerifyWrite(const uint16_t reg_addr,
                                                  uint8_t *data,
                                                  const size_t size) {
-  HAL_StatusTypeDef status;
+  HAL_StatusTypeDef status = HAL_OK;
   status = this->act_pollWrite(reg_addr, data, size);
   if (status != HAL_OK) { return status;}
 
