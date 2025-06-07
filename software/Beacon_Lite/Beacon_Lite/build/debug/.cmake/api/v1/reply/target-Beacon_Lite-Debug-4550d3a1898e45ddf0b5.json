@@ -121,6 +121,10 @@
 				},
 				{
 					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/beacon_math"
+				},
+				{
+					"backtrace" : 4,
 					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/wrappers/i2c_device"
 				},
 				{
@@ -230,6 +234,10 @@
 				},
 				{
 					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/beacon_math"
+				},
+				{
+					"backtrace" : 4,
 					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/wrappers/i2c_device"
 				},
 				{
@@ -325,6 +333,10 @@
 				},
 				{
 					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/beacon_math"
+				},
+				{
+					"backtrace" : 4,
 					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/wrappers/i2c_device"
 				},
 				{
@@ -365,7 +377,8 @@
 				11,
 				12,
 				13,
-				14
+				14,
+				15
 			]
 		}
 	],
@@ -426,7 +439,8 @@
 				11,
 				12,
 				13,
-				14
+				14,
+				15
 			]
 		},
 		{
@@ -440,7 +454,6 @@
 			"name" : "Object Libraries",
 			"sourceIndexes" : 
 			[
-				15,
 				16,
 				17,
 				18,
@@ -471,7 +484,8 @@
 				43,
 				44,
 				45,
-				46
+				46,
+				47
 			]
 		}
 	],
@@ -529,6 +543,12 @@
 			"backtrace" : 4,
 			"compileGroupIndex" : 2,
 			"path" : "Core/Src/cpp_main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 2,
+			"path" : "Drivers/beacon/beacon_math/beacon_math.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

@@ -19,13 +19,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 33,
+				"line" : 37,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 35,
+				"line" : 39,
 				"parent" : 0
 			}
 		]
@@ -49,7 +49,8 @@
 				3,
 				4,
 				5,
-				6
+				6,
+				7
 			]
 		}
 	],
@@ -58,6 +59,11 @@
 		{
 			"backtrace" : 2,
 			"path" : "Core/Src/cpp_main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "Drivers/beacon/beacon_math/beacon_math.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

@@ -6,6 +6,8 @@ set(MX_Include_Dirs
     ${CMAKE_SOURCE_DIR}/Core/Inc
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/syscfg
 
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/beacon_math
+
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/wrappers/i2c_device
 
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/ano_rotary
@@ -19,6 +21,8 @@ set(MX_Include_Dirs
 
 set(STM32_Drivers_Src
     ${CMAKE_SOURCE_DIR}/Core/Src/cpp_main.cpp
+
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/beacon_math/beacon_math.cpp
 
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/wrappers/i2c_device/i2c_device.cpp
     
