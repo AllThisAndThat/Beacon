@@ -5,6 +5,7 @@
 
 namespace beacon_math {
 RgbColor hslToRgb(HslColor hsl) {
+// https://stackoverflow.com/questions/13105185/fast-algorithm-for-rgb-hsl-conversion
   RgbColor rgb;
   if (hsl.l == 0) {
     return rgb ={0, 0, 0};

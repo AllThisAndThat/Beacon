@@ -1,98 +1,65 @@
 #include "neopixel_4310.h"
 
 #include "main.h"
+#include "cpp_main.h"
+
+#include "syscfg.h"
 
 int datasentflag = 0;
 
+namespace neopixel_4310 {
+  
 Neopixel4310::Neopixel4310() {
-  color_ = 0;
-  set_color(color_);
+  uint32_t period = (syscfg::neopixel_4310::kTimerNum.Init.Period) + 1;
+  kPwmHigh_ = static_cast<uint8_t>((period * 64) / 100);
+  kPwmLow_ = kPwmHigh_ / 2;
+  act_blank();
+  act_refresh();
 }
 
-Neopixel4310::~Neopixel4310() {
-
-}
-
-void Neopixel4310::set_colorHSL(uint8_t h, uint8_t s, uint8_t l) {
-  // https://stackoverflow.com/questions/13105185/fast-algorithm-for-rgb-hsl-conversion
-  if (l == 0) {
-    color_ = 0;
-  }
-  else {
-    uint16_t l1 = l + 1;
-    uint8_t c;
-    if (l < 128) {
-      c = ((l1 << 1) * s) >> 8;
-    }
-    else {
-      c = (512 - (l1 << 1)) * s >> 8;
-    }
-
-    uint16_t H = h * 6;              // 0 to 1535 (actually 1530)
-    uint8_t lo = H & 255;           // Low byte  = primary/secondary color mix
-    uint16_t h1 = lo + 1;
-    uint8_t x;
-
-    if ((H & 256) == 0) {
-      x = h1 * c >> 8;   // even sextant, like red to yellow
-    }        
-    else {
-      x = (256 - h1) * c >> 8;  // odd sextant, like yellow to green
-    }
-
-    uint8_t m = l - (c >> 1);
-    uint8_t  r, g, b ;
-    switch(H >> 8) {       // High byte = sextant of colorwheel
-    case 0 : r = c; g = x; b = 0; break; // R to Y
-    case 1 : r = x; g = c; b = 0; break; // Y to G
-    case 2 : r = 0; g = c; b = x; break; // G to C
-    case 3 : r = 0; g = x; b = c; break; // C to B
-    case 4 : r = x; g = 0; b = c; break; // B to M
-    default: r = c; g = 0; b = x; break; // M to R
-    }
-
-    color_ = (((uint32_t)r + m) << 16) | (((uint32_t)g + m) << 8) | ((uint32_t)b + m);
-  }
-  set_pwmData(color_);
-}
-
-void Neopixel4310::set_color(uint32_t color) {
-  color_ = color;
-  set_pwmData(color_);
+void Neopixel4310::set_colorHSL(beacon_math::HslColor hsl) {
+  beacon_math::RgbColor rgb = beacon_math::hslToRgb(hsl);
+  uint32_t color = (rgb.r << 16) | (rgb.g << 8) | rgb.b;
+  set_pwmData(color);
 }
 
 void Neopixel4310::act_blank() {
-  this->set_color(0);
-  this->act_refresh();
+  constexpr uint32_t color = 0;
+  set_pwmData(color);
 }
 
-void Neopixel4310::act_refresh()
-{
-	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_1, (uint32_t *)pwmData_, kPwmDataSize);
-	while (!datasentflag){};
-	datasentflag = 0;
+void Neopixel4310::act_refresh() {
+  HAL_StatusTypeDef status = HAL_OK;
+  datasentflag = 0;
+  status = HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_1, (uint32_t *)pwmData_, kPwmDataSize);
+  if (status != HAL_OK) {Error_Handler();}
+  // osEventFlagsWait(neopixel4310_tim_pwm_done, NEOPIXEL4310_TIM_PWM_DONE, osFlagsWaitAny,
+  //                  osWaitForever);
+  while(datasentflag == 0) {
+    HAL_Delay(1); 
+  }
 }
 
-void Neopixel4310::set_pwmData(uint32_t color) {
+void Neopixel4310::set_pwmData(const uint32_t color) {
   for (int j = 0; j < kNumPixels; j++) {
     for (int i = 0; i < kLedsPerPixel * 8; i++) {
       if (color & (1 << ((kLedsPerPixel * 8 - 1) - i))) {
-        pwmData_[j * (kLedsPerPixel * 8) + i] = kPwmHigh;
+        pwmData_[j * (kLedsPerPixel * 8) + i] = kPwmHigh_;
       }
       else {
-        pwmData_[j * (kLedsPerPixel * 8) + i] = kPwmLow;
+        pwmData_[j * (kLedsPerPixel * 8) + i] = kPwmLow_;
       }
     }
   }
 }
+} // namespace neopixel_4310
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim) {
-  if (htim->Instance == TIM2) {
-    /* Need to initialize this to zero so there isn't a glitch on the
-       next cycle.
-    */
-    htim2.Instance->CCR1 = 0; 
-    HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
+  if (htim->Instance == syscfg::neopixel_4310::kTimerNum.Instance) {
+    // Need to reset duty to zero to prevent glitching.
+    htim->Instance->CCR1 = 0; 
+    HAL_TIM_PWM_Stop_DMA(htim, syscfg::neopixel_4310::kChannelNum);
     datasentflag = 1;
+    // osEventFlagsSet(i2c_dma_done_event_flags, I2C_DMA_FLAG_DONE);
   }
 }

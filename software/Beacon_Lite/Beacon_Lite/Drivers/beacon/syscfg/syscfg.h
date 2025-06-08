@@ -59,5 +59,10 @@ namespace is31fl3741 {
   constexpr DeghostResistor kDeghostResistor = DeghostResistor::k8KOhm;
 } // namespace is31fl3741
 
+namespace neopixel_4310 {
+  inline TIM_HandleTypeDef& kTimerNum = htim2;
+  constexpr uint32_t kChannelNum = TIM_CHANNEL_1;
+}
+
 } // namespace syscfg
 #endif

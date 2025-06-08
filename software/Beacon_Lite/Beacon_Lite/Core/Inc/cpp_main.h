@@ -19,3 +19,6 @@ extern osEventFlagsId_t ano_rotary_event_flags;
 
 #define I2C_DMA_FLAG_DONE   (1U << 2)
 extern osEventFlagsId_t i2c_dma_done_event_flags;
+
+// #define NEOPIXEL4310_TIM_PWM_DONE   (1U << 3)
+// extern osEventFlagsId_t neopixel4310_tim_pwm_done;

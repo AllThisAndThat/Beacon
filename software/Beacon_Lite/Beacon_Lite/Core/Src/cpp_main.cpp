@@ -3,9 +3,21 @@
 #include "cmsis_os2.h"
 
 #include "syscfg.h"
+#include "neopixel_4310.h"
 
+// osEventFlagsId_t neopixel4310_tim_pwm_done;
+beacon_math::HslColor hsl = {0, 255, 5};
 void cpp_main() {
+  // neopixel4310_tim_pwm_done = osEventFlagsNew(NULL);
+  neopixel_4310::Neopixel4310 led_strip;
+  constexpr uint32_t delay = 50;
 
+  for(;;) {
+    led_strip.set_colorHSL(hsl);
+    led_strip.act_refresh();
+    hsl.h += 1;
+    HAL_Delay(delay);
+  }
 }
 
 osEventFlagsId_t ltr303als_event_flags;
