@@ -13,7 +13,13 @@ Currently only supports 1 color for all pixels.
 
 #include "beacon_math.h"
 
+#ifdef __cplusplus
 namespace neopixel_4310 {
+
+extern "C" {
+void Task_Neopixel4310(void *argument);
+}
+
 namespace {
   constexpr int kNumPixels = 96;
   constexpr int kLedsPerPixel = 3;
@@ -23,13 +29,19 @@ namespace {
 class Neopixel4310 {
  public:
   Neopixel4310();
+  void init();
+
+  bool get_isInit() const {return isInit_;};
 
   void set_colorHSL(beacon_math::HslColor hsl);
 
   void act_refresh();
   void act_blank();
 
+  friend void Task_Neopixel4310(void *argument);
+
  private:
+  bool isInit_ = false;
   uint8_t kPwmHigh_;
   uint8_t kPwmLow_;
 
@@ -38,3 +50,4 @@ class Neopixel4310 {
   void set_pwmData(const uint32_t color);
 };
 } // namespace neopixel_4310
+#endif // extern "C"

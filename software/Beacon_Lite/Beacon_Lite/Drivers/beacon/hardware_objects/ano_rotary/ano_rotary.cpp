@@ -1,3 +1,7 @@
+/*
+https://cdn-learn.adafruit.com/downloads/pdf/adafruit-seesaw-atsamd09-breakout.pdf
+*/
+
 #include "ano_rotary.h"
 
 // #include "cmsis_os2.h"
@@ -5,67 +9,87 @@
 
 #include "cpp_main.h"
 
+namespace ano_rotary {
 namespace {
-// I2C Setup
-constexpr uint16_t kAddr    = syscfg::i2c::addr::kAnoRotary;
-inline I2C_HandleTypeDef&  kBus     = syscfg::i2c::bus::kAnoRotary;
-constexpr RegSize  kRegSize = RegSize::k16Bit;
+  // I2C Setup
+  namespace I2c {
+  constexpr uint16_t kAddr    = syscfg::i2c::addr::kAnoRotary;
+  inline I2C_HandleTypeDef&  kBus     = syscfg::i2c::bus::kAnoRotary;
+  constexpr RegSize  kRegSize = RegSize::k16Bit;
+  }
 
-// Common Constants
-constexpr uint8_t kSetAllButtons = static_cast<uint8_t>(Button::kAll);
+  // Common Constants
+  constexpr uint8_t kSetAllButtons = static_cast<uint8_t>(Button::kAll);
 
-// Base/High Registers
-constexpr uint16_t rStatusBase  = 0x00 << 8;
-constexpr uint16_t rGpioBase    = 0x01 << 8;
-constexpr uint16_t rEncoderBase = 0x11 << 8;
+  // Base/High Registers
+  constexpr uint16_t rStatusBase  = 0x00 << 8;
+  constexpr uint16_t rGpioBase    = 0x01 << 8;
+  constexpr uint16_t rEncoderBase = 0x11 << 8;
 
-// Status registers
-constexpr uint16_t rHwID = rStatusBase + 0x01;
+  // Status registers
+  constexpr uint16_t rHwID = rStatusBase + 0x01;
 
-constexpr uint16_t rVersion = rStatusBase + 0x02;
-constexpr uint16_t kVersion = 5740;
+  constexpr uint16_t rVersion = rStatusBase + 0x02;
+  constexpr uint16_t kVersion = 5740;
 
-constexpr uint16_t rSWReset = rStatusBase + 0x7F;
-constexpr uint8_t  kSWReset = 0xFF;
+  constexpr uint16_t rSWReset = rStatusBase + 0x7F;
+  constexpr uint8_t  kSWReset = 0xFF;
 
-// GPIO registers
-constexpr uint16_t rInputSet = rGpioBase + 0x03;
+  // GPIO registers
+  constexpr uint16_t rInputSet = rGpioBase + 0x03;
 
-constexpr uint16_t rGpioState = rGpioBase + 0x04;
+  constexpr uint16_t rGpioState = rGpioBase + 0x04;
 
-constexpr uint16_t rPullUpSet = rGpioBase + 0x05;
+  constexpr uint16_t rPullUpSet = rGpioBase + 0x05;
 
-constexpr uint16_t rIntButtonSet    = rGpioBase + 0x08;
-constexpr uint8_t  kIntButtonSetAll = kSetAllButtons;
+  constexpr uint16_t rIntButtonSet    = rGpioBase + 0x08;
+  constexpr uint8_t  kIntButtonSetAll = kSetAllButtons;
 
-constexpr uint16_t rIntButtonClr    = rGpioBase + 0x09; 
-constexpr uint8_t  kIntButtonClrAll = 0xFF;
+  constexpr uint16_t rIntButtonClr    = rGpioBase + 0x09; 
+  constexpr uint8_t  kIntButtonClrAll = 0xFF;
 
-constexpr uint16_t rPullEnable = rGpioBase + 0x0B;
+  constexpr uint16_t rPullEnable = rGpioBase + 0x0B;
 
-// Encoder registers
-/*
-rIntEncoderSet is write only!
-*/
-constexpr uint16_t rIntEncoderSet = rEncoderBase + 0x10;
-constexpr uint8_t  kIntEncoderSet = 0x01;
+  // Encoder registers
+  /*
+  rIntEncoderSet is write only!
+  */
+  constexpr uint16_t rIntEncoderSet = rEncoderBase + 0x10;
+  constexpr uint8_t  kIntEncoderSet = 0x01;
 
-constexpr uint16_t rEncoderPosition = rEncoderBase + 0x30;
-
+  constexpr uint16_t rEncoderPosition = rEncoderBase + 0x30;
 } // namespace
 
-AnoRotary::AnoRotary()
-  : hI2c_(&kBus, kAddr, kRegSize) {
+AnoRotary::AnoRotary() {
+}
 
+void AnoRotary::init() {
+  hI2c_ = I2cDevice(&I2c::kBus, I2c::kAddr, I2c::kRegSize);
   act_verify();  
   act_SWReset();
   act_enableEncoderInts();
   act_setButtonInputPU();
   act_enableButtonInts();
+
+  ano_rotary_event_flags = osEventFlagsNew(NULL);
+
+  isInit_ = true;
 }
 
-AnoRotary::~AnoRotary() {
+uint8_t AnoRotary::get_buttonState(Button button) const {
+  return (buttonState_ & static_cast<uint8_t>(button)) ? 1 : 0;
+}
 
+void AnoRotary::act_waitForButtonRelease(Button button) {
+  while (get_buttonState(button) == 0) {
+    // wait for button press
+    osDelay(10);
+  }
+
+  while (get_buttonState(button) == 1) {
+    // wait for button release
+    osDelay(10);
+  }
 }
 
 void AnoRotary::act_enableEncoderInts() {
@@ -113,13 +137,6 @@ void AnoRotary::act_readEncoderPosition() {
 }
 
 void AnoRotary::act_setButtonInputPU() {
-/*
-    this->write(SEESAW_GPIO_BASE, SEESAW_GPIO_DIRCLR_BULK, cmd, 4);
-    this->write(SEESAW_GPIO_BASE, SEESAW_GPIO_PULLENSET, cmd, 4);
-    this->write(SEESAW_GPIO_BASE, SEESAW_GPIO_BULK_SET, cmd, 4);
-
-*/
-
   HAL_StatusTypeDef status;
   constexpr size_t setInputBuffSize = 4;
   uint8_t setInputBuff[setInputBuffSize] = {0, 0, 0, kSetAllButtons};
@@ -156,19 +173,18 @@ HAL_StatusTypeDef AnoRotary::act_verify() {
   return HAL_OK;
 }
 
-
 void Task_AnoEncoder(void *argument) {
-  ano_rotary_event_flags = osEventFlagsNew(NULL);
-  AnoRotary ano;
+  while(!global_hardware::ano_rotary.get_isInit()) {
+    osDelay(10); // Wait for ltr303als to be initialized
+  }
+  
   uint32_t flags;
-  ano.act_readButtonState();
-  ano.act_readEncoderPosition();
   for(;;) {
     flags = osEventFlagsWait(ano_rotary_event_flags, ANO_ROTARY_FLAG_INT, osFlagsWaitAny, osWaitForever);
     if (flags & ANO_ROTARY_FLAG_INT) {
-      ano.act_readButtonState();
-      ano.act_readEncoderPosition();
-      osDelay(10);
+      global_hardware::ano_rotary.act_readButtonState();
+      global_hardware::ano_rotary.act_readEncoderPosition();
     }
   }
 }
+} // namespace ano_rotary

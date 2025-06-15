@@ -1,0 +1,13 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "bbef4e93-38a3-4b9d-8272-dc6a2802b670")
+	(paper "A4")
+	(title_block
+		(title "Beacon Tower")
+		(date "2025-06-14")
+		(rev "1")
+	)
+	(lib_symbols)
+)

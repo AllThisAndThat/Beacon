@@ -16,7 +16,7 @@ set(MX_Include_Dirs
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/ltr_303als
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/neopixel_4310
     
-
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/features/color_select
 )
 
 set(STM32_Drivers_Src
@@ -32,6 +32,7 @@ set(STM32_Drivers_Src
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/ltr_303als/ltr_303als.cpp
     ${CMAKE_SOURCE_DIR}/Drivers/beacon/hardware_objects/neopixel_4310/neopixel_4310.cpp
 
+    ${CMAKE_SOURCE_DIR}/Drivers/beacon/features/color_select/color_select.cpp
 )
 
 add_library(beacon INTERFACE)

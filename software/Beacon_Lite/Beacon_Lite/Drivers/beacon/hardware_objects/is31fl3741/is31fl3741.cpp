@@ -95,13 +95,20 @@ constexpr int kNumRows = 9;
 constexpr int kNumCols = 13;
 
 
-IS31FL3741::IS31FL3741()
-  : hI2c_(&I2c::kBus, I2c::kAddr, I2c::kRegSize) {
+IS31FL3741::IS31FL3741() {
+
+}
+
+void IS31FL3741::init() {
+  hI2c_ = I2cDevice(&I2c::kBus, I2c::kAddr, I2c::kRegSize);
   act_verifyId();
   act_swReset();
   setup_pullResistor();
   setup_configAndDisable();
   act_refreshBrightness();
+  i2c_dma_done_event_flags = osEventFlagsNew(NULL);
+
+  isInit_ = true;
 }
 
 void IS31FL3741::set_globalCurrent(const uint8_t current) {
@@ -287,57 +294,21 @@ HAL_StatusTypeDef IS31FL3741::set_pixel_adafruit5201(uint32_t row, uint32_t col,
   }
   return HAL_OK;
 }
-} // namespace is31fl3741
 
-beacon_math::HslColor global_hsl = {0, 255, 0x80};
 void Task_Is31fl3741(void *argument) {
-  i2c_dma_done_event_flags = osEventFlagsNew(NULL);
-  is31fl3741::IS31FL3741 is31fl3741;
-  HAL_StatusTypeDef status = HAL_OK;
+  /*
+  TODO: 
+    add some logic to check if device is on before refreshing?
+    add some logic to check if there is a change to pixel state before refreshing? 
+  */
+  while(!global_hardware::is31fl3741.get_isInit()) {
+    osDelay(10); // Wait for ltr303als to be initialized
+  }
 
-  is31fl3741.set_globalCurrent(0x02);
-
-  is31fl3741.act_on();
-
-  int delay = 50;
-  constexpr int kNumRows = 9;
-  constexpr int kNumCols = 13;
-
+  constexpr uint32_t kDelay = 20;
   for(;;) {
-    // is31fl3741.set_col(0, global_hsl);
-    // is31fl3741.act_refreshColor();
-    // osDelay(delay);
-    // global_hsl.h += 1;
-
-    for (int col = 0; col < kNumCols; col++) {
-      is31fl3741.set_pixels_blank();
-      is31fl3741.set_col(col, global_hsl);
-      is31fl3741.act_refreshColor();
-      global_hsl.s += 1;
-      osDelay(delay);
-    }
-    for (int row = 0; row < kNumRows; row++) {
-      is31fl3741.set_pixels_blank();
-      is31fl3741.set_row(row, global_hsl);
-      is31fl3741.act_refreshColor();
-      global_hsl.s += 1;
-      osDelay(delay);
-    }
-    for (int col = (kNumCols - 1); col >= 0; col--)
-    {
-      is31fl3741.set_pixels_blank();
-      is31fl3741.set_col(col, global_hsl);
-      is31fl3741.act_refreshColor();
-      global_hsl.s += 1;
-      osDelay(delay);
-    }
-    for (int row = kNumRows - 1; row >= 0; row--) {
-      is31fl3741.set_pixels_blank();
-      is31fl3741.set_row(row, global_hsl);
-      is31fl3741.act_refreshColor();
-      global_hsl.s += 1;
-      osDelay(delay);
-    } 
-    global_hsl.h += 5;
+    global_hardware::is31fl3741.act_refreshColor();
+    osDelay(kDelay);
   }
 } 
+} // namespace is31fl3741

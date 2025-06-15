@@ -93,7 +93,26 @@ const osThreadAttr_t Task_AnoEncoder_attributes = {
   .stack_size = sizeof(Buffer_AnoEncoder),
   .cb_mem = &Control_AnoEncoder,
   .cb_size = sizeof(Control_AnoEncoder),
-  .priority = (osPriority_t) osPriorityLow,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for Task_Neopixel4310 */
+osThreadId_t Task_Neopixel4310Handle;
+uint32_t Buffer_Neopixel4310[ 2500 ];
+osStaticThreadDef_t Control_Neopixel4310;
+const osThreadAttr_t Task_Neopixel4310_attributes = {
+  .name = "Task_Neopixel4310",
+  .stack_mem = &Buffer_Neopixel4310[0],
+  .stack_size = sizeof(Buffer_Neopixel4310),
+  .cb_mem = &Control_Neopixel4310,
+  .cb_size = sizeof(Control_Neopixel4310),
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for Task_ColorSelect */
+osThreadId_t Task_ColorSelectHandle;
+const osThreadAttr_t Task_ColorSelect_attributes = {
+  .name = "Task_ColorSelect",
+  .priority = (osPriority_t) osPriorityHigh,
+  .stack_size = 1000 * 4
 };
 /* Definitions for i2c_mutex */
 osMutexId_t i2c_mutexHandle;
@@ -144,6 +163,12 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of Task_AnoEncoder */
   Task_AnoEncoderHandle = osThreadNew(Task_AnoEncoder, NULL, &Task_AnoEncoder_attributes);
+
+  /* creation of Task_Neopixel4310 */
+  Task_Neopixel4310Handle = osThreadNew(Task_Neopixel4310, NULL, &Task_Neopixel4310_attributes);
+
+  /* creation of Task_ColorSelect */
+  Task_ColorSelectHandle = osThreadNew(Task_ColorSelect, NULL, &Task_ColorSelect_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */

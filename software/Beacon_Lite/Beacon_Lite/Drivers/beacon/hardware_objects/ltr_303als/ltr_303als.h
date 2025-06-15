@@ -5,25 +5,24 @@
 #include "i2c_device.h"
 
 #ifdef __cplusplus
+namespace ltr303als {
+
 extern "C" {
-#endif
-
 void Task_Ltr_303als(void *argument);
-
-#ifdef __cplusplus
 }
-#endif
 
 class Ltr_303als {
  public:
   Ltr_303als();
-  ~Ltr_303als();
+  void init();
 
   uint16_t get_brightness() const { return last_brightness_;};
+  bool get_isInit() const {return isInit_;};
 
   friend void Task_Ltr_303als(void *argument);
 
  private:
+  bool isInit_ = false;
   uint16_t last_brightness_;
   uint16_t high_threshold_; 
   uint16_t low_threshold_;
@@ -41,3 +40,5 @@ class Ltr_303als {
   void act_swReset();
   void act_verifyPartId();
 };
+} // namespace ltr303als
+#endif // extern "C"

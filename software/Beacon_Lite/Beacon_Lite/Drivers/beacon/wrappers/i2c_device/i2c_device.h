@@ -2,6 +2,7 @@
 
 #include "stm32h5xx_hal.h"
 
+#ifdef __cplusplus
 enum RegSize
 {
   k8Bit = I2C_MEMADD_SIZE_8BIT,
@@ -45,3 +46,4 @@ private:
   uint16_t dev_addr_;
   RegSize reg_size_;
 };
+#endif // extern "C"

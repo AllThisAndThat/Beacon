@@ -9,18 +9,13 @@ TODO:
 #include "beacon_math.h"
 #include "i2c_device.h"
 
-
 #ifdef __cplusplus
-extern "C" {
-#endif
-
-void Task_Is31fl3741(void *argument);
-
-#ifdef __cplusplus
-}
-#endif
-
 namespace is31fl3741 {
+
+extern "C" {
+void Task_Is31fl3741(void *argument);
+}
+
 enum class Page: uint8_t {
 // Page 9 datasheet
   k0 = 0,
@@ -39,23 +34,26 @@ namespace {
 class IS31FL3741 {
  public:
   IS31FL3741();
+  void init();
+
+  bool get_isInit() const {return isInit_;};
 
   void set_globalCurrent(const uint8_t current);
   HAL_StatusTypeDef set_pixel(uint32_t row, uint32_t col, beacon_math::HslColor hsl);
   HAL_StatusTypeDef set_pixel_adafruit5201(uint32_t row, uint32_t col,
-                                           beacon_math::RgbColor rgb);
+                                           beacon_math::RgbColor rgb); // TODO: this should be private
   HAL_StatusTypeDef set_row(uint32_t row, beacon_math::HslColor hsl);
   HAL_StatusTypeDef set_col(uint32_t col, beacon_math::HslColor hsl);
   void set_all_pixels(beacon_math::HslColor hsl);
   void set_pixels_blank();
 
-  void act_verifyId();
   void act_off();
   void act_on();
 
-  void act_refreshColor();
+  friend void Task_Is31fl3741(void *argument);
 
  private:
+  bool isInit_ = false;
   Page page_;
   uint8_t page0_leds_[kPage0ArraySize] = {0};
   uint8_t page1_leds_[kPage1ArraySize] = {0};
@@ -68,6 +66,9 @@ class IS31FL3741 {
 
   void act_swReset();
   void act_refreshBrightness();
+  void act_refreshColor();
+  void act_verifyId();
 };
 
 } // namespace is31fl3741
+#endif // extern "C"

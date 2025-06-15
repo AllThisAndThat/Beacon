@@ -1,0 +1,850 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "af4c063f-445a-41ef-a56f-e026c0913afc")
+	(paper "A4")
+	(title_block
+		(title "Beacon Tower")
+		(date "2025-06-14")
+		(rev "1")
+	)
+	(lib_symbols
+		(symbol "Device:R_Pack04_Split"
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "RN"
+				(at 2.032 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "R_Pack04_Split"
+				(at 0 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at -2.032 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "4 resistor network, parallel topology, split"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "R network parallel topology isolated"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "DIP* SOIC* R*Array*Concave* R*Array*Convex* MSOP*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "R_Pack04_Split_0_1"
+				(rectangle
+					(start 1.016 2.54)
+					(end -1.016 -2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "R_Pack04_Split_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "R1.2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "R1.1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "R_Pack04_Split_2_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "R2.2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "R2.1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "R_Pack04_Split_3_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "R3.2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "R3.1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "R_Pack04_Split_4_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "R4.2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "R4.1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(wire
+		(pts
+			(xy 63.5 36.83) (xy 59.69 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "597d9cd8-cde8-481a-98c4-33e88d31f462")
+	)
+	(wire
+		(pts
+			(xy 48.26 36.83) (xy 52.07 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "752fde8d-87d1-424b-aca1-a9dc7229a8a5")
+	)
+	(wire
+		(pts
+			(xy 63.5 59.69) (xy 59.69 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7ae2c21a-280c-4ae8-b065-6e3e830ef3be")
+	)
+	(wire
+		(pts
+			(xy 48.26 59.69) (xy 52.07 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8e35e7c1-cfcc-48eb-adfd-1114580a78b6")
+	)
+	(wire
+		(pts
+			(xy 48.26 44.45) (xy 52.07 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8f05e9b7-c580-4100-99dd-80612d513d05")
+	)
+	(wire
+		(pts
+			(xy 63.5 44.45) (xy 59.69 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "913e54d2-3588-4792-981e-e96671ff721c")
+	)
+	(wire
+		(pts
+			(xy 48.26 52.07) (xy 52.07 52.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a74f33c3-807d-4a40-836c-38202fc112cb")
+	)
+	(wire
+		(pts
+			(xy 63.5 52.07) (xy 59.69 52.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dc8bdc7d-a253-4d95-aa9d-feaf25e1ec9d")
+	)
+	(hierarchical_label "IN2"
+		(shape input)
+		(at 48.26 44.45 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "0263919b-52e1-43db-8ea2-1ae0151d06f0")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 42.8925 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "OUT3"
+		(shape output)
+		(at 63.5 52.07 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0f1bd24f-7ba8-4af0-a7a7-005c84d653f8")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 70.5608 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "IN3"
+		(shape input)
+		(at 48.26 52.07 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "39570875-e1d4-40e5-93ac-2bdab31b0d74")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 42.8925 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "OUT2"
+		(shape output)
+		(at 63.5 44.45 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5af70043-24da-484f-967c-80786cbe8f87")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 70.5608 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "OUT1"
+		(shape output)
+		(at 63.5 36.83 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "77353f01-13d4-4675-9b1d-bfa83dca6b71")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 70.5608 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "IN1"
+		(shape input)
+		(at 48.26 36.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b726a78f-32b6-4d63-a5e4-9c843c894516")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 42.8925 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "OUT4"
+		(shape output)
+		(at 63.5 59.69 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d0a85a00-3f0e-4799-b774-b16dd7e7dfae")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 70.5608 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "IN4"
+		(shape input)
+		(at 48.26 59.69 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f873533a-df91-469b-a822-06520bf974ed")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 42.8925 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Pack04_Split")
+		(at 55.88 36.83 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d3ee74a8-044e-4c1f-a660-f9121f282fdd")
+		(property "Reference" "RN1401"
+			(at 55.88 30.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "20R0_PACK_??"
+			(at 55.88 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 55.88 34.798 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 55.88 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "4 resistor network, parallel topology, split"
+			(at 55.88 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "de99659c-ec54-4591-8e58-edd48deaeeda")
+		)
+		(pin "6"
+			(uuid "119500dd-64a3-43c7-9227-2e764e0cbd4c")
+		)
+		(pin "4"
+			(uuid "06b6e3d8-cdda-44e0-bafc-62bda14ead1a")
+		)
+		(pin "7"
+			(uuid "89b04acf-ea4b-474d-a735-b9a92be871e2")
+		)
+		(pin "2"
+			(uuid "d24c5fc5-0166-42da-9c2f-dcd5fb951da8")
+		)
+		(pin "5"
+			(uuid "4d3903b1-a527-450d-aa12-0bd488f76429")
+		)
+		(pin "8"
+			(uuid "a608ab27-5714-436f-b7fd-767a6f7a862f")
+		)
+		(pin "3"
+			(uuid "978bedea-c3cc-445a-aa91-0fcb69f815b0")
+		)
+		(instances
+			(project "Beacon_Tower"
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/736a764b-cafa-4f0e-b252-e30513d01396/dc207640-5db6-4d20-b7fd-16cf79d709f5"
+					(reference "RN1401")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Pack04_Split")
+		(at 55.88 44.45 270)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "dc32e7e9-5d27-4883-a5f5-69b41114d020")
+		(property "Reference" "RN1401"
+			(at 56.134 41.656 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "20R0_PACK_??"
+			(at 56.388 40.64 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" ""
+			(at 55.88 42.418 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 55.88 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "4 resistor network, parallel topology, split"
+			(at 55.88 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "97d52760-a8f1-4d7d-9c67-f2f93c102592")
+		)
+		(pin "6"
+			(uuid "119500dd-64a3-43c7-9227-2e764e0cbd4d")
+		)
+		(pin "4"
+			(uuid "06b6e3d8-cdda-44e0-bafc-62bda14ead1b")
+		)
+		(pin "7"
+			(uuid "db064003-03c1-4fc6-bcff-ecdb1d19e902")
+		)
+		(pin "2"
+			(uuid "90e7f5ef-4567-4883-b3f2-314efaf27938")
+		)
+		(pin "5"
+			(uuid "4d3903b1-a527-450d-aa12-0bd488f7642a")
+		)
+		(pin "8"
+			(uuid "5e88a559-d919-45eb-9d3f-b5c4e33e2dc4")
+		)
+		(pin "3"
+			(uuid "978bedea-c3cc-445a-aa91-0fcb69f815b1")
+		)
+		(instances
+			(project "Beacon_Tower"
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/736a764b-cafa-4f0e-b252-e30513d01396/dc207640-5db6-4d20-b7fd-16cf79d709f5"
+					(reference "RN1401")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Pack04_Split")
+		(at 55.88 52.07 270)
+		(unit 3)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "df11f5c0-972e-4c2c-9360-4c4ce33bd20d")
+		(property "Reference" "RN1401"
+			(at 56.134 49.276 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "20R0_PACK_??"
+			(at 56.388 48.26 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" ""
+			(at 55.88 50.038 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 55.88 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "4 resistor network, parallel topology, split"
+			(at 55.88 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "97d52760-a8f1-4d7d-9c67-f2f93c102594")
+		)
+		(pin "6"
+			(uuid "3172eecb-ce2e-4cd6-b96f-d39dd953302b")
+		)
+		(pin "4"
+			(uuid "06b6e3d8-cdda-44e0-bafc-62bda14ead1d")
+		)
+		(pin "7"
+			(uuid "8649d22d-154b-4f5f-83aa-9d4fb67662c6")
+		)
+		(pin "2"
+			(uuid "66e1ae01-9ddf-45ee-82bf-5ebe99122688")
+		)
+		(pin "5"
+			(uuid "4d3903b1-a527-450d-aa12-0bd488f7642c")
+		)
+		(pin "8"
+			(uuid "5e88a559-d919-45eb-9d3f-b5c4e33e2dc6")
+		)
+		(pin "3"
+			(uuid "74857e0f-a4fa-44af-88ff-30bb21888339")
+		)
+		(instances
+			(project "Beacon_Tower"
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/736a764b-cafa-4f0e-b252-e30513d01396/dc207640-5db6-4d20-b7fd-16cf79d709f5"
+					(reference "RN1401")
+					(unit 3)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Pack04_Split")
+		(at 55.88 59.69 270)
+		(unit 4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e2b4a334-cf39-466e-9e86-b2786cb1d52a")
+		(property "Reference" "RN1401"
+			(at 56.134 56.896 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "20R0_PACK_??"
+			(at 56.388 55.88 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" ""
+			(at 55.88 57.658 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 55.88 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "4 resistor network, parallel topology, split"
+			(at 55.88 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "97d52760-a8f1-4d7d-9c67-f2f93c102593")
+		)
+		(pin "6"
+			(uuid "9538cc14-fd21-442b-96df-cff7a5909096")
+		)
+		(pin "4"
+			(uuid "83e14a08-56b8-48a9-abdb-0cd16f5f6cc2")
+		)
+		(pin "7"
+			(uuid "8649d22d-154b-4f5f-83aa-9d4fb67662c5")
+		)
+		(pin "2"
+			(uuid "66e1ae01-9ddf-45ee-82bf-5ebe99122687")
+		)
+		(pin "5"
+			(uuid "24706a65-3fd0-447c-a332-1cebca2c6532")
+		)
+		(pin "8"
+			(uuid "5e88a559-d919-45eb-9d3f-b5c4e33e2dc5")
+		)
+		(pin "3"
+			(uuid "2a9d6319-b508-4462-8f10-5786165eb95e")
+		)
+		(instances
+			(project "Beacon_Tower"
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/736a764b-cafa-4f0e-b252-e30513d01396/dc207640-5db6-4d20-b7fd-16cf79d709f5"
+					(reference "RN1401")
+					(unit 4)
+				)
+			)
+		)
+	)
+)

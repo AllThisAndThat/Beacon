@@ -58,6 +58,8 @@ extern osThreadId_t Task_Ltr_303alsHandle;
 extern osThreadId_t Task_HeartbeatHandle;
 extern osThreadId_t Task_Is31fl3741Handle;
 extern osThreadId_t Task_AnoEncoderHandle;
+extern osThreadId_t Task_Neopixel4310Handle;
+extern osThreadId_t Task_ColorSelectHandle;
 extern osMutexId_t i2c_mutexHandle;
 
 /* Exported function prototypes -----------------------------------------------*/
@@ -69,6 +71,8 @@ extern void Task_Ltr_303als(void *argument);
 void Task_Heartbeat(void *argument);
 extern void Task_Is31fl3741(void *argument);
 extern void Task_AnoEncoder(void *argument);
+extern void Task_Neopixel4310(void *argument);
+extern void Task_ColorSelect(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 

@@ -13,120 +13,105 @@ This IC doesn't support sequential writes and reads.
 #include "syscfg.h"
 
 uint16_t brightness;
-
+namespace ltr303als {
 namespace {
-// I2C configuration
-constexpr uint16_t  kAddr = syscfg::i2c::addr::kLtr303als;
-inline I2C_HandleTypeDef&   kBus = syscfg::i2c::bus::kLtr303als;
-constexpr RegSize   kRegSize = RegSize::k8Bit;
+  // I2C configuration
+  constexpr uint16_t  kAddr = syscfg::i2c::addr::kLtr303als;
+  inline I2C_HandleTypeDef&   kBus = syscfg::i2c::bus::kLtr303als;
+  constexpr RegSize   kRegSize = RegSize::k8Bit;
 
-// Registers
-// Page 15
-constexpr uint16_t rControlSettings = 0x80;
-constexpr uint8_t kGainSettings = 0b000'011'00; // 8X gain
-constexpr uint8_t kGainAndDeactive = kGainSettings + 0b0000000'0;
-constexpr uint8_t kMaxGainAndActive = kGainSettings + 0b0000000'1;
-constexpr uint8_t kSwReset = 0b000'000'1'0;
+  // Registers
+  // Page 15
+  constexpr uint16_t rControlSettings = 0x80;
+  constexpr uint8_t kGainSettings = 0b000'011'00; // 8X gain
+  constexpr uint8_t kGainAndDeactive = kGainSettings + 0b0000000'0;
+  constexpr uint8_t kMaxGainAndActive = kGainSettings + 0b0000000'1;
+  constexpr uint8_t kSwReset = 0b000'000'1'0;
 
-// Page 16
-constexpr uint16_t rMeasIntRate = 0x85;
-constexpr uint8_t kIntegrationTime = 0b00'010'000; // 200 ms
-constexpr uint8_t kMeasRate = 0b00'000'010; // 200 ms
-constexpr uint8_t kMeasAndIntRate = kIntegrationTime + kMeasRate; 
+  // Page 16
+  constexpr uint16_t rMeasIntRate = 0x85;
+  constexpr uint8_t kIntegrationTime = 0b00'010'000; // 200 ms
+  constexpr uint8_t kMeasRate = 0b00'000'010; // 200 ms
+  constexpr uint8_t kMeasAndIntRate = kIntegrationTime + kMeasRate; 
 
-// Page 17
-constexpr uint16_t rPartIdAndRev = 0x86;
-constexpr uint8_t kPartId = 0b1010'0000;
-constexpr uint8_t kPartRev = 0b0000'0000; // Revision 0
+  // Page 17
+  constexpr uint16_t rPartIdAndRev = 0x86;
+  constexpr uint8_t kPartId = 0b1010'0000;
+  constexpr uint8_t kPartRev = 0b0000'0000; // Revision 0
 
-// Page 18
-constexpr uint16_t rChan1LSB = 0X88;
+  // Page 18
+  constexpr uint16_t rChan1LSB = 0X88;
 
-constexpr uint16_t rChan1MSB = 0X89;
+  constexpr uint16_t rChan1MSB = 0X89;
 
-// Page 19
-constexpr uint16_t rChan0LSB = 0X8A;
+  // Page 19
+  constexpr uint16_t rChan0LSB = 0X8A;
 
-constexpr uint16_t rChan0MSB = 0X8B;
+  constexpr uint16_t rChan0MSB = 0X8B;
 
-// Page 21
-constexpr uint16_t rInterruptConfig = 0x8F;
-constexpr uint8_t kIntPolarity = 0b00000'1'00; // Active high interrupt
-constexpr uint8_t kIntDisabled = kIntPolarity + 0b000000'0'0;
-constexpr uint8_t kIntEnabled = kIntPolarity + 0b000000'1'0;
+  // Page 21
+  constexpr uint16_t rInterruptConfig = 0x8F;
+  constexpr uint8_t kIntPolarity = 0b00000'1'00; // Active high interrupt
+  constexpr uint8_t kIntDisabled = kIntPolarity + 0b000000'0'0;
+  constexpr uint8_t kIntEnabled = kIntPolarity + 0b000000'1'0;
 
-// Page 22
-constexpr uint16_t rIntThresholdHigh0 = 0x97;
+  // Page 22
+  constexpr uint16_t rIntThresholdHigh0 = 0x97;
 
-constexpr uint16_t rIntThresholdLow0 = 0x99;
+  constexpr uint16_t rIntThresholdLow0 = 0x99;
 
-constexpr uint16_t rIntThresholdHigh1 = 0x98;
+  constexpr uint16_t rIntThresholdHigh1 = 0x98;
 
-constexpr uint16_t rIntThresholdLow1  = 0x9A;
+  constexpr uint16_t rIntThresholdLow1  = 0x9A;
 
-// Page 23
-constexpr uint16_t rInterruptPersist = 0x9E;
-constexpr uint8_t kIntPersist = 3; // 3 consecutive samples
+  // Page 23
+  constexpr uint16_t rInterruptPersist = 0x9E;
+  constexpr uint8_t kIntPersist = 3; // 3 consecutive samples
 
-// Other registers
-constexpr int kNumCommRetries = 100;
+  // Other registers
+  constexpr int kNumCommRetries = 100;
 
-/*
-InterruptDeviation represents the denomiator for some simple math
-Example: k3Percent = 32
-low_threshold = value * (31 / 32) = value * 97%
-high_threshold = value * (33 / 32) = value * 103%
-*/
-enum InterruptDeviation
-{
-  k25Percent = 4,
-  k12Percent = 8,
-  k6Percent  = 16,
-  k3Percent  = 32,
-  k1Percent  = 64
-};
-constexpr InterruptDeviation kInterruptDeviation = k3Percent;
+  /*
+  InterruptDeviation represents the denomiator for some simple math
+  Example: k3Percent = 32
+  low_threshold = value * (31 / 32) = value * 97%
+  high_threshold = value * (33 / 32) = value * 103%
+  */
+  enum InterruptDeviation
+  {
+    k25Percent = 4,
+    k12Percent = 8,
+    k6Percent  = 16,
+    k3Percent  = 32,
+    k1Percent  = 64
+  };
+  constexpr InterruptDeviation kInterruptDeviation = k3Percent;
 } // namespace
 
 
 Ltr_303als::Ltr_303als() {
+
+}
+
+void Ltr_303als::init() {
   hI2c_ = I2cDevice(&kBus, kAddr, kRegSize);
   last_brightness_ = 0;
   high_threshold_ = 0XFFFF;
   low_threshold_ = 0;
 
-  HAL_StatusTypeDef status = HAL_OK;
-
   act_verifyPartId();
   act_swReset();
   setup_measureConfig();
+  ltr303als_event_flags = osEventFlagsNew(NULL);
   setup_interruptConfig();
   act_enableInterrupts();
   act_startSampling();
 
+  HAL_StatusTypeDef status = HAL_OK;
   status = this->act_setInterruptThresholds();
   if (status != HAL_OK) {Error_Handler();}
-}
 
-Ltr_303als::~Ltr_303als() {
-
-}
-
-void Task_Ltr_303als(void *argument) {
-  ltr303als_event_flags = osEventFlagsNew(NULL);
-  Ltr_303als ltr303als;
-  HAL_StatusTypeDef status = HAL_OK;
-  uint32_t flags;
-  for(;;) {
-    flags = osEventFlagsWait(ltr303als_event_flags, LTR303ALS_FLAG_INT, osFlagsWaitAny, osWaitForever);
-    if (flags & LTR303ALS_FLAG_INT) {
-      status = ltr303als.act_setInterruptThresholds();
-      if (status != HAL_OK) {
-        Error_Handler();
-      }
-      brightness = ltr303als.get_brightness();
-    }
-  }
+  isInit_ = true;
 }
 
 void Ltr_303als::setup_measureConfig() {
@@ -251,3 +236,20 @@ void Ltr_303als::act_verifyPartId() {
   // Current doesn't check revision, only part ID.
   if ((rx_buffer & kPartId) != kPartId) {Error_Handler();}
 }
+
+void Task_Ltr_303als(void *argument) {
+  while(!global_hardware::ltr303als.get_isInit()) {
+    osDelay(10); // Wait for ltr303als to be initialized
+  }
+
+  HAL_StatusTypeDef status = HAL_OK;
+  uint32_t flags;
+  for(;;) {
+    flags = osEventFlagsWait(ltr303als_event_flags, LTR303ALS_FLAG_INT, osFlagsWaitAny, osWaitForever);
+    if (flags & LTR303ALS_FLAG_INT) {
+      status = global_hardware::ltr303als.act_setInterruptThresholds();
+      if (status != HAL_OK) {Error_Handler();}
+    }
+  }
+}
+} // namespace ltr303als

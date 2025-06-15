@@ -19,13 +19,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 37,
+				"line" : 38,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 39,
+				"line" : 40,
 				"parent" : 0
 			}
 		]
@@ -50,7 +50,8 @@
 				4,
 				5,
 				6,
-				7
+				7,
+				8
 			]
 		}
 	],
@@ -94,6 +95,11 @@
 		{
 			"backtrace" : 2,
 			"path" : "Drivers/beacon/hardware_objects/neopixel_4310/neopixel_4310.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"path" : "Drivers/beacon/features/color_select/color_select.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

@@ -17,15 +17,15 @@ Fix up I2C
 
     - use set and get functions not act_get, act_set
 */
-
 #pragma once
 
 #include "stm32h5xx_hal.h"
 
 #include "i2c_device.h"
 
-
-enum class Button : uint8_t {
+#ifdef __cplusplus
+namespace ano_rotary {
+enum Button : uint8_t {
   kSelect = 1 << 1,
   kUp     = 1 << 2,
   kLeft   = 1 << 3,
@@ -34,40 +34,30 @@ enum class Button : uint8_t {
   kAll    = 0b00111110
 };
 
-// enum class ButtonState {
-//   kNotPresed = 0,
-//   kPressed = 1
-// };
-
-#ifdef __cplusplus
 extern "C" {
-#endif
-
 void Task_AnoEncoder(void *argument);
-
-#ifdef __cplusplus
 }
-#endif
 
 class AnoRotary {
-public:
+ public:
   AnoRotary();
-  ~AnoRotary();
+  void init();
 
-  uint8_t get_buttonState() const {
-    return buttonState_;
-  };
+  uint8_t get_buttonState(Button button) const;
   uint32_t get_encoderPosition() const {
     return encoderPosition_;
   };
+  bool get_isInit() const {return isInit_;};
+
+  void act_waitForButtonRelease(Button button);
 
   friend void Task_AnoEncoder(void *argument);
-private:
+
+ private:
+  bool isInit_ = false;
   I2cDevice hI2c_;
   uint8_t buttonState_ = 0;
   uint32_t encoderPosition_ = 0;
-
-  void initiate();
 
   void act_enableEncoderInts(); // TODO: might want ability to disable interrupts on encoder
   void act_enableButtonInts();
@@ -77,3 +67,5 @@ private:
   void act_SWReset();
   HAL_StatusTypeDef act_verify();
 };
+} // namespace ano_rotary
+#endif // extern "C"

@@ -146,6 +146,10 @@
 				{
 					"backtrace" : 4,
 					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/neopixel_4310"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/features/color_select"
 				}
 			],
 			"language" : "C",
@@ -259,6 +263,10 @@
 				{
 					"backtrace" : 4,
 					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/neopixel_4310"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/features/color_select"
 				}
 			],
 			"language" : "ASM",
@@ -358,6 +366,10 @@
 				{
 					"backtrace" : 4,
 					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/hardware_objects/neopixel_4310"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "C:/Users/lucas/github/Beacon/software/Beacon_Lite/Beacon_Lite/Drivers/beacon/features/color_select"
 				}
 			],
 			"language" : "CXX",
@@ -378,7 +390,8 @@
 				12,
 				13,
 				14,
-				15
+				15,
+				16
 			]
 		}
 	],
@@ -440,7 +453,8 @@
 				12,
 				13,
 				14,
-				15
+				15,
+				16
 			]
 		},
 		{
@@ -454,7 +468,6 @@
 			"name" : "Object Libraries",
 			"sourceIndexes" : 
 			[
-				16,
 				17,
 				18,
 				19,
@@ -485,7 +498,8 @@
 				44,
 				45,
 				46,
-				47
+				47,
+				48
 			]
 		}
 	],
@@ -585,6 +599,12 @@
 			"backtrace" : 4,
 			"compileGroupIndex" : 2,
 			"path" : "Drivers/beacon/hardware_objects/neopixel_4310/neopixel_4310.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 2,
+			"path" : "Drivers/beacon/features/color_select/color_select.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
