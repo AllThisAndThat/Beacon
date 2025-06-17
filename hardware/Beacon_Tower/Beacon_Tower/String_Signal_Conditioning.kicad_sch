@@ -1,0 +1,1968 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "8732e8c1-8c98-4f60-b7cb-4fc3e02159df")
+	(paper "A4")
+	(title_block
+		(title "Beacon Tower")
+		(date "2025-06-14")
+		(rev "1")
+	)
+	(lib_symbols
+		(symbol "CUSTOM_LIBRARY:ESDA5V3SC6"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 2.54 1.905 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "ESDA5V3SC6"
+				(at 7.62 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+				(at 20.828 4.826 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.mouser.com/ProductDetail/STMicroelectronics/ESDA5V3SC6?qs=vqk%252BPKT8fSxVEGV4O6H9Dw%3D%3D"
+				(at -0.254 11.176 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "ESD Suppression, 4 Channel, Unidirectional, 3V0, 320 pF"
+				(at 0.762 7.874 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "ESDA5V3SC6_1_1"
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy -0.635 -1.27) (xy -1.27 -1.905)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy 0.635 -1.27) (xy 1.27 -0.635)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy -1.27 -3.175) (xy 1.27 -3.175) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(pin passive line
+					(at 0 0 270)
+					(length 1.27)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -5.08 90)
+					(length 1.905)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -5.08 90)
+					(length 1.905)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "ESDA5V3SC6_2_1"
+				(polyline
+					(pts
+						(xy -1.27 -3.81) (xy 1.27 -3.81) (xy 0 -5.08) (xy -1.27 -3.81)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy -0.635 -1.27) (xy -1.27 -1.905)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy 0.635 -1.27) (xy 1.27 -0.635)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy -1.27 -3.175) (xy 1.27 -3.175) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -3.81) (xy 0 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at 0 0 270)
+					(length 1.27)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "ESDA5V3SC6_3_1"
+				(polyline
+					(pts
+						(xy -1.27 -3.81) (xy 1.27 -3.81) (xy 0 -5.08) (xy -1.27 -3.81)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy -0.635 -1.27) (xy -1.27 -1.905)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy 0.635 -1.27) (xy 1.27 -0.635)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy -1.27 -3.175) (xy 1.27 -3.175) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -3.81) (xy 0 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at 0 0 270)
+					(length 1.27)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "ESDA5V3SC6_4_1"
+				(polyline
+					(pts
+						(xy -1.27 -3.81) (xy 1.27 -3.81) (xy 0 -5.08) (xy -1.27 -3.81)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy -0.635 -1.27) (xy -1.27 -1.905)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy 0.635 -1.27) (xy 1.27 -0.635)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy -1.27 -3.175) (xy 1.27 -3.175) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -3.81) (xy 0 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at 0 0 270)
+					(length 1.27)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Device:R_Pack04_Split"
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "RN"
+				(at 2.032 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "R_Pack04_Split"
+				(at 0 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at -2.032 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "4 resistor network, parallel topology, split"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "R network parallel topology isolated"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "DIP* SOIC* R*Array*Concave* R*Array*Convex* MSOP*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "R_Pack04_Split_0_1"
+				(rectangle
+					(start 1.016 2.54)
+					(end -1.016 -2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "R_Pack04_Split_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "R1.2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "R1.1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "R_Pack04_Split_2_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "R2.2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "R2.1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "R_Pack04_Split_3_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "R3.2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "R3.1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "R_Pack04_Split_4_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "R4.2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "R4.1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "power:GND"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(rectangle
+		(start 35.56 17.78)
+		(end 138.43 57.15)
+		(stroke
+			(width 0.381)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid 56e6f1f6-4732-4c77-b933-d3ae011e97bf)
+	)
+	(rectangle
+		(start 35.56 135.89)
+		(end 138.43 175.26)
+		(stroke
+			(width 0.381)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid 585f4242-c9b4-4dd1-a290-9987e642064e)
+	)
+	(rectangle
+		(start 35.56 57.15)
+		(end 138.43 96.52)
+		(stroke
+			(width 0.381)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid 5f8b5544-a93c-410e-8a42-67bdd981b209)
+	)
+	(rectangle
+		(start 35.56 96.52)
+		(end 138.43 135.89)
+		(stroke
+			(width 0.381)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid ed45e987-eb83-46cb-8f89-27cd98af7091)
+	)
+	(text "4/D"
+		(exclude_from_sim no)
+		(at 37.084 159.512 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+				(thickness 1.016)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "27e458a0-7583-4159-9c41-eff2a00f25e5")
+	)
+	(text "1/A"
+		(exclude_from_sim no)
+		(at 37.338 41.402 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+				(thickness 1.016)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "6ae861f3-5afe-4bb4-9a4f-33c945b10db6")
+	)
+	(text "3/C"
+		(exclude_from_sim no)
+		(at 37.592 122.682 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+				(thickness 1.016)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "89c216a8-c392-4bf7-be7f-46e51d085f14")
+	)
+	(text "2/B"
+		(exclude_from_sim no)
+		(at 37.084 81.534 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+				(thickness 1.016)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "d9a889af-8fba-4670-a38a-721ef3859079")
+	)
+	(junction
+		(at 82.55 152.4)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5d31ea1c-0939-4122-8d50-3106a27f1819")
+	)
+	(junction
+		(at 82.55 36.83)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5f7d8d4d-e098-4e47-b792-58b3ce46460c")
+	)
+	(junction
+		(at 80.01 73.66)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f3a154a9-f79c-4e91-bf90-3e822229acbe")
+	)
+	(junction
+		(at 82.55 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f8bc66d8-6658-492e-b223-e2748343be59")
+	)
+	(wire
+		(pts
+			(xy 93.98 36.83) (xy 99.06 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0e5fe807-02f7-4eb0-b39d-529fba112832")
+	)
+	(wire
+		(pts
+			(xy 91.44 73.66) (xy 96.52 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "11f4ce23-515a-45c8-a15c-5a35c5e1a443")
+	)
+	(wire
+		(pts
+			(xy 74.93 36.83) (xy 82.55 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "17834e37-3586-44a2-95d8-340bac8712fa")
+	)
+	(wire
+		(pts
+			(xy 82.55 152.4) (xy 82.55 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "36bc5742-945e-44ea-967d-b3596ae542ca")
+	)
+	(wire
+		(pts
+			(xy 74.93 152.4) (xy 82.55 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3a5b98d9-9001-403a-bf04-abf136efdad9")
+	)
+	(wire
+		(pts
+			(xy 72.39 73.66) (xy 80.01 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3ffee06b-8b56-498a-a45a-2cee3a0c9dc7")
+	)
+	(wire
+		(pts
+			(xy 82.55 114.3) (xy 82.55 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4c116257-6d64-4193-b9ee-064c25b5c5e8")
+	)
+	(wire
+		(pts
+			(xy 80.01 73.66) (xy 80.01 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "50c42c8e-8584-47c3-ba88-07c510e5d025")
+	)
+	(wire
+		(pts
+			(xy 74.93 114.3) (xy 82.55 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "57cb50f9-916b-4b58-b3e7-8ebf893825de")
+	)
+	(wire
+		(pts
+			(xy 82.55 152.4) (xy 86.36 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5c0dbc98-46b4-42fd-8da1-85a36afc4812")
+	)
+	(wire
+		(pts
+			(xy 82.55 36.83) (xy 82.55 38.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6afbe02f-055c-470a-bf0c-3dcc81fa4ffc")
+	)
+	(wire
+		(pts
+			(xy 82.55 36.83) (xy 86.36 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "87af00d3-5e8d-4bd4-b87d-82ccd0d7b007")
+	)
+	(wire
+		(pts
+			(xy 80.01 73.66) (xy 83.82 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a4a55be7-a2cb-473c-88d0-b836c2102fee")
+	)
+	(wire
+		(pts
+			(xy 82.55 114.3) (xy 86.36 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a95df9ed-1e40-4ab1-905d-7bfa19d061cc")
+	)
+	(wire
+		(pts
+			(xy 93.98 114.3) (xy 99.06 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d2b739d1-0e1e-499f-948c-aa9bb815433a")
+	)
+	(wire
+		(pts
+			(xy 93.98 152.4) (xy 99.06 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f4af4c40-8f1f-40f3-a784-a6d01a60f73d")
+	)
+	(hierarchical_label "IN2"
+		(shape input)
+		(at 72.39 73.66 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "074e3b9d-a995-4afc-a1bc-5ca3d8cd33ad")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 67.0225 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "OUT2"
+		(shape output)
+		(at 96.52 73.66 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2e74f05c-42fe-4fca-a4ab-bfb0ab2ccf7d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 103.5808 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "OUT4"
+		(shape output)
+		(at 99.06 152.4 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2fe83284-0bf4-49d2-89e5-7a2b64f492b2")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 106.1208 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "IN1"
+		(shape input)
+		(at 74.93 36.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3a548379-8a29-4e2f-8bfe-8e363a151cd0")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 69.5625 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "OUT3"
+		(shape output)
+		(at 99.06 114.3 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "642cbb3d-2949-440f-9c53-c17d56639484")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 106.1208 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "IN4"
+		(shape input)
+		(at 74.93 152.4 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a569052d-a242-40d6-8485-8443acd603a0")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 69.5625 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "IN3"
+		(shape input)
+		(at 74.93 114.3 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e78b37f0-d089-456b-9091-7d0a8971db43")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 69.5625 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(hierarchical_label "OUT1"
+		(shape output)
+		(at 99.06 36.83 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f16d9b59-a6e0-4077-8c60-b3d9efe6ccdf")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 106.1208 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Pack04_Split")
+		(at 90.17 152.4 270)
+		(unit 4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "109ec2c9-1332-4229-809c-0dcefa8e6d01")
+		(property "Reference" "RN201"
+			(at 90.17 146.05 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1k00_PACK_??"
+			(at 90.17 148.59 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 90.17 150.368 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 90.17 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "4 resistor network, parallel topology, split"
+			(at 90.17 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c28dc16c-9f87-4ef5-86ea-7db4a9e22dd6")
+		)
+		(pin "6"
+			(uuid "8fcf876d-9b10-4987-a49c-a9a73f63eaf8")
+		)
+		(pin "4"
+			(uuid "ed67468e-1c0c-461b-aa81-db54602afa1c")
+		)
+		(pin "7"
+			(uuid "57cf65c2-e1b6-43c8-97d4-3bdea5cc0c7b")
+		)
+		(pin "2"
+			(uuid "b5f3fe1c-9414-4e49-b4c9-23f07bdb32c0")
+		)
+		(pin "5"
+			(uuid "609242e8-e4f8-45c6-9d71-9145af7e68ae")
+		)
+		(pin "8"
+			(uuid "8dc483ae-9ab0-49bd-91ce-0f982100d723")
+		)
+		(pin "3"
+			(uuid "b086656e-96da-487e-8017-d36d1df2cc4f")
+		)
+		(instances
+			(project "Beacon_Tower"
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/53c51fb6-8bc1-4269-b424-797234c59d48"
+					(reference "RN1201")
+					(unit 4)
+				)
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/d8ffb29e-d81f-45b0-88f1-5e580221fbb0"
+					(reference "RN201")
+					(unit 4)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Pack04_Split")
+		(at 87.63 73.66 270)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "39684306-2b41-4126-8ff6-4c3341844e9f")
+		(property "Reference" "RN201"
+			(at 87.63 67.31 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1k00_PACK_??"
+			(at 87.63 69.85 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 87.63 71.628 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 87.63 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "4 resistor network, parallel topology, split"
+			(at 87.63 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c28dc16c-9f87-4ef5-86ea-7db4a9e22dd7")
+		)
+		(pin "6"
+			(uuid "119500dd-64a3-43c7-9227-2e764e0cbd50")
+		)
+		(pin "4"
+			(uuid "06b6e3d8-cdda-44e0-bafc-62bda14ead1e")
+		)
+		(pin "7"
+			(uuid "5d7eb81f-7ede-494c-97b3-c8b04ba8aac4")
+		)
+		(pin "2"
+			(uuid "1b3bb8db-1ffd-4ee1-aea3-d4d77f722934")
+		)
+		(pin "5"
+			(uuid "4d3903b1-a527-450d-aa12-0bd488f7642d")
+		)
+		(pin "8"
+			(uuid "8dc483ae-9ab0-49bd-91ce-0f982100d724")
+		)
+		(pin "3"
+			(uuid "978bedea-c3cc-445a-aa91-0fcb69f815b4")
+		)
+		(instances
+			(project "Beacon_Tower"
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/53c51fb6-8bc1-4269-b424-797234c59d48"
+					(reference "RN1201")
+					(unit 2)
+				)
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/d8ffb29e-d81f-45b0-88f1-5e580221fbb0"
+					(reference "RN201")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Pack04_Split")
+		(at 90.17 114.3 270)
+		(unit 3)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4864f369-96ed-4ac3-9afb-cf889e67f0a0")
+		(property "Reference" "RN201"
+			(at 90.17 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1k00_PACK_??"
+			(at 90.17 110.49 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 90.17 112.268 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 90.17 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "4 resistor network, parallel topology, split"
+			(at 90.17 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c28dc16c-9f87-4ef5-86ea-7db4a9e22dd8")
+		)
+		(pin "6"
+			(uuid "1c3a19a1-ac22-4ab4-98b3-d3b154af5d11")
+		)
+		(pin "4"
+			(uuid "06b6e3d8-cdda-44e0-bafc-62bda14ead1f")
+		)
+		(pin "7"
+			(uuid "57cf65c2-e1b6-43c8-97d4-3bdea5cc0c7c")
+		)
+		(pin "2"
+			(uuid "b5f3fe1c-9414-4e49-b4c9-23f07bdb32c1")
+		)
+		(pin "5"
+			(uuid "4d3903b1-a527-450d-aa12-0bd488f7642e")
+		)
+		(pin "8"
+			(uuid "8dc483ae-9ab0-49bd-91ce-0f982100d725")
+		)
+		(pin "3"
+			(uuid "ff3fd636-3b73-450f-a289-a33cd869eadc")
+		)
+		(instances
+			(project "Beacon_Tower"
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/53c51fb6-8bc1-4269-b424-797234c59d48"
+					(reference "RN1201")
+					(unit 3)
+				)
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/d8ffb29e-d81f-45b0-88f1-5e580221fbb0"
+					(reference "RN201")
+					(unit 3)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "CUSTOM_LIBRARY:ESDA5V3SC6")
+		(at 82.55 154.94 0)
+		(unit 4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9f276e23-756e-4743-9afe-1811e679dffc")
+		(property "Reference" "D201"
+			(at 72.39 155.956 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "ESDA5V3SC6"
+			(at 68.072 157.988 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 82.55 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/datasheet/2/389/esda14v2sc5-1849278.pdf"
+			(at 82.55 145.415 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "ESD Suppression, 4 Channel, Unidirectional, 3V0, 320 pF"
+			(at 82.55 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid "2fda2b8e-ace2-495f-b3a9-d6b4a069adfc")
+		)
+		(pin "4"
+			(uuid "0b8f9592-05bc-40f1-b876-62e6f8bf1723")
+		)
+		(pin "1"
+			(uuid "3ba7189a-1d28-4c9c-96b6-6107d75af90f")
+		)
+		(pin "2"
+			(uuid "540186b4-b238-4285-9cb9-3e4e535a91a0")
+		)
+		(pin "3"
+			(uuid "6460aaf1-e618-4305-be5a-d70f3f39349a")
+		)
+		(pin "6"
+			(uuid "7266a983-d15e-442b-942d-b5dccdf0c547")
+		)
+		(instances
+			(project "Beacon_Tower"
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/53c51fb6-8bc1-4269-b424-797234c59d48"
+					(reference "D1201")
+					(unit 4)
+				)
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/d8ffb29e-d81f-45b0-88f1-5e580221fbb0"
+					(reference "D201")
+					(unit 4)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "CUSTOM_LIBRARY:ESDA5V3SC6")
+		(at 82.55 38.1 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "acfb537c-6aa3-46ea-84c4-94075be6405c")
+		(property "Reference" "D201"
+			(at 71.882 40.132 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "ESDA5V3SC6"
+			(at 68.072 42.418 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 82.55 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/datasheet/2/389/esda14v2sc5-1849278.pdf"
+			(at 82.55 28.575 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "ESD Suppression, 4 Channel, Unidirectional, 3V0, 320 pF"
+			(at 82.55 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid "07c9ada8-22bd-4f57-87b5-0940233a52a9")
+		)
+		(pin "4"
+			(uuid "f54d0a06-75d9-4a1b-a993-3243ac373325")
+		)
+		(pin "1"
+			(uuid "ffbe75d2-827b-48dc-958a-9fa18f199c3f")
+		)
+		(pin "2"
+			(uuid "c0c73691-98aa-43c8-b402-2ca96e21f3dc")
+		)
+		(pin "3"
+			(uuid "7290b208-cc9e-4446-a9d9-4d6a956137bc")
+		)
+		(pin "6"
+			(uuid "c2d3d079-e1b6-4bf9-a2bf-2b5e5eb72f44")
+		)
+		(instances
+			(project "Beacon_Tower"
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/53c51fb6-8bc1-4269-b424-797234c59d48"
+					(reference "D1201")
+					(unit 1)
+				)
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/d8ffb29e-d81f-45b0-88f1-5e580221fbb0"
+					(reference "D201")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "CUSTOM_LIBRARY:ESDA5V3SC6")
+		(at 82.55 116.84 0)
+		(unit 3)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "aef4c8f8-b805-4b38-a2c2-7b539d266e85")
+		(property "Reference" "D201"
+			(at 72.39 117.602 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "ESDA5V3SC6"
+			(at 68.072 119.888 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 82.55 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/datasheet/2/389/esda14v2sc5-1849278.pdf"
+			(at 82.55 107.315 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "ESD Suppression, 4 Channel, Unidirectional, 3V0, 320 pF"
+			(at 82.55 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid "07c9ada8-22bd-4f57-87b5-0940233a52aa")
+		)
+		(pin "4"
+			(uuid "016dc32d-6141-4471-840b-7f83b59025e0")
+		)
+		(pin "1"
+			(uuid "3ba7189a-1d28-4c9c-96b6-6107d75af910")
+		)
+		(pin "2"
+			(uuid "540186b4-b238-4285-9cb9-3e4e535a91a1")
+		)
+		(pin "3"
+			(uuid "6460aaf1-e618-4305-be5a-d70f3f39349b")
+		)
+		(pin "6"
+			(uuid "15bfbd76-1071-4997-9e56-d9ccd9980b21")
+		)
+		(instances
+			(project "Beacon_Tower"
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/53c51fb6-8bc1-4269-b424-797234c59d48"
+					(reference "D1201")
+					(unit 3)
+				)
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/d8ffb29e-d81f-45b0-88f1-5e580221fbb0"
+					(reference "D201")
+					(unit 3)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "CUSTOM_LIBRARY:ESDA5V3SC6")
+		(at 80.01 76.2 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c6c76dc6-234c-4f7e-b9e5-0cc55548f2d0")
+		(property "Reference" "D201"
+			(at 69.596 76.962 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "ESDA5V3SC6"
+			(at 65.532 79.248 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 80.01 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.com/datasheet/2/389/esda14v2sc5-1849278.pdf"
+			(at 80.01 66.675 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "ESD Suppression, 4 Channel, Unidirectional, 3V0, 320 pF"
+			(at 80.01 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid "07c9ada8-22bd-4f57-87b5-0940233a52ab")
+		)
+		(pin "4"
+			(uuid "f54d0a06-75d9-4a1b-a993-3243ac373326")
+		)
+		(pin "1"
+			(uuid "3ba7189a-1d28-4c9c-96b6-6107d75af911")
+		)
+		(pin "2"
+			(uuid "540186b4-b238-4285-9cb9-3e4e535a91a2")
+		)
+		(pin "3"
+			(uuid "ec298b8a-3b38-446f-bf60-96e293460761")
+		)
+		(pin "6"
+			(uuid "7f65867e-4551-491d-8bd7-8319ba4abf38")
+		)
+		(instances
+			(project "Beacon_Tower"
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/53c51fb6-8bc1-4269-b424-797234c59d48"
+					(reference "D1201")
+					(unit 2)
+				)
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/d8ffb29e-d81f-45b0-88f1-5e580221fbb0"
+					(reference "D201")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 82.55 43.18 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ea2a1a53-e3b8-4fde-8016-adb0454793f4")
+		(property "Reference" "#PWR0201"
+			(at 82.55 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 82.55 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 82.55 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 82.55 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 82.55 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "9748a649-6fe1-4d90-932a-e13d9946e63e")
+		)
+		(instances
+			(project "Beacon_Tower"
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/53c51fb6-8bc1-4269-b424-797234c59d48"
+					(reference "#PWR01201")
+					(unit 1)
+				)
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/d8ffb29e-d81f-45b0-88f1-5e580221fbb0"
+					(reference "#PWR0201")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Pack04_Split")
+		(at 90.17 36.83 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f5af1f4a-4fd5-4ad7-be84-1d6537046805")
+		(property "Reference" "RN201"
+			(at 90.17 30.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1k00_PACK_??"
+			(at 90.17 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 90.17 34.798 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 90.17 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "4 resistor network, parallel topology, split"
+			(at 90.17 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b30936b0-b9a7-4f0a-b0eb-8b73da6e4378")
+		)
+		(pin "6"
+			(uuid "119500dd-64a3-43c7-9227-2e764e0cbd51")
+		)
+		(pin "4"
+			(uuid "06b6e3d8-cdda-44e0-bafc-62bda14ead20")
+		)
+		(pin "7"
+			(uuid "a60d0a5f-9aee-4055-b7dd-e81dfc59033d")
+		)
+		(pin "2"
+			(uuid "f91188fd-29c5-41d5-8e8b-6a5b43d4c598")
+		)
+		(pin "5"
+			(uuid "4d3903b1-a527-450d-aa12-0bd488f7642f")
+		)
+		(pin "8"
+			(uuid "15de86b0-7dcf-4bd9-b924-8f7c17548c3b")
+		)
+		(pin "3"
+			(uuid "978bedea-c3cc-445a-aa91-0fcb69f815b5")
+		)
+		(instances
+			(project "Beacon_Tower"
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/53c51fb6-8bc1-4269-b424-797234c59d48"
+					(reference "RN1201")
+					(unit 1)
+				)
+				(path "/66c81cad-472e-44cb-9d08-bf8192d55449/46ba4084-06d9-464a-9849-644a49f6883d/d8ffb29e-d81f-45b0-88f1-5e580221fbb0"
+					(reference "RN201")
+					(unit 1)
+				)
+			)
+		)
+	)
+)
